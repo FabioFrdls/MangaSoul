@@ -18,7 +18,7 @@ CREATE TABLE genre(
 CREATE TABLE author(
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, 
 	full_name VARCHAR(255) NOT NULL, 
-	birthate DATE
+	birthdate DATE
 );
 
 CREATE TABLE manga(
