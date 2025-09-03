@@ -59,13 +59,8 @@ public class Manga {
 	)
 	private List<Genre> genres;
 	
-	@ManyToMany()
-	@JoinTable(
-			name = "library", 
-			joinColumns = @JoinColumn(name = "manga_id"),
-			inverseJoinColumns = @JoinColumn(name = "user_id")
-	)
-	private List<User> users;
+	@OneToMany(mappedBy = "manga")
+	private List<Library> libraryEntries;
 	
 	@OneToMany(mappedBy = "manga",
 			cascade = CascadeType.ALL,
@@ -84,8 +79,8 @@ public class Manga {
 			String status, 
 			Author author, 
 			List<Genre> genres, 
-			List<User> users, 
-			List<Review> reviews) {
+			List<Review> reviews,
+			List<Library> libraryEntries) {
 		
 		this.id = id;
 		this.title = title;
@@ -98,8 +93,8 @@ public class Manga {
 		this.status = status;
 		this.author = author;
 		this.genres = genres;
-		this.users = users;
 		this.reviews = reviews;
+		this.libraryEntries = libraryEntries;
 	}
 	
 	public Manga() {}
@@ -192,26 +187,21 @@ public class Manga {
 		this.genres = genres;
 	}
 
-	public List<User> getUsers() {
-		return users;
-	}
-
-	public void setUsers(List<User> users) {
-		this.users = users;
-	}
-
 	public List<Review> getReviews() {
 		return reviews;
 	}
 
-	public void setReview(List<Review> reviews) {
+	public void setReviews(List<Review> reviews) {
 		this.reviews = reviews;
 	}
-	
-	
-	
-	
-	
+
+	public List<Library> getLibraryEntries() {
+		return libraryEntries;
+	}
+
+	public void setLibraryEntries(List<Library> libraryEntries) {
+		this.libraryEntries = libraryEntries;
+	}	
 	
 }
 
