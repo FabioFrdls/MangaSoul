@@ -1,5 +1,50 @@
 package com.generation.mangasoul.model;
 
-public class Genre {
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
 
+@Entity
+public class Genre {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
+	
+	@NotBlank(message = "name cannot be blank")
+	private String nome;
+	
+	public Genre(int id, @NotBlank(message = "name cannot be blank") String nome) {
+		super();
+		this.id = id;
+		this.nome = nome;
+	}
+
+	public Genre(@NotBlank(message = "name cannot be blank") String nome) {
+		super();
+		this.nome = nome;
+	}
+	
+	public Genre() {}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+	
+	
+	
 }
