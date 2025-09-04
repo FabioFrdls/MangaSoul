@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import com.generation.mangasoul.model.Author;
 
 @Repository
-public interface AuthorRepository extends JpaRepository<Author, Integer> {
+public interface AuthorRepository extends JpaRepository<Author, Long> {
 	
 	
 }

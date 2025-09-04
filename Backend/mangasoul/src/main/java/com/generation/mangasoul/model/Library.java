@@ -11,7 +11,7 @@ import jakarta.validation.constraints.Pattern;
 public class Library {
 	
 	@Id
-	private int id;
+	private long id;
 	
 	@ManyToOne(fetch = FetchType.LAZY)                 
     @JoinColumn(name = "user_id", nullable = false)
@@ -28,7 +28,7 @@ public class Library {
 
     public Library() {}
     
-	public Library(int id, User user, Manga manga, @Pattern(regexp = "^(?i)(on going|complete|dropped)$") String status,
+	public Library(long id, User user, Manga manga, @Pattern(regexp = "^(?i)(on going|complete|dropped)$") String status,
 			String fav) {
 		super();
 		this.id = id;
@@ -38,11 +38,11 @@ public class Library {
 		this.fav = fav;
 	}
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 

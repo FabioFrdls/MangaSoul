@@ -1,5 +1,13 @@
 package com.generation.mangasoul.repository;
 
-public class LibraryRepository {
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import com.generation.mangasoul.model.Library;
+
+
+@Repository
+public interface LibraryRepository extends JpaRepository<Library, Long>{
 
 }

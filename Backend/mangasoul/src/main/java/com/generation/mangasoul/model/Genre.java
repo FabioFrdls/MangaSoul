@@ -11,12 +11,12 @@ public class Genre {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private long id;
 	
 	@NotBlank(message = "name cannot be blank")
 	private String nome;
 	
-	public Genre(int id, @NotBlank(message = "name cannot be blank") String nome) {
+	public Genre(long id, @NotBlank(message = "name cannot be blank") String nome) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -29,11 +29,11 @@ public class Genre {
 	
 	public Genre() {}
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
