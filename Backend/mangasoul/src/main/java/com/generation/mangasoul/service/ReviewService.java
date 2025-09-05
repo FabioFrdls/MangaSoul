@@ -26,7 +26,7 @@ public class ReviewService {
 	}
 
 	public Review getById(Long id) {
-		return reviewRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("Review not found, id : " + id));
+		return reviewRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("Review with id: " + id + " not found"));
 	}
 
 	public void updateReviewById(Review r) {
