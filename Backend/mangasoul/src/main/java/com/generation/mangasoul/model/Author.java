@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,7 +23,8 @@ public class Author {
 	private long id;
 	
 	@NotBlank(message = "L'autore deve avere nome e cognome ")
-	private String full_name;
+	@Column(name = "full_name")
+	private String fullName;
 	
 	@NotNull(message = "L'autore deve avere una data di nascita")
 	private LocalDate birthdate;
@@ -35,7 +37,7 @@ public class Author {
 	public Author(long id,  String full_name, LocalDate birthdate, List<Manga> mangaList) {
 		super();
 		this.id = id;
-		this.full_name = full_name;
+		this.fullName = full_name;
 		this.birthdate = birthdate;
 		this.mangaList = mangaList;
 	}
@@ -53,12 +55,12 @@ public class Author {
 
 
 	public String getFull_name() {
-		return full_name;
+		return fullName;
 	}
 
 
-	public void setFull_name(String full_name) {
-		this.full_name = full_name;
+	public void setFull_name(String fullName) {
+		this.fullName = fullName;
 	}
 
 
