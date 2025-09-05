@@ -9,6 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
@@ -28,6 +29,7 @@ public class Manga {
 	private String title;
 	
 	@NotBlank(message = "summary cannot be blank")
+	@Lob
 	private String summary;
 
 	@Min(value = 1947, message = "doesn't exixts a manga written before 1947")
