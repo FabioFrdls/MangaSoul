@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Entity;
@@ -26,6 +28,7 @@ public class Author {
 	private LocalDate birthdate;
 
 	@OneToMany(mappedBy = "author")
+	@JsonIgnore
 	private List<Manga> mangaList = new ArrayList<>();
 	
 	
