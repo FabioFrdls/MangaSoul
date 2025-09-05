@@ -10,6 +10,8 @@ import jakarta.validation.constraints.Pattern;
 @Entity
 public class Library {
 	
+	/*Definizione della classe library*/
+	
 	@Id
 	private long id;
 	
