@@ -23,7 +23,7 @@ public class Library {
     
     @Pattern(regexp = "^(?i)(on going|complete|dropped)$")
     private String status;
-    
+    @Pattern(regexp = "^(?i)(on yes|no)$")
     private String fav;
 
     public Library() {}
