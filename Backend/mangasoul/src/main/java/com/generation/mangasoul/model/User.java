@@ -31,7 +31,7 @@ public class User {
 
 	private LocalDate creation_timestamp;
 
-	@Pattern(regexp = "admin|utente", message = "Il ruolo deve essere 'admin' o 'utente'")
+	@Pattern(regexp = "admin|user")
 	private String type;
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -40,8 +40,15 @@ public class User {
 	@OneToMany(mappedBy = "user")
 	private List<Library> libraryList = new ArrayList<>();
 
-	public User(long id, String username, String email,String password, LocalDate creation_timestamp, String type,
-			List<Review> reviewList, List<Library> libraryList) {
+	public User(
+			long id, 
+			String username, 
+			String email,
+			String password, 
+			LocalDate creation_timestamp, 
+			String type,
+			List<Review> reviewList, 
+			List<Library> libraryList) {
 		super();
 		this.id = id;
 		this.username = username;
