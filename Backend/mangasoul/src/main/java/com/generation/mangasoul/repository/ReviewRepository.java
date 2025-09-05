@@ -7,5 +7,5 @@ import com.generation.mangasoul.model.Review;
 
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, Long>{
-	
+
 }
