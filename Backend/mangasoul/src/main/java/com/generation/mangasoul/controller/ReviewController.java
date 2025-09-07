@@ -2,7 +2,6 @@ package com.generation.mangasoul.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,8 +19,11 @@ import com.generation.mangasoul.service.ReviewService;
 @RequestMapping("api/review")
 public class ReviewController {
 	
-	@Autowired
 	private ReviewService reviewService;
+	
+	public ReviewController(ReviewService reviewService) {
+		this.reviewService = reviewService;
+	}
 	
 	@PostMapping("/insert")
 	public ResponseEntity<String> insertReview(@RequestBody Review r) {
