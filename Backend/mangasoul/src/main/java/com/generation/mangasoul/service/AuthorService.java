@@ -2,7 +2,6 @@ package com.generation.mangasoul.service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.generation.mangasoul.exception.ReviewNotFoundException;
@@ -15,9 +14,11 @@ import jakarta.persistence.EntityNotFoundException;
 @Service
 public class AuthorService {
 
-	@Autowired
 	private AuthorRepository authorRepo;
 	
+	public AuthorService(AuthorRepository authorRepo) {
+		this.authorRepo = authorRepo;
+	}
 	
 	// find by Full Name
 	public List<Author> findByFullName(String name){
