@@ -13,22 +13,29 @@ function createCard(manga) {
     let title = document.createElement("h3");
     title.textContent = manga.title;
 
-    let year = document.createElement("p");
-    year.textContent = "Anno d'uscita: " + manga.year;
+   // let year = document.createElement("p");
+   // year.textContent = "Anno d'uscita: " + manga.year;
 
     let author = document.createElement("p");
     author.textContent = "Autore: " + manga.author.full_name;
 
-    let editor = document.createElement("p");
-    editor.textContent = "Pubblicazione italiana: " + manga.editor_name;
+    //let editor = document.createElement("p");
+    //editor.textContent = "Pubblicazione italiana: " + manga.editor_name;
 
-    let volumes = document.createElement("p");
-    volumes.textContent = "Numeri volumi: " + manga.volumes;
+    //let volumes = document.createElement("p");
+    //volumes.textContent = "Numeri volumi: " + manga.volumes;
 
-    let status = document.createElement("p");
-    status.textContent = "Stato: " + manga.status;
+    //let status = document.createElement("p");
+    //status.textContent = "Stato: " + manga.status;
+    let button=document.createElement("button")
+    button.textContent="info"
+    button.classList.add("modalButton")
+    button.addEventListener("click",()=>{
+        openModel(manga)
 
-    card.append(img, title, year, author, editor, volumes, status); //in this part i m giving the card all the info
+    })
+
+    card.append(img, title, author, ); //in this part i m giving the card all the info
 
     return card; // i return the card to be appended
 }
@@ -75,4 +82,36 @@ function cardCreationByInput(){
             })
             .catch(err => console.error("Errore nella ricerca:", err));
     }
+}
+function openModel(manga){
+    let modal=document.getElementById("modal");
+    let modalBody=document.getElementById("modalBody");
+    let closeButton=document.getElementById("closeButton");
+    modalBody.innerHTML=""
+    
+    let img = document.createElement("img");
+    img.src = manga.image;
+    img.alt = manga.title;
+
+    let title = document.createElement("h3");
+    title.textContent = manga.title;
+    let summary=document.createElement("p")
+    summary.textContent="Trama:"+manga.summary;
+    let genr=document.createElement("p")
+    genr.textContent="Genere: "
+
+    let year = document.createElement("p");
+    year.textContent = "Anno d'uscita: " + manga.year;
+
+    let author = document.createElement("p");
+    author.textContent = "Autore: " + manga.author.full_name;
+
+    let editor = document.createElement("p");
+    editor.textContent = "Pubblicazione italiana: " + manga.editor_name;
+
+    let volumes = document.createElement("p");
+    volumes.textContent = "Numeri volumi: " + manga.volumes;
+
+    let status = document.createElement("p");
+    status.textContent = "Stato: " + manga.status;
 }
