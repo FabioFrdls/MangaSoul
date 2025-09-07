@@ -13,7 +13,10 @@ import com.generation.mangasoul.repository.SessionRepository;
 import com.generation.mangasoul.repository.UserRepository;
 import com.generation.mangasoul.utility.MangaDto;
 
+import jakarta.transaction.Transactional;
+
 @Service
+@Transactional
 public class LibraryService {
 	
 	private LibraryRepository libraryRepository;

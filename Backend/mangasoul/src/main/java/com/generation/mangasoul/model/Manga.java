@@ -2,6 +2,8 @@ package com.generation.mangasoul.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -59,14 +61,17 @@ public class Manga {
 			joinColumns = @JoinColumn(name = "manga_id"),
 			inverseJoinColumns = @JoinColumn(name = "genre_id")
 	)
+	@JsonIgnore
 	private List<Genre> genres;
 	
 	@OneToMany(mappedBy = "manga")
+	@JsonIgnore
 	private List<Library> libraryEntries;
 	
 	@OneToMany(mappedBy = "manga",
 			cascade = CascadeType.ALL,
 			orphanRemoval = true)
+	@JsonIgnore
 	private List<Review> reviews;
 		
 	public Manga(
