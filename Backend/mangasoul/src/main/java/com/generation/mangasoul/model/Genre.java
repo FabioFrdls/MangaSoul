@@ -14,17 +14,17 @@ public class Genre {
 	private long id;
 	
 	@NotBlank(message = "name cannot be blank")
-	private String nome;
+	private String name;
 	
-	public Genre(long id, @NotBlank(message = "name cannot be blank") String nome) {
+	public Genre(long id, @NotBlank(message = "name cannot be blank") String name) {
 		super();
 		this.id = id;
-		this.nome = nome;
+		this.name = name;
 	}
 
-	public Genre(@NotBlank(message = "name cannot be blank") String nome) {
+	public Genre(@NotBlank(message = "name cannot be blank") String name) {
 		super();
-		this.nome = nome;
+		this.name = name;
 	}
 	
 	public Genre() {}
@@ -37,12 +37,12 @@ public class Genre {
 		this.id = id;
 	}
 
-	public String getNome() {
-		return nome;
+	public String getName() {
+		return name;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 	
