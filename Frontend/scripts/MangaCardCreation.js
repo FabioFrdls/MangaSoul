@@ -87,18 +87,20 @@ function openModel(manga){
     let modal=document.getElementById("modal");
     let modalBody=document.getElementById("modalBody");
     let closeButton=document.getElementById("closeButton");
-    modalBody.innerHTML=""
+    let mangaReview=document.getElementById("mangaReview");
+    modalBody.innerHTML="";
+    mangaReview.innerHTML="";
     
     let img = document.createElement("img");
     img.src = manga.image;
     img.alt = manga.title;
 
-    let title = document.createElement("h3");
+    let title = document.createElement("h5");
     title.textContent = manga.title;
     let summary=document.createElement("p")
     summary.textContent="Trama:"+manga.summary;
     let genr=document.createElement("p")
-    genr.textContent="Genere: "
+    genr.textContent="Genere: "+manga.genr.map(g=>g.name).join(", ");
 
     let year = document.createElement("p");
     year.textContent = "Anno d'uscita: " + manga.year;
@@ -114,4 +116,10 @@ function openModel(manga){
 
     let status = document.createElement("p");
     status.textContent = "Stato: " + manga.status;
+    let score=document.createElement("h3");
+    score.classList.add("score");
+    score.textContent=manga.score
+    modalBody.append(img,title,summary,genr,year,author,editor,volumes,status,score)
+
+    mangaReview.deployReview(manga);
 }
