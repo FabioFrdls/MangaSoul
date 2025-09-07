@@ -46,7 +46,7 @@ public class Manga {
 	
 	private double score;
 	
-	@Pattern(regexp = "^(?i)(on going|complete|dropped)$")
+	@Pattern(regexp = "^(?i)(on going|completed|dropped)$")
 	private String status;
 	
 	@ManyToOne()

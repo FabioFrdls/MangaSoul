@@ -19,6 +19,8 @@ import com.generation.mangasoul.exception.LoginException;
 import com.generation.mangasoul.exception.ReviewNotFoundException;
 import com.generation.mangasoul.exception.SessionNotFoundException;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @RestControllerAdvice
 public class GlobalExceptionHandler  extends ResponseEntityExceptionHandler{
 	
@@ -52,7 +54,8 @@ public class GlobalExceptionHandler  extends ResponseEntityExceptionHandler{
 		InvalidUserException.class,
 		LoginException.class,
 		ReviewNotFoundException.class,
-		SessionNotFoundException.class
+		SessionNotFoundException.class,
+		EntityNotFoundException.class
 	})
 	public ResponseEntity<Object> handleCustomException(RuntimeException ex){
 		Map<String, Object> error = new HashMap<String, Object>();
@@ -60,7 +63,8 @@ public class GlobalExceptionHandler  extends ResponseEntityExceptionHandler{
 		int status = 400;
 		
 		if(ex instanceof SessionNotFoundException|| 
-				ex instanceof ReviewNotFoundException) {
+				ex instanceof ReviewNotFoundException ||
+				ex instanceof EntityNotFoundException) {
 			status = 404;
 		}
 		
