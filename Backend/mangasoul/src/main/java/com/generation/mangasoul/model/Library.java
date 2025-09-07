@@ -1,5 +1,7 @@
 package com.generation.mangasoul.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
@@ -17,23 +19,34 @@ public class Library {
 	
 	@ManyToOne(fetch = FetchType.LAZY)                 
     @JoinColumn(name = "user_id", nullable = false)
+	@JsonIgnore
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "manga_id", nullable = false)
+    @JsonIgnore
     private Manga manga;
     
-    @Pattern(regexp = "^(?i)(on going|complete|dropped)$")
+    @Pattern(regexp = "^(?i)(|da leggere|in lettura|completato|abbandonato)$")		// here we leave the value blank by default with the first "|"
     private String status;
-    @Pattern(regexp = "^(?i)(on yes|no)$")
+    @Pattern(regexp = "^(?i)(si|no)$")
     private String fav;
 
     public Library() {}
     
-	public Library(long id, User user, Manga manga, @Pattern(regexp = "^(?i)(on going|complete|dropped)$") String status,
+	public Library(long id, User user, Manga manga, String status,
 			String fav) {
 		super();
 		this.id = id;
+		this.user = user;
+		this.manga = manga;
+		this.status = status;
+		this.fav = fav;
+	}
+	
+	public Library(User user, Manga manga, String status,
+			String fav) {
+		super();
 		this.user = user;
 		this.manga = manga;
 		this.status = status;
