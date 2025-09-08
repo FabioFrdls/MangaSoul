@@ -5,6 +5,9 @@ let cardContainer = document.getElementById("cardContainer"); // html made div
 function createCard(manga) {
     let card = document.createElement("div"); // in all the part like this i create element and give details
     card.classList.add("card");
+    let favorite=document.getElementById("favorite")
+    favorite.classList.add("favorite");
+    favorite.textContent="❤️"
 
     let img = document.createElement("img");
     img.src = manga.image;
