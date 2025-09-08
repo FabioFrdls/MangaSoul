@@ -31,7 +31,7 @@ CREATE TABLE manga (
     image VARCHAR(255) NOT NULL, 
     volumes INT NOT NULL,
     editor_name VARCHAR(255) NOT NULL,
-    score INT,
+    score DOUBLE,
     status VARCHAR(10) NOT NULL,
     author_id BIGINT NOT NULL,
     FOREIGN KEY (author_id) REFERENCES author(id)
