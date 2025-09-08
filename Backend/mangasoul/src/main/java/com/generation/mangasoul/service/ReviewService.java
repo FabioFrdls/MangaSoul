@@ -14,9 +14,8 @@ import jakarta.persistence.EntityNotFoundException;
 public class ReviewService {
 
 	private ReviewRepository reviewRepo;
-	
-	public ReviewService(ReviewRepository reviewRepo)
-	{
+
+	public ReviewService(ReviewRepository reviewRepo) {
 		this.reviewRepo = reviewRepo;
 	}
 
@@ -24,18 +23,24 @@ public class ReviewService {
 		reviewRepo.save(review);
 	}
 
+	public List<Review> getReviewsByMangaId(long mangaId) {
+
+		return reviewRepo.findByManga_Id(mangaId);
+	}
+
 	public List<Review> getAll() {
 		return reviewRepo.findAll();
 	}
 
 	public Review getById(Long id) {
-		return reviewRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("Review with id: " + id + " not found"));
+		return reviewRepo.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException("Review with id: " + id + " not found"));
 	}
 
 	public void updateReviewById(Review r) {
-		
+
 		Long id = r.getId();
-		
+
 		if (reviewRepo.existsById(id)) {
 			reviewRepo.save(r);
 		} else {
@@ -46,12 +51,12 @@ public class ReviewService {
 	public void deleteReviewById(long id) {
 
 		List<Review> reviewList = getAll();
-		
+
 		// I'm using .stream because it's not possible to list.get(index) with a long
 		boolean exist = reviewList.stream().anyMatch(review -> review.getId() == id);
-		
-		if(exist) {
-		reviewRepo.deleteById(id);
+
+		if (exist) {
+			reviewRepo.deleteById(id);
 		} else {
 			throw new ReviewNotFoundException();
 		}

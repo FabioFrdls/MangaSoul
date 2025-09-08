@@ -1,4 +1,7 @@
 const MangaLink = "http://localhost:8080/api/manga";
+
+const reviewLink = "http://localhost:8080/api/review";
+
 let cardContainer = document.getElementById("cardContainer"); // html made div
 
 // function for creating a card given a manga object
@@ -81,8 +84,15 @@ function cardCreationByInput() {
         .catch(err => console.error("Errore nella ricerca:", err));
 }
 
+// this is needed for postReview
+let currentMangaId = null;
+
 // function to open modal with details
 function openModel(manga) {
+
+    // openModel stores manga id so that backend Post method can know which manga it is
+    currentMangaId = manga.id;
+
     console.log(manga);
     let modal = document.getElementById("modal");
     let closeButton = document.getElementById("closeButton");
@@ -118,11 +128,113 @@ function openModel(manga) {
     let score = document.getElementById("mangaScoreBody");
     score.textContent = manga.score;
 
+    showReview(manga);
+
+
     modal.style.display = "flex";
     closeButton.onclick = () => {
         modal.style.display = "none";
     };
 }
+
+
+async function postReview() {
+  const text = document.getElementById("comment").value.trim();
+  const score = parseFloat(document.getElementById("score").value);
+  const token = localStorage.getItem("access-token");
+
+  if (!token) {
+    alert("Devi essere loggato per lasciare una recensione.");
+    return;
+  }
+
+  if (!currentMangaId) {
+    alert("Errore: manga non selezionato.");
+    return;
+  }
+
+  const review = {
+    text: text,
+    score: score,
+    manga: {
+      id: currentMangaId
+    }
+  };
+
+  try {
+    const response = await fetch(`${reviewLink}/insert`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "access-token": token
+      },
+      body: JSON.stringify(review)
+    });
+
+    if (response.ok) {
+      alert("Recensione inviata con successo!");
+      document.getElementById("reviewForm").reset();
+      showReview({ id: currentMangaId }); 
+    } else {
+      const errorText = await response.text();
+      alert("Errore durante l'invio della recensione: " + errorText);
+    }
+  } catch (error) {
+    console.error("Errore:", error);
+    alert("Errore di rete.");
+  }
+}
+    function showReview(manga) {
+	  fetch(`${reviewLink}/getMangaById?manga_id=${manga.id}`)
+	    .then((response) => {
+	      if (!response.ok) {
+	        throw new Error("errors yaml");
+	      }
+	      return response.json();
+	    })
+	    .then((reviewList) => {
+	      const reviewsContainer = document.getElementById("mangaReview");
+	      reviewsContainer.innerHTML = "";
+
+          // if there are no reviews, we get funny message
+	      if (reviewList.length === 0) {
+	        reviewsContainer.innerHTML =
+	          "<p>Non ci sono recensioni, vuoi essere il primo?.</p>";
+	        return;
+	      }
+	      reviewList.forEach((review) => {
+	        const reviewDiv = document.createElement("div");
+	        reviewDiv.className = "review";
+
+	        // do we need to add checks when the username is not valid?
+	        let username = "persona magica";
+
+	        // I'll leave a check just in case, if you think it's redundant remove it and just use username = review.user.username;
+	        if (review.user && review.user.username) {
+	          username = review.user.username;
+	        }
+
+
+	        const uName = document.createElement("h3");
+	        uName.textContent = `${username}`;
+
+	        const score = document.createElement("p");
+	        score.textContent = `Punteggio: ${review.score}`;
+
+	        const comment = document.createElement("p");
+	        comment.textContent = `${review.text}`;
+
+	        reviewDiv.appendChild(uName);
+	        reviewDiv.appendChild(score);
+	        reviewDiv.appendChild(comment);
+
+	        reviewsContainer.appendChild(reviewDiv);
+	      });
+	    })
+	    .catch((error) => {
+	      console.error("Error fetching reviews:", error);
+	    });
+	}
 
 // run on load
 window.onload = () => {
@@ -131,6 +243,10 @@ window.onload = () => {
     // i add a listener so when i type, the function cardCreationByInput is called
     input.addEventListener("input", cardCreationByInput);
 
+    document.getElementById("reviewForm").addEventListener("submit", function(event) {
+    event.preventDefault(); // prevent page reload
+    postReview();
+});
 
 
 };

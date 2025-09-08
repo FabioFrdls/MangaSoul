@@ -111,5 +111,20 @@ public class UserService {
 		
 		return "REGISTER SUCCESS";
 	}
+
+	
+	/* Alessio
+	 * I need to fetch the token for (Post) review 
+	 * */
+	public User getUserByToken(String token) {
+		
+	    Session session = sessionRepo.findByToken(token).orElse(null);
+
+	    if (session == null) {
+	        return null;
+	    }
+
+	    return userRepo.findById(session.getUserId()).orElse(null);
+	}
 	
 }

@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -34,7 +36,10 @@ public class User {
 	@Pattern(regexp = "admin|user")
 	private String type;
 
+	// Some recursive sht is happening, we either use JsonIgnore or something else
+	// Pick whatever you think suits best this scenario
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+	@JsonIgnore 
 	private List<Review> reviewList = new ArrayList<>();
 
 	@OneToMany(mappedBy = "user")
