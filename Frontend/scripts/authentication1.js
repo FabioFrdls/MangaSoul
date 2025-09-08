@@ -52,7 +52,11 @@ async function logout() {
       localStorage.removeItem("access-token");
       window.location.href = "index.html";
     }
-  } catch (error) {}
+  } catch (error) {
+    window.location.href = "index.html";
+  }
+
+  window.location.reload();
 }
 
 async function register() {

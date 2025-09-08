@@ -42,7 +42,7 @@ public class User {
 	@JsonIgnore 
 	private List<Review> reviewList = new ArrayList<>();
 
-	@OneToMany(mappedBy = "user")
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Library> libraryList = new ArrayList<>();
 
 	public User(
@@ -134,3 +134,5 @@ public class User {
 	
 
 }
+
+

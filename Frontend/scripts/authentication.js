@@ -1,6 +1,6 @@
 const URL_USER_API = "http://localhost:8080/api/user";
 
-// ----------------------------------------------------------------------------------------
+
 // Funzione per effettuare il login
 async function login() {
   const username = document.getElementById("username").value;
@@ -15,42 +15,48 @@ async function login() {
     });
 
     if (response.ok) {
-      // Login riuscito, salva token e chiama profile
-      const token = await response.text();
-      localStorage.setItem("access-token", token);
+      const data = await response.json();
+      
+      localStorage.setItem("access-token", data.token);
+      localStorage.setItem("user-type", data.type);
+      
       errDiv.innerHTML = "";
-      profile("index.html");
+
+      if (data.type === "admin") {
+        profile("admin.html");
+      } else {
+        profile("index.html");
+      }
+
     } else {
-      // Mostra errore
       const errorData = await response.json();
       errDiv.innerHTML = `<div class="alert alert-danger" role="alert">${errorData.message}</div>`;
     }
+
   } catch (error) {
-    // Errore fetch
     errDiv.innerHTML = `<div class="alert alert-danger" role="alert">${error}</div>`;
     console.error("error while fetching the api:" + error);
   }
 }
 
-// -------------------------------------------------------------------------------------------------
+
 // funzione per effettuare il logout
 async function logout() {
   const token = localStorage.getItem("access-token");
 
   try {
-    const response = await fetch(URL_USER_API + "/logout", {
+    await fetch(URL_USER_API + "/logout", {
       method: "POST",
       headers: { "access-token": token },
     });
-
-    // se il logout avviene con successo:
-    // elimina il cookie contenente il token
-    // dal local storage del browser
-    if (response.ok) {
-      localStorage.removeItem("access-token");
-      window.location.href = "index.html";
-    }
-  } catch (error) {}
+  } catch (error) {
+    console.error("errore nel fetch logout: " + error);
+  } finally {
+    
+    localStorage.removeItem("access-token");
+    localStorage.removeItem("user-type");
+    window.location.href = "index.html";
+  }
 }
 
 // ------------------------------------------------------------------------------------------------
@@ -79,11 +85,11 @@ async function register() {
       console.log("utente registrato");
       errDiv.innerHTML = "";
       registerDiv.innerHTML = 
-      `<h2>Benvenuto ${username}</h2>
-        <p class="mt-3">Clicca
-            <a class="text-danger text-decoration-none" href="login.html">qui</a>
-            per accedere
-        </p>`;
+          `<h2>Benvenuto ${username}</h2>
+              <p class="mt-3">Clicca
+                <a class="text-danger text-decoration-none" href="login.html">qui</a>
+                per accedere 
+              </p>`;
     } else {
       // altrimenti mostra a schermo errori personalizzati
       const errorData = await response.json();
@@ -106,11 +112,15 @@ async function register() {
   }
 }
 
-// --------------------------------------------------------------------------------------------------------
+
 
 // Funzione per entrare nel profilo
 async function profile(redirectUrl) {
   const token = localStorage.getItem("access-token");
+  if (!token) {
+    clearCookies();
+    return;
+  }
 
   try {
     const response = await fetch(URL_USER_API + "/profile", {
@@ -121,10 +131,21 @@ async function profile(redirectUrl) {
     if (response.ok) {
       window.location.href = redirectUrl; 
     } else {
-      logout(); 
+      clearCookies();
     }
   } catch (error) {
     console.error("Errore nel fetch profile: ", error);
-    logout();
+    clearCookies();
   }
+}
+
+
+
+/**
+ * Funzione che pulisce i cookie 
+ */
+function clearCookies(){
+    localStorage.removeItem("access-token");
+    localStorage.removeItem("user-type");
+    window.location.href= "index.html";
 }

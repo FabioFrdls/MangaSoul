@@ -1,8 +1,13 @@
 package com.generation.mangasoul.service;
 
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+
 import org.springframework.stereotype.Service;
+
 import com.generation.mangasoul.exception.DuplicateParamException;
 import com.generation.mangasoul.exception.InvalidUserException;
 import com.generation.mangasoul.exception.LoginException;
@@ -32,7 +37,7 @@ public class UserService {
 	}
 	
 	// method to perform login
-	public String login(UserDto userDto) {
+	public Map<String, String> login(UserDto userDto) {
 		
 		// checks if a record exists with the username and password from the DTO
 		User user = userRepo.
@@ -49,7 +54,12 @@ public class UserService {
 		Session session = new Session(user.getId(), token);
 		sessionRepo.save(session);
 		
-		return token;
+		
+		Map<String, String> response = new HashMap<String, String>();
+		response.put("token", token);
+		response.put("type", user.getType());
+		
+		return response;
 	}
 	
 	
@@ -126,5 +136,51 @@ public class UserService {
 
 	    return userRepo.findById(session.getUserId()).orElse(null);
 	}
+	
+
+
+	
+	/* CRUD methods for the admin -----------------*/
+
+	// verifica se il token è di un admin, altrimenti lancia eccezione
+	private void verifyAdmin(String token) {
+	    Session session = sessionRepo.findByToken(token)
+	        .orElseThrow(() -> new SessionNotFoundException());
+	    User user = userRepo.findById(session.getUserId())
+	        .orElseThrow(() -> new InvalidUserException());
+	    if(!"admin".equalsIgnoreCase(user.getType())) {
+	        throw new InvalidUserException();
+	    }
+	}
+
+	// return a list of all the users
+	public List<User> getAllUsers(String token) {
+	    verifyAdmin(token);
+	    return userRepo.findAll();
+	}
+
+	// update the user
+	public String updateUser(long id, User updatedUser, String token) {
+	    verifyAdmin(token);
+	    
+	    User user = userRepo.findById(id)
+	        .orElseThrow(() -> new InvalidUserException());
+	    user.setUsername(updatedUser.getUsername());
+	    user.setEmail(updatedUser.getEmail());
+	    user.setType(updatedUser.getType());
+	    userRepo.save(user);
+	    return "USER UPDATED";
+	}
+
+	// delete the user given the id
+	public String deleteUser(long id, String token) {
+	    verifyAdmin(token);
+
+	    User user = userRepo.findById(id)
+	        .orElseThrow(() -> new InvalidUserException());
+	    userRepo.delete(user);
+	    return "USER DELETED";
+	}
+
 	
 }
