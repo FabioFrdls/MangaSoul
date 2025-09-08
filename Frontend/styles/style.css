@@ -252,115 +252,116 @@ body {
   transform: scale(1.2); 
 }
 .card button:hover { background: #ff4d5a; }
-/* Modal */
+
+/* Modal -------------------------------------------------------------------- */
+/* full-screen overlay */
 #modal {
-  display: none;
+  display: none;           /* JS: modal.style.display = "flex" */
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.9);
-  z-index: 1000;
-  overflow-y: auto;
-  padding: 20px;
+  inset: 0;                /* top:0; right:0; bottom:0; left:0 */
+  background-color: rgba(0,0,0,0.95);
+  z-index: 10000;
+  overflow: hidden;        /* il contenuto interno gestirà lo scroll */
+  justify-content: stretch;
+  align-items: stretch;
 }
 
+/* contenuto che riempie tutto il viewport */
 #modalContent {
-  background-color: #111;
-  color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  max-width: 900px;
-  width: 90%;
-  margin: 40px auto;
-  position: relative;
-  display: flex;          
-  flex-wrap: wrap;        
-  gap: 20px;
-  box-shadow: 0 0 20px rgba(0,0,0,0.6);
-}
-
-
-#modal {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.9); 
-  z-index: 1000;
-  overflow-y: auto; 
-  padding: 20px;
-  justify-content: center;
-  align-items: flex-start;
-}
-
-
-#modalContent {
-  background-color: #111;
-  color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  max-width: 900px;
-  width: 90%;
-  margin: 40px auto;
-  position: relative;
-  display: flex;          
-  gap: 20px;
-  box-shadow: 0 0 20px rgba(0,0,0,0.6);
-}
-
-
-#modalBody img {
-  max-width: 300px;
-  width: 100%;
-  border-radius: 6px;
-  object-fit: contain;
-  flex-shrink: 0;
-}
-
-
-#modalInfo {
-  flex: 1;                
   display: flex;
-  flex-direction: column;
-  gap: 10px;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  border-radius: 0;
+  position: relative;
+  background-color: transparent; /* puoi tenere #111 dentro le colonne */
 }
 
-/* Close button */
-#closeButton {
-  position: absolute;
-  top: 15px;
-  right: 20px;
-  font-size: 28px;
-  cursor: pointer;
-  color: #fff;
-  font-weight: bold;
-  z-index: 1010;
-}
-
-#closeButton:hover {
-  color: #e63946;
-}
 #modalImageContainer {
-  flex-shrink: 0;       
-  width: 300px;          
+  flex: 1;                  /* prende metà dello schermo */
+  display: flex;
+  justify-content: center;  /* centra l'immagine */
+  align-items: center;      /* la allinea in verticale */
 }
 
 #modalImageContainer img {
-  width: 100%;           
+  width: 100%;
+  height: 100%;
+  object-fit: cover;   /* riempie lo spazio senza bande */
   border-radius: 6px;
-  object-fit: contain;
 }
 
+/* COLONNA INFORMAZIONI (destra) - prende il resto */
 #modalInfo {
-  flex: 1;               
+  flex: 1 1 40%;
+  background-color: #111;
+  padding: 2rem;
+  overflow-y: auto;         /* scroll se i dettagli sono lunghi */
+  color: #fff;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 1rem;
 }
+
+/* Contenitore per ogni riga di informazione nel modal */
+.modal-info-row {
+  display: flex;
+  align-items: baseline;
+  margin-bottom: 0.8rem;
+  gap: 0.5rem;
+}
+
+/* Etichette (labels) con larghezza fissa per allineamento */
+.modal-label {
+  color: #e63946;
+  font-weight: bold;
+  min-width: 150px; /* Larghezza fissa per allineamento */
+  flex-shrink: 0; /* Non si restringe */
+}
+
+/* Contenuto delle informazioni */
+.modal-content {
+  color: #fff;
+  flex: 1; /* Prende tutto lo spazio rimanente */
+  margin: 0;
+}
+
+/* Stile speciale per il punteggio */
+.modal-score-row {
+  display: flex;
+  align-items: baseline;
+  margin-bottom: 0.8rem;
+  gap: 0.5rem;
+}
+
+.modal-score-label {
+  color: gold;
+  font-weight: bold;
+  min-width: 150px;
+  flex-shrink: 0;
+}
+
+.modal-score-content {
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: bold;
+  flex: 1;
+  margin: 0;
+}
+
+/* close button */
+#closeButton {
+  position: absolute;
+  top: 18px;
+  right: 22px;
+  z-index: 1010;
+  font-size: 32px;
+  color: #fff;
+  cursor: pointer;
+}
+#closeButton:hover { color: #e63946; }
+
 .inRed{
   color: #e63946;
 }

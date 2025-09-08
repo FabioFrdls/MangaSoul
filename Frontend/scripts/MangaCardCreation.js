@@ -85,11 +85,7 @@ function cardCreationByInput() {
 function openModel(manga) {
     console.log(manga);
     let modal = document.getElementById("modal");
-    let modalBody = document.getElementById("modalBody");
     let closeButton = document.getElementById("closeButton");
-    let mangaReview = document.getElementById("mangaReview");
-
-
 
     let img = document.getElementById("mangaImage");
     img.src = manga.image;
@@ -105,27 +101,22 @@ function openModel(manga) {
     genr.textContent = manga.genres.map(g => g.name).join(", ");
 
     let year = document.getElementById("mangaYearBody");
-    year.textContent =  manga.year;
+    year.textContent = manga.year;
 
     let author = document.getElementById("mangaAuthorBody");
-    author.textContent =  manga.author.full_name;
+    author.textContent = manga.author.full_name;
 
     let editor = document.getElementById("mangaEditorBody");
-    editor.textContent =  manga.editor_name;
+    editor.textContent = manga.editor_name;
 
     let volumes = document.getElementById("mangaVolumesBody");
-    volumes.textContent =  manga.volumes;
+    volumes.textContent = manga.volumes;
 
     let status = document.getElementById("mangaStatusBody");
     status.textContent = manga.status;
 
     let score = document.getElementById("mangaScoreBody");
-    score.classList.add("score");
     score.textContent = manga.score;
-
-
-
-    // deployReview(manga); // alessio write here the method for the review
 
     modal.style.display = "flex";
     closeButton.onclick = () => {
