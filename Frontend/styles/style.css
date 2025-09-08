@@ -189,6 +189,7 @@ body {
 
 /* Card */
 .card {
+  position: relative; /* necessario per far funzionare la posizione assoluta dei child */
   background: #1a1a1a;
   border-radius: 8px;
   padding: 1rem;
@@ -198,6 +199,7 @@ body {
   max-width: 250px;
   justify-self: center;
 }
+
 
 .card:hover { transform: translateY(-5px); }
 
@@ -236,5 +238,37 @@ body {
   transition: background 0.2s;
   margin-top: auto;
 }
+.favorite {
+  position: absolute; /* posizione assoluta rispetto alla card */
+  top: 10px;          /* distanza dall'alto */
+  right: 10px;        /* distanza da destra */
+  font-size: 24px;    /* dimensione cuore */
+  cursor: pointer;    /* cambia cursore al passaggio */
+  color: red;         /* colore cuore */
+  z-index: 10;        /* sopra gli altri elementi */
+}
 
 .card button:hover { background: #ff4d5a; }
+/* Modal */
+#modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8); /* sfondo scuro */
+  overflow-y: auto; /* permette lo scroll verticale */
+  padding: 20px; /* spazio interno per non toccare i bordi */
+}
+
+#modalContent {
+  background-color: #000; 
+  color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 600px;
+  width: 90%;
+  margin: 40px auto; /* centra orizzontalmente e lascia spazio sopra/sotto */
+}
+

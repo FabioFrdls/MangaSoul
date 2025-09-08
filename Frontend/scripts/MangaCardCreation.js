@@ -5,7 +5,7 @@ let cardContainer = document.getElementById("cardContainer"); // html made div
 function createCard(manga) {
     let card = document.createElement("div"); // in all the part like this i create element and give details
     card.classList.add("card");
-    let favorite=document.getElementById("favorite")
+    let favorite=document.createElement("span");
     favorite.classList.add("favorite");
     favorite.textContent="❤️"
 
@@ -38,7 +38,7 @@ function createCard(manga) {
         openModel(manga);
     });
 
-    card.append(img, title, author, button); // in this part i m giving the card all the info
+    card.append(img, title, author, button,favorite); // in this part i m giving the card all the info
 
     return card; // i return the card to be appended
 }
@@ -83,6 +83,7 @@ function cardCreationByInput() {
 
 // function to open modal with details
 function openModel(manga) {
+    console.log(manga);
     let modal = document.getElementById("modal");
     let modalBody = document.getElementById("modalBody");
     let closeButton = document.getElementById("closeButton");
@@ -102,7 +103,7 @@ function openModel(manga) {
     summary.textContent = "Trama: " + manga.summary;
 
     let genr = document.createElement("p");
-    genr.textContent = "Genere: " + manga.genr.map(g => g.name).join(", ");
+    genr.textContent = "Genere: " + manga.genres.map(g => g.name).join(", ");
 
     let year = document.createElement("p");
     year.textContent = "Anno d'uscita: " + manga.year;
@@ -125,7 +126,7 @@ function openModel(manga) {
 
     modalBody.append(img, title, summary, genr, year, author, editor, volumes, status, score);
 
-    deployReview(manga); // alessio write here the method for the review
+   // deployReview(manga); // alessio write here the method for the review
 
     modal.style.display = "flex";
     closeButton.onclick = () => {
