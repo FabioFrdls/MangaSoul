@@ -81,14 +81,27 @@
   <div id="cardContainer" class="cards-container"></div>
 
   <!-- Modal -->
-  <div id="modal" style="display:none;">
-    <div id="modalContent">
-      <span id="closeButton" style="cursor:pointer;">&times;</span>
-      
-      <div id="modalBody"></div>
-      <div id="mangaReview"></div>
+ <div id="modal">
+  <div id="modalContent">
+    <span id="closeButton">&times;</span>
+    <div id="modalImageContainer">
+      <img id="mangaImage" src="" alt="Manga Image">
+    </div>
+    <div id="modalInfo">
+      <h5 class="inRed" id="mangaTitle"></h5>
+      <p id="mangaSummary"> <span id="mangaSummaryHead" class="inRed">Trama: </span> <p id="mangaSummaryBody"></p> </p>
+      <p id="mangaGenres"><span id="mangaGenresHead" class="inRed">Genere: </span> <p id="mangaGenresBody"></p>
+      <p id="mangaYear"><span id="mangaYearHead" class="inRed">Anno D'uscita: </span> <p id="mangaYearBody"></p>
+      <p id="mangaAuthor"><span id="mangaAuthorHead" class="inRed">Autore: </span> <p id="mangaAuthorBody"></p>
+      <p id="mangaEditor"><span id="mangaEditorHead" class="inRed">Editore: </span> <p id="mangaEditorBody"></p>
+      <p id="mangaVolumes"><span id="mangaVolumesHead" class="inRed">N°volumi: </span> <p id="mangaVolumesBody"></p>
+      <p id="mangaStatus"><span id="mangaStatusHead" class="inRed">Stato di completamento: </span> <p id="mangaStatusBody"></p>
+      <h4 id="mangaScore"><span id="mangaScoreHead" class="inGold">Valutazione: </span> <p id="mangaScoreBody"></p></h4>
     </div>
   </div>
+</div>
+
+
 
   <!-- Footer della pagina-->
   <footer class="site-footer">
