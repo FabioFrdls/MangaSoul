@@ -61,7 +61,6 @@ public class Manga {
 			joinColumns = @JoinColumn(name = "manga_id"),
 			inverseJoinColumns = @JoinColumn(name = "genre_id")
 	)
-	@JsonIgnore
 	private List<Genre> genres;
 	
 	@OneToMany(mappedBy = "manga")
