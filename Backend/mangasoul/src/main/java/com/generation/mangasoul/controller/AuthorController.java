@@ -2,7 +2,6 @@ package com.generation.mangasoul.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,15 +14,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.generation.mangasoul.model.Author;
-
 import com.generation.mangasoul.service.AuthorService;
 
 @Controller
 @RequestMapping("/api/author")
 public class AuthorController {
 
-	@Autowired
 	private AuthorService autoreService;
+	
+	public AuthorController(AuthorService autoreService) {
+		this.autoreService = autoreService;
+	}
 
 	@GetMapping("/findByFullName")
 	public ResponseEntity<List<Author>> findByFullName(@RequestParam String fullName) {

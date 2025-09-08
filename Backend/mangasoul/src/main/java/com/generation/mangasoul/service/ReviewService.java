@@ -2,7 +2,6 @@ package com.generation.mangasoul.service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.generation.mangasoul.exception.ReviewNotFoundException;
@@ -14,8 +13,12 @@ import jakarta.persistence.EntityNotFoundException;
 @Service
 public class ReviewService {
 
-	@Autowired
 	private ReviewRepository reviewRepo;
+	
+	public ReviewService(ReviewRepository reviewRepo)
+	{
+		this.reviewRepo = reviewRepo;
+	}
 
 	public void postReview(Review review) {
 		reviewRepo.save(review);

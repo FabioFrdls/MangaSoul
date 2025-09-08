@@ -1,54 +1,51 @@
 const URL_USER_API = "http://localhost:8080/api/user";
 
+// ----------------------------------------------------------------------------------------
+// Funzione per effettuare il login
 async function login() {
   const username = document.getElementById("username").value;
   const password = document.getElementById("password").value;
-
   const errDiv = document.getElementById("errors-container");
 
   try {
     const response = await fetch(URL_USER_API + "/login", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-
-      body: JSON.stringify({
-        username,
-        password,
-      }),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, password }),
     });
 
     if (response.ok) {
+      // Login riuscito, salva token e chiama profile
       const token = await response.text();
       localStorage.setItem("access-token", token);
       errDiv.innerHTML = "";
-      console.log("success");
-      profile(username);
+      profile("index.html");
     } else {
+      // Mostra errore
       const errorData = await response.json();
-      let text = `<div class="alert alert-danger" role="alert">${errorData.message} </div>`;
-
-      errDiv.innerHTML = text;
+      errDiv.innerHTML = `<div class="alert alert-danger" role="alert">${errorData.message}</div>`;
     }
   } catch (error) {
+    // Errore fetch
     errDiv.innerHTML = `<div class="alert alert-danger" role="alert">${error}</div>`;
     console.error("error while fetching the api:" + error);
   }
 }
 
-async function profile() {}
-
+// -------------------------------------------------------------------------------------------------
+// funzione per effettuare il logout
 async function logout() {
-  const token = localStorage("access-token");
+  const token = localStorage.getItem("access-token");
 
   try {
     const response = await fetch(URL_USER_API + "/logout", {
       method: "POST",
-      headers: {
-        "access-token": token,
-      },
+      headers: { "access-token": token },
     });
+
+    // se il logout avviene con successo:
+    // elimina il cookie contenente il token
+    // dal local storage del browser
     if (response.ok) {
       localStorage.removeItem("access-token");
       window.location.href = "index.html";
@@ -56,43 +53,78 @@ async function logout() {
   } catch (error) {}
 }
 
+// ------------------------------------------------------------------------------------------------
+// funzione per la registrazione di un nuovo utente
 async function register() {
+
+  // prende tutti i dati dagli input
   const username = document.getElementById("new-username").value;
   const email = document.getElementById("new-email").value;
   const password = document.getElementById("new-password").value;
 
+  // prende il container del form e quello degli errori
   const registerDiv = document.getElementById("register-container");
   const errDiv = document.getElementById("errors-container");
 
   try {
     const response = await fetch(URL_USER_API + "/register", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username,
-        email,
-        password,
-      }),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, email, password }),
     });
 
+    // se la registrazione avviene con successo:
+    // sovrascrive il container della registrazione con un messaggio di benvenuto
     if (response.ok) {
       console.log("utente registrato");
       errDiv.innerHTML = "";
-
-      registerDiv.innerHTML = `<h2>Benvenuto ${username}</h2>
-                <p class="mt-3">Clicca
-                    <ahref="#" class="text-danger text-decoration-none" onclick="goToLogin()">qui</a>
-                    per accedere
-                </p>`;
+      registerDiv.innerHTML = 
+      `<h2>Benvenuto ${username}</h2>
+        <p class="mt-3">Clicca
+            <a class="text-danger text-decoration-none" href="login.html">qui</a>
+            per accedere
+        </p>`;
     } else {
+      // altrimenti mostra a schermo errori personalizzati
       const errorData = await response.json();
-      let text = `<div class="alert alert-danger" role="alert">${errorData.message} </div>`;
-      errDiv.innerHTML = text;
+      if (errorData.errors) {
+        let htmlErrors = "";
+        for (const field in errorData.errors) {
+          htmlErrors += `<div>${errorData.errors[field]}</div>`;
+        }
+        errDiv.innerHTML = `<div class="alert alert-danger" role="alert">${htmlErrors}</div>`;
+      } else if (errorData.message) {
+        errDiv.innerHTML = `<div class="alert alert-danger" role="alert">${errorData.message}</div>`;
+      } else {
+        errDiv.innerHTML = `<div class="alert alert-danger" role="alert">Errore sconosciuto</div>`;
+      }
     }
   } catch (error) {
+    // Errore fetch
     errDiv.innerHTML = `<div class="alert alert-danger" role="alert">${error}</div>`;
     console.error("error while fetching the api:" + error);
+  }
+}
+
+// --------------------------------------------------------------------------------------------------------
+
+// Funzione per entrare nel profilo
+async function profile(redirectUrl) {
+  const token = localStorage.getItem("access-token");
+
+  try {
+    const response = await fetch(URL_USER_API + "/profile", {
+      method: "GET",
+      headers: { "access-token": token },
+    });
+
+    if (response.ok) {
+      window.location.href = redirectUrl; 
+    } else {
+      logout(); 
+    }
+  } catch (error) {
+    console.error("Errore nel fetch profile: ", error);
+    logout();
   }
 }

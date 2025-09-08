@@ -136,4 +136,7 @@ window.onload = () => {
     let input = document.getElementById("search");
     // i add a listener so when i type, the function cardCreationByInput is called
     input.addEventListener("input", cardCreationByInput);
+
+
+
 };

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Library</h2>
+    <!--basic search-->
+     <form id="searchForm">
+    <label for="search">Search a manga:</label>
+    <input type="text" id="search" name="search" placeholder="title...">
+    <button type="submit">Go</button>
+  </form>
+
+  <hr>
+
+  <!--optional filters-->
+  <form id="filterForm">
+    <label for="status">Reading status</label>
+    <select id="status" name="status">
+      <option value="">All</option>
+      <option value="to read">To Read</option>
+      <option value="on going">On Going</option>
+      <option value="complete">Complete</option>
+      <option value="dropped">Dropped</option>
+    </select>
+
+    <label for="fav">Favourites</label>
+    <select id="fav" name="fav">
+      <option value="">All</option>
+      <option value="yes">Sì</option>
+      <option value="no">No</option>
+    </select>
+    <button type="submit">Apply filters</button>
+  </form>
+
+  <hr>
+
+  <!--results-->
+  <ul id="list"></ul>
+
+    <script src="scripts/library.js" defer></script>
+</body>
+</html>
