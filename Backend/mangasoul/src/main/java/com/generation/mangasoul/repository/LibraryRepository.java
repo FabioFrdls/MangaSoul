@@ -18,6 +18,8 @@ public interface LibraryRepository extends JpaRepository<Library, Long>{
 	public List<Library> findByUser_Id(long userId);
 	public List<Library> findByUser_IdAndStatus(long userId, String status);
 	public List<Library> findByUser_IdAndFav(long userId, String fav);
+	public List<Library> findByUser_IdAndStatusAndFav(long userId, String status, String fav);
+	public void deleteByUser_IdAndManga_Id(long userId, long mangaId);
 	@Query("SELECT l.manga FROM Library l " + "WHERE l.user.id = :userId " + "AND LOWER(l.manga.title) LIKE LOWER(CONCAT('%', :keyword, '%'))")
 	public List<Manga> findByUserAndTitleContaining(@Param("userId") Long userId, @Param("keyword") String keyword);
 }

@@ -1,10 +1,12 @@
 package com.generation.mangasoul.controller;
 
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,8 +39,7 @@ public class LibraryController {
 	automatically, not from the user, while status and favourite are always optional parameters
 	*/
 	
-	// In front end I writed only the fetch for findAll method, so the other methods will be avaible in the next pushes
-	// to use the library you need to link authentication1.js in login.html
+	// this class is still work in progress, the methods filter, update and delete are not tested yet, since the frontedn is not complete 
 	// also for now, you need to manually insert the items in the library table. Run the file lib_insert in database folder
 	
 	@PostMapping
@@ -55,12 +56,13 @@ public class LibraryController {
 		return ResponseEntity.ok(libraryService.findAll(userId));
 	}
 	
-	@GetMapping("key/{keyWord}")
+	@GetMapping("/key/{keyWord}")
 	public ResponseEntity<List<MangaDto>> findByKeyWord(@RequestHeader("Authorization") String token, @PathVariable String keyWord){
 		Long userId = libraryService.getUserIdFromToken(token);
 		return ResponseEntity.ok(libraryService.findByKeyWord(userId, keyWord));
 	}
 	
+	/*
 	@GetMapping("/status/{status}")
 	public ResponseEntity<List<MangaDto>> findByStatus(@RequestHeader("Authorization") String token, @PathVariable String status){
 		Long userId = libraryService.getUserIdFromToken(token);
@@ -71,15 +73,36 @@ public class LibraryController {
 	public ResponseEntity<List<MangaDto>> findByFav(@RequestHeader("Authorization") String token, @PathVariable String favourite){
 		Long userId = libraryService.getUserIdFromToken(token);
 		return ResponseEntity.ok(libraryService.findByFav(userId, favourite));
+	}*/
+	
+	
+	@GetMapping("/filter")
+		public ResponseEntity<List<MangaDto>>findByStatOrFav(@RequestHeader("Authorization") String token, 
+				 @RequestParam(defaultValue = "Tutti") String status, @RequestParam(defaultValue = "Tutti") String favourite) {
+		Long userId = libraryService.getUserIdFromToken(token);
+		if(!"Tutti".equals(status) && !"Tutti".equals(favourite))
+			return ResponseEntity.ok(libraryService.findByStatAndFav(userId, status, favourite));
+		else if(!"Tutti".equals(status))
+			return ResponseEntity.ok(libraryService.findByStatus(userId, status));
+		else if(!"Tutti".equals(favourite))
+			return ResponseEntity.ok(libraryService.findByFav(userId, favourite));
+		return ResponseEntity.ok(libraryService.findAll(userId));
 	}
 	
-	@PutMapping
-	public ResponseEntity<String> update(@RequestHeader("Authorization") String token, @RequestParam long mangaId, 
+	
+	@PutMapping("/id/{mangaId}")
+	public ResponseEntity<String> update(@RequestHeader("Authorization") String token, @PathVariable long mangaId, 
 			@RequestParam(defaultValue = "") String status, @RequestParam(defaultValue = "no") String favourite){
 		Long userId = libraryService.getUserIdFromToken(token);	
 		libraryService.update(userId, mangaId, status, favourite);
 		return ResponseEntity.ok("Manga updated");
 	}
 	
+	@DeleteMapping("/id/{mangaId}")
+	public ResponseEntity<String> delete(@RequestHeader("Authorization") String token, @PathVariable long mangaId){
+		Long userId = libraryService.getUserIdFromToken(token);
+		libraryService.delete(userId, mangaId);
+		return ResponseEntity.ok("Manga eliminato dalla tua libreria");
+	}
 	
 }
