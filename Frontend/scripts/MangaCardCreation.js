@@ -38,7 +38,7 @@ function createCard(manga) {
     button.textContent = "info";
     button.classList.add("modalButton");
     button.addEventListener("click", () => {
-        openModel(manga);
+        openMangaDetails(manga);
     });
 
     card.append(img, title, author, button, favorite); // in this part i m giving the card all the info
@@ -86,7 +86,12 @@ function cardCreationByInput() {
 
 // this is needed for postReview
 let currentMangaId = null;
-
+//for the opening of the dynamic page
+function openMangaDetails(manga){
+    manga.genres=JSON.stringify(manga.genres)
+    const params = new URLSearchParams(manga).toString();
+    window.open("MangaDetails.html?"+params,"_blank")
+}
 // function to open modal with details
 function openModel(manga) {
 

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dettagli Manga</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="images/logo.png" />
+
+    <!-- Stile custom -->
+    <link rel="stylesheet" href="styles/MangaDetails.css" />
+</head>
+
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">
+                <img src="images/logo.png" alt="Logo" class="logo-navbar" />
+                <span>Manga Soul</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item" id="guestLogin"><a class="nav-link" href="login.html">Login</a></li>
+                    <li class="nav-item" id="guestRegister"><a class="nav-link" href="register.html">Sign Up</a></li>
+                    <li class="nav-item dropdown" id="userProfile" style="display:none">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Profilo</a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="library.html" id="libraryLink">Libreria</a></li>
+                            <li><a class="dropdown-item text-danger" href="#" id="logoutBtn"
+                                    onclick="logout()">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Back Button -->
+    <a href="catalog.html" class="back-button">&larr; Torna al Catalogo</a>
+
+    <!-- Main Content -->
+    <div class="page-container">
+        <div class="image-container">
+            <img id="mangaImage" src="https://via.placeholder.com/400x600/1a1a1a/e63946?text=Manga+Cover"
+                alt="Manga Image">
+        </div>
+
+        <div class="info-container">
+            <h1 class="inRed" id="mangaTitle">Titolo del Manga</h1>
+
+            <div class="info-row">
+                <span class="info-label">Trama:</span>
+                <p class="info-content" id="mangaSummaryBody">
+                    Una storia avvincente che segue le avventure di un giovane protagonista in un mondo
+                    fantastico pieno di magia, mistero e pericoli. Attraverso battaglie epiche e amicizie
+                    profonde, il nostro eroe crescerà e diventerà più forte, scoprendo segreti sul suo passato e
+                    il suo destino.
+                </p>
+            </div>
+
+            <div class="info-row">
+                <span class="info-label">Genere:</span>
+                <p class="info-content" id="mangaGenresBody">Azione, Avventura, Fantasy</p>
+            </div>
+
+            <div class="info-row">
+                <span class="info-label">Anno d'uscita:</span>
+                <p class="info-content" id="mangaYearBody">2020</p>
+            </div>
+
+            <div class="info-row">
+                <span class="info-label">Autore:</span>
+                <p class="info-content" id="mangaAuthorBody">Autore Esempio</p>
+            </div>
+
+            <div class="info-row">
+                <span class="info-label">Editore:</span>
+                <p class="info-content" id="mangaEditorBody">Editore Esempio</p>
+            </div>
+
+            <div class="info-row">
+                <span class="info-label">N° volumi:</span>
+                <p class="info-content" id="mangaVolumesBody">15</p>
+            </div>
+
+            <div class="info-row">
+                <span class="info-label">Stato:</span>
+                <p class="info-content" id="mangaStatusBody">In corso</p>
+            </div>
+
+            <div class="score-row">
+                <span class="score-label">Valutazione:</span>
+                <p class="score-content" id="mangaScoreBody">4.5/5</p>
+            </div>
+
+            <!-- REVIEW FORM, post comment/score, lo stile è tipo quello di youtube -->
+            <form id="reviewForm" style="max-width: 400px; display: flex; flex-direction: column; gap: 10px;">
+                <label for="comment">Commento:</label>
+                <textarea id="comment" name="comment" required rows="3"
+                    style="resize: vertical; padding: 8px; font-size: 1rem;"></textarea>
+
+                <label for="score">Punteggio:</label>
+                <input type="number" id="score" name="score" min="0" max="5" step="0.1" required
+                    style="width: 80px; padding: 5px; font-size: 1rem;">
+
+                <button type="submit" style="align-self: flex-start; padding: 8px 16px; font-size: 1rem;">Aggiungi
+                    commento</button>
+            </form>
+
+            <div id="mangaReview"></div>
+
+        </div>
+    </div>
+    </div>
+    </div>
+    </div>
+
+    <!-- Footer della pagina-->
+    <footer class="site-footer">
+        &copy; 2025 Manga Soul. Tutti i diritti riservati.
+        <a href="https://github.com/FabioFrdls/MangaSoul" target="_blank" class="git-link">
+            <i class="fab fa-github"></i>
+        </a>
+    </footer>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+
+        function loadMangaData() {
+
+            const params = new URLSearchParams(window.location.search);
+            console.log(params)
+            let title = params.get("title")
+            let image = params.get("image")
+            let summary = params.get("summary")
+            let genres = JSON.parse(params.get("genres"));
+            let year = params.get("year")
+            let author = params.get("author.full_name")
+            let editor = params.get("editor")
+            let volumes = params.get("volumes")
+            let status = params.get("status")
+            let score = params.get("score")
+
+
+
+            document.getElementById('mangaTitle').textContent = title;
+            document.getElementById('mangaImage').src = image;
+            document.getElementById('mangaImage').alt = title;
+            document.getElementById('mangaSummaryBody').textContent = summary;
+            document.getElementById('mangaGenresBody').textContent = genres;
+            document.getElementById('mangaYearBody').textContent = year;
+            document.getElementById('mangaAuthorBody').textContent = author;
+            document.getElementById('mangaEditorBody').textContent = editor;
+            document.getElementById('mangaVolumesBody').textContent = volumes;
+            document.getElementById('mangaStatusBody').textContent = status;
+            document.getElementById('mangaScoreBody').textContent = score + "/5";
+        }
+
+        document.addEventListener('DOMContentLoaded', loadMangaData);
+    </script>
+</body>
+
+</html>
