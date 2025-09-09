@@ -1,46 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles/style.css" />
+  <!-- Icona del sito con logo -->
+  <link rel="shortcut icon" href="images/logo.png" />
+  <title>Document</title>
 </head>
+
 <body>
-    <h2>Library</h2>
-    <!--basic search-->
-     <form id="searchForm">
-    <label for="search">Search a manga:</label>
-    <input type="text" id="search" name="search" placeholder="title...">
-    <button type="submit">Go</button>
-  </form>
+  <h2>Library</h2>
 
-  <hr>
+  <!-- Search bar -->
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="search-container">
+          <input type="text" id="search" class="form-control search-input" placeholder="Cerca un manga..." />
+          <i class="fas fa-search search-icon"></i>
 
-  <!--optional filters-->
-  <form id="filterForm">
-    <label for="status">Reading status</label>
-    <select id="status" name="status">
-      <option value="">All</option>
-      <option value="to read">To Read</option>
-      <option value="on going">On Going</option>
-      <option value="complete">Complete</option>
-      <option value="dropped">Dropped</option>
-    </select>
+          <!--status filter-->
+          <label for="status">Stato di lettura</label>
+          <select id="status" name="status">
+            <option value="">Tutti</option>
+            <option value="to read">Da leggere</option>
+            <option value="on going">In lettura</option>
+            <option value="complete">Completato</option>
+            <option value="dropped">Abbandonato</option>
+          </select>
 
-    <label for="fav">Favourites</label>
-    <select id="fav" name="fav">
-      <option value="">All</option>
-      <option value="yes">Sì</option>
-      <option value="no">No</option>
-    </select>
-    <button type="submit">Apply filters</button>
-  </form>
+          <!--fav filter-->
+          <label for="fav">Preferiti</label>
+          <select id="fav" name="fav">
+            <option value="">Tutti</option>
+            <option value="yes">Sì</option>
+            <option value="no">No</option>
+          </select>
+          <button type="button" onclick="filter()">Applica filtro</button>
 
-  <hr>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!--results-->
-  <ul id="list"></ul>
+  <div id="cardContainer" class="cards-container"></div>
+  <!--log-->
+  <div id="log"></div>
 
-    <script src="scripts/library.js" defer></script>
+
+  <script src="scripts/library.js" defer></script>
+  <script src="scripts/libMCC.js" defer></script>
 </body>
+
 </html>

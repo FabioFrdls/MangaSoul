@@ -32,11 +32,54 @@ public class LibraryService {
 		this.sessionRepository = sessionRepository;
 	}
 
+	// auxiliary methods
+	
 	public Long getUserIdFromToken(String token) {			// takes the actual userId from the client
 	    Session session = sessionRepository.findByToken(token)
 	        .orElseThrow(() -> new RuntimeException("Token non valido"));
 	    return session.getUserId();
 	}
+	
+	
+	public List<MangaDto> libToDto(List<Library> lib){
+		return lib.stream() 								// transforms the Library list into an object Library stream
+                .map(Library::getManga)					// maps each Library of the stream to a Manga object
+                .map(m -> new MangaDto(					// maps each manga in a MandaDto
+                        m.getImage(),
+                		m.getTitle(),
+                        m.getSummary(),
+                        m.getGenres(),
+                        m.getYear(),
+                        m.getAuthor(),
+                        m.getEditor_name(),
+                        m.getVolumes(),
+                        m.getStatus(),
+                        m.getScore()
+                ))
+                .toList();								// transforms the MangaDto stream in a MangaDto list
+	}
+	
+	
+	
+	public List<MangaDto> mangaToDto(List<Manga> manga){
+		return manga.stream() 							
+                .map(m -> new MangaDto(					
+                        m.getImage(),
+                		m.getTitle(),
+                        m.getSummary(),
+                        m.getGenres(),
+                        m.getYear(),
+                        m.getAuthor(),
+                        m.getEditor_name(),
+                        m.getVolumes(),
+                        m.getStatus(),
+                        m.getScore()
+                ))
+                .toList();								
+	}
+	
+	
+	// http methods
 	
 	public void insert(long userId, Manga manga, String status, String fav) {
 		User user = userRepository.findById(userId).get();
@@ -46,55 +89,24 @@ public class LibraryService {
 	
 	
 	public List<MangaDto> findAll(long userId){
-		return libraryRepository.findByUser_Id(userId)
-				.stream() 								// transforms the Library list into an object Library stream
-                .map(Library::getManga)					// maps each Library of the stream to a Manga object
-                .map(m -> new MangaDto(					// maps each manga in a MandaDto
-                        m.getTitle(),
-                        m.getYear(),
-                        m.getVolumes(),
-                        m.getScore(),
-                        m.getStatus()
-                ))
-                .toList();								// transforms the MangaDto stream in a MangaDto list
+		return libToDto(libraryRepository.findByUser_Id(userId));
+				
 	}
 	
 	public List<MangaDto> findByKeyWord(long userId, String keyWord){
-		return libraryRepository.findByUserAndTitleContaining(userId, keyWord).stream()
-                .map(m -> new MangaDto(					
-                        m.getTitle(),
-                        m.getYear(),
-                        m.getVolumes(),
-                        m.getScore(),
-                        m.getStatus()
-                ))
-                .toList();
+		return mangaToDto(libraryRepository.findByUserAndTitleContaining(userId, keyWord));
 	}
 	
 	public List<MangaDto> findByStatus(long userId, String status) {
-	    return libraryRepository.findByUser_IdAndStatus(userId, status).stream()
-                .map(Library::getManga)					
-                .map(m -> new MangaDto(					
-                        m.getTitle(),
-                        m.getYear(),
-                        m.getVolumes(),
-                        m.getScore(),
-                        m.getStatus()
-                ))
-                .toList();								
+	    return libToDto(libraryRepository.findByUser_IdAndStatus(userId, status));
 	}
 
 	public List<MangaDto> findByFav(long userId, String fav) {
-	    return libraryRepository.findByUser_IdAndStatus(userId, fav).stream()
-                .map(Library::getManga)					
-                .map(m -> new MangaDto(					
-                        m.getTitle(),
-                        m.getYear(),
-                        m.getVolumes(),
-                        m.getScore(),
-                        m.getStatus()
-                ))
-                .toList();
+	    return libToDto(libraryRepository.findByUser_IdAndStatus(userId, fav));
+	}
+	
+	public List<MangaDto> findByStatAndFav(long userId, String status, String fav) {
+	    return libToDto(libraryRepository.findByUser_IdAndStatusAndFav(userId, status, fav));
 	}
 	
 	public void update(long userId, long mangaId, String status, String fav) {			// updates both status and fav
@@ -106,6 +118,10 @@ public class LibraryService {
 		if(!lib.getFav().equals(fav))
 			lib.setFav(fav);
 		libraryRepository.save(lib);
+	}
+	
+	public void delete(long userId, long mangaId) {
+		libraryRepository.deleteByUser_IdAndManga_Id(userId, mangaId);
 	}
 	
 }

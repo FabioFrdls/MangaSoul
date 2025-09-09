@@ -1,5 +1,9 @@
-document.addEventListener("DOMContentLoaded", function findAll() {
-  fetch(`http://localhost:8080/api/library`, {
+const API_LIB_URL = `http://localhost:8080/api/library`;
+
+// fetch logic for getters
+function find(url){
+  cardContainer.innerHTML = "";
+  fetch(url ,{
     method: "GET",
     headers: {
       Authorization: localStorage.getItem("access-token"),
@@ -12,28 +16,83 @@ document.addEventListener("DOMContentLoaded", function findAll() {
       return response.json();
     })
     .then((data) => {
-      const result = document.getElementById("list");
-      if (data.length == 0) {
-        console.log("Your library is empty");
-        const li = document.createElement("li");
-        li.textContent = "Your library is empty";
-        result.appendChild(li);
+      let mangas = Array.isArray(data) ? data : data.content;
+
+      if (!mangas || mangas.length === 0) {
+        cardContainer.innerHTML = "<p class='center'>Nessun manga trovato.</p>";
         return;
       }
-      const list = data;
-      for (let i = 0; i < list.length; i++) {
-        const li = document.createElement("li");
-        li.textContent = ` 
-                            ${list[i].title} 
-                            ${list[i].year} 
-                            ${list[i].volumes} 
-                            ${list[i].score} 
-                            ${list[i].status}`;
-        result.appendChild(li);
-      }
-      console.log(list);
+
+      mangas.forEach((manga) => {
+        cardContainer.appendChild(createCard(manga));
+      });
     })
-    .catch((err) => {
-      console.log(err);
-    });
-});
+    .catch((err) => console.error("Errore nella ricerca:", err));
+}
+
+
+      // getAll
+function showCard() { 
+  find(API_LIB_URL);
+}
+
+
+      // search
+function search() {
+  let input = document.getElementById("search");
+  let query = input.value.trim();
+  if (query === "") {
+    showCard();
+    return;
+  }
+  find(API_LIB_URL + `/key/${query}`);
+}
+
+    // filter
+function filter() {
+  let status = document.getElementById('status').value;
+  let fav = document.getElementById('fav').value;
+  find(`${API_LIB_URL}/filter?status=${encodeURIComponent(status)}&fav=${encodeURIComponent(fav)}`);
+};
+
+
+
+    // these methods are still to finish
+
+    // update
+function update(){
+  let query;    // passare id manga
+  let status;
+  let fav;
+  fetch(API_LIB_URL + `/id/${query}?status=${encodeURIComponent(status)}&fav=${encodeURIComponent(fav)}`,{
+    method: "PUT",
+    headers: {
+      Authorization: localStorage.getItem("access-token"),
+    },
+  })
+}
+
+    // remove
+function remove(){
+  //.....
+  fetch(API_LIB_URL + `/id/${query}`,{
+    method: "DELETE",
+    headers: {
+      Authorization: localStorage.getItem("access-token"),
+    },
+  })
+  .then((response) => {
+      if (!response.ok) {
+        throw new Error("Errore nella richiesta: " + response.status);
+      }
+      return response.json();
+    })
+
+}
+    // starting method
+window.onload = () => {
+    showCard(); // charging all the manga in library
+    let input = document.getElementById("search");
+    // i add a listener so when i type, the function cardCreationByInput is called
+    input.addEventListener("input", search);
+  }
