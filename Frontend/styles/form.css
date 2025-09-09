@@ -1,0 +1,54 @@
+/* FORM LOGIN / REGISTER ----------------------------------*/
+.form-card {
+  background-color: #1a1a1a;
+  border-radius: 12px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.6);
+  padding: 2rem;
+  max-width: 400px;
+  width: 100%;
+  margin: 5rem auto;
+}
+
+.form-control {
+  background-color: #222;
+  border: 1px solid #444;
+  color: #fff;
+}
+
+.form-control:focus {
+  background-color: #222;
+  border-color: #e63946;
+  color: #fff;
+  box-shadow: 0 0 0 0.2rem rgba(230, 57, 70, 0.5);
+}
+
+.btn-red {
+  background-color: #e63946;
+  border: none;
+  color: #fff;
+  transition: 0.3s;
+}
+
+.btn-red:hover {
+  background-color: #ff4d5a;
+}
+
+
+.logo-container {
+  text-align: center;
+}
+
+.logo {
+  max-width: 60px;
+  vertical-align: middle;
+}
+
+/* Maka in background fixed */
+.anime-character {
+  position: fixed;
+  bottom: 10%;
+  right: 5%;
+  max-width: 250px;
+  z-index: -1;
+  opacity: 0.9;
+}

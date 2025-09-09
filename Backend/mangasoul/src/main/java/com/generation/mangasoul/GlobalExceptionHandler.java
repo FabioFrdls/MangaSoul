@@ -16,6 +16,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import com.generation.mangasoul.exception.DuplicateParamException;
 import com.generation.mangasoul.exception.InvalidUserException;
 import com.generation.mangasoul.exception.LoginException;
+import com.generation.mangasoul.exception.MangaNotFoundException;
 import com.generation.mangasoul.exception.ReviewNotFoundException;
 import com.generation.mangasoul.exception.SessionNotFoundException;
 
@@ -55,7 +56,8 @@ public class GlobalExceptionHandler  extends ResponseEntityExceptionHandler{
 		LoginException.class,
 		ReviewNotFoundException.class,
 		SessionNotFoundException.class,
-		EntityNotFoundException.class
+		EntityNotFoundException.class,
+		MangaNotFoundException.class
 	})
 	public ResponseEntity<Object> handleCustomException(RuntimeException ex){
 		Map<String, Object> error = new HashMap<String, Object>();
@@ -64,7 +66,8 @@ public class GlobalExceptionHandler  extends ResponseEntityExceptionHandler{
 		
 		if(ex instanceof SessionNotFoundException|| 
 				ex instanceof ReviewNotFoundException ||
-				ex instanceof EntityNotFoundException) {
+				ex instanceof EntityNotFoundException ||
+				ex instanceof MangaNotFoundException) {
 			status = 404;
 		}
 		

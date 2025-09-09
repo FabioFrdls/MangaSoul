@@ -1,0 +1,55 @@
+/* HERO custom */
+.hero {
+  background-color: #111;
+  color: #fff;
+  padding: 4rem 2rem;
+  text-align: center;
+  border-bottom: 1px solid #444;
+}
+.hero h1 {
+  color: #e63946;
+  font-weight: bold;
+}
+.hero p {
+  color: #bbb;
+}
+.hero .btn-danger {
+  background-color: #e63946;
+  border: none;
+}
+.hero .btn-danger:hover {
+  background-color: #ff4d5a;
+}
+
+/* Sezioni */
+.section-dark {
+  background-color: #1a1a1a;
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+}
+
+/* Team */
+.team-member img {
+  border: 3px solid #e63946;
+  transition: transform 0.3s;
+}
+.team-member img:hover {
+  transform: scale(1.05);
+}
+.team-member h5 {
+  color: #fff;
+}
+.team-member .btn {
+  background-color: #e63946;
+  border: none;
+}
+.team-member .btn:hover {
+  background-color: #ff4d5a;
+}
+
+/* Icone extra */
+.icon-red {
+  color: #e63946;
+}

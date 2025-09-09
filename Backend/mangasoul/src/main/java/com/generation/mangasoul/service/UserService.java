@@ -2,7 +2,6 @@ package com.generation.mangasoul.service;
 
 import java.time.LocalDate;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -58,6 +57,7 @@ public class UserService {
 		Map<String, String> response = new HashMap<String, String>();
 		response.put("token", token);
 		response.put("type", user.getType());
+		response.put("username", user.getUsername());
 		
 		return response;
 	}
@@ -140,44 +140,9 @@ public class UserService {
 
 
 	
-	/* CRUD methods for the admin -----------------*/
+	
 
-	// verifica se il token è di un admin, altrimenti lancia eccezione
-	private void verifyAdmin(String token) {
-	    Session session = sessionRepo.findByToken(token)
-	        .orElseThrow(() -> new SessionNotFoundException());
-	    userRepo.findById(session.getUserId())
-	        .orElseThrow(() -> new InvalidUserException());
-	}
-
-	// return a list of all the users
-	public List<User> getAllUsers(String token) {
-	    verifyAdmin(token);
-	    return userRepo.findAll();
-	}
-
-	// update the user
-	public String updateUser(long id, User updatedUser, String token) {
-	    verifyAdmin(token);
-	    
-	    User user = userRepo.findById(id)
-	        .orElseThrow(() -> new InvalidUserException());
-	    user.setUsername(updatedUser.getUsername());
-	    user.setEmail(updatedUser.getEmail());
-	    user.setType(updatedUser.getType());
-	    userRepo.save(user);
-	    return "USER UPDATED";
-	}
-
-	// delete the user given the id
-	public String deleteUser(long id, String token) {
-	    verifyAdmin(token);
-
-	    User user = userRepo.findById(id)
-	        .orElseThrow(() -> new InvalidUserException());
-	    userRepo.delete(user);
-	    return "USER DELETED";
-	}
-
+	
+	
 	
 }

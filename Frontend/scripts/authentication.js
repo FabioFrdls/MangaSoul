@@ -19,6 +19,7 @@ async function login() {
       
       localStorage.setItem("access-token", data.token);
       localStorage.setItem("user-type", data.type);
+      localStorage.setItem("username", data.username);
       
       errDiv.innerHTML = "";
 
@@ -55,6 +56,7 @@ async function logout() {
     
     localStorage.removeItem("access-token");
     localStorage.removeItem("user-type");
+    localStorage.removeItem("username");
     window.location.href = "index.html";
   }
 }
@@ -147,5 +149,6 @@ async function profile(redirectUrl) {
 function clearCookies(){
     localStorage.removeItem("access-token");
     localStorage.removeItem("user-type");
+    localStorage.removeItem("username");
     window.location.href= "index.html";
 }
