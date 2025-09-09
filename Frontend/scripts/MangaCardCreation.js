@@ -88,8 +88,19 @@ function cardCreationByInput() {
 let currentMangaId = null;
 //for the opening of the dynamic page
 function openMangaDetails(manga){
-    manga.genres=JSON.stringify(manga.genres)
-    const params = new URLSearchParams(manga).toString();
+   
+    const params = new URLSearchParams({
+        title: manga.title,
+        summary: manga.summary,
+        year:manga.year,
+        image: manga.image,
+        volumes:manga.volumes,
+        editor: manga.editor_name,
+        score: manga.score,
+        status:manga.status,
+         author: manga.author.full_name, 
+        genres: JSON.stringify(manga.genres) 
+    }).toString();
     window.open("MangaDetails.html?"+params,"_blank")
 }
 // function to open modal with details

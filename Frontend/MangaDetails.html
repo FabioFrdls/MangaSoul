@@ -136,17 +136,19 @@
         function loadMangaData() {
 
             const params = new URLSearchParams(window.location.search);
-            console.log(params)
+
             let title = params.get("title")
             let image = params.get("image")
             let summary = params.get("summary")
-            let genres = JSON.parse(params.get("genres"));
+            const genresArray = JSON.parse(params.get("genres")); 
+            const genresText = genresArray.map(g => g.name).join(", "); 
             let year = params.get("year")
             let author = params.get("author.full_name")
             let editor = params.get("editor")
             let volumes = params.get("volumes")
             let status = params.get("status")
             let score = params.get("score")
+            console.log(genres, author)
 
 
 
