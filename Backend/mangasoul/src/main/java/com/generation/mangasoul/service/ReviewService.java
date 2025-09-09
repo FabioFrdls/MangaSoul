@@ -1,5 +1,6 @@
 package com.generation.mangasoul.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ public class ReviewService {
 	}
 
 	public void postReview(Review review) {
+		review.setCreationTimestamp(LocalDateTime.now());
 		reviewRepo.save(review);
 	}
 

@@ -1,5 +1,7 @@
 package com.generation.mangasoul.model;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,17 +29,20 @@ public class Review {
 	@ManyToOne
 	@JoinColumn(name = "manga_id")
 	private Manga manga;
+	
+	private LocalDateTime creationTimestamp;
 
 	public Review() {
 	}
 
-	public Review(long id, double score, String text, User user, Manga manga) {
+	public Review(long id, double score, String text, User user, Manga manga, LocalDateTime creationTimestamp) {
 
 		this.id = id;
 		this.score = score;
 		this.text = text;
 		this.user = user;
 		this.manga = manga;
+		this.creationTimestamp = creationTimestamp;
 	}
 
 	public long getId() {
@@ -78,6 +83,14 @@ public class Review {
 
 	public void setManga(Manga manga) {
 		this.manga = manga;
+	}
+
+	public LocalDateTime getCreationTimestamp() {
+		return creationTimestamp;
+	}
+
+	public void setCreationTimestamp(LocalDateTime creationTimestamp) {
+		this.creationTimestamp = creationTimestamp;
 	}
 
 }
