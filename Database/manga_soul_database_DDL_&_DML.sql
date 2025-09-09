@@ -47,9 +47,9 @@ CREATE TABLE manga_genre (
 
 CREATE TABLE review (
     id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY, 
-    score INT NOT NULL, 
+    score DOUBLE NOT NULL, 
     text TEXT,
-    creationTimestamp TIMESTAMP,
+    creation_timestamp TIMESTAMP,
     user_id BIGINT NOT NULL, 
     manga_id BIGINT NOT NULL,
     FOREIGN KEY (manga_id) REFERENCES manga(id),
@@ -242,10 +242,10 @@ INSERT INTO library (user_id, manga_id, status, fav) VALUES
 (1, 41, 'da leggere', 'si');
 
 -- Review per l'utente con id 1
-INSERT INTO review (score, text, user_id, manga_id, creationTimestamp) VALUES
-(9, 'Storia avvincente di Ciel e Sebastian. Perfetto mix di mistero e azione, ambientazione vittoriana curata. Consigliatissimo!', 1, 26, NOW() - INTERVAL 6 MONTH),
-(10, 'Capolavoro assoluto! Mondo vasto, personaggi indimenticabili. I temi di amicizia e sogni sono sublimi.', 1, 7, NOW() - INTERVAL 3 MONTH),
-(7, 'Premesse originali, bei disegni. A volte prevedibile ma merita una lettura.', 1, 12, NOW() - INTERVAL 8 MONTH),
-(9, 'Isayama ha sovvertito ogni aspettativa. Opera complessa su guerra e natura umana. Ogni capitolo è un colpo di scena!', 1, 18, NOW() - INTERVAL 2 MONTH),
-(8, 'Fujimoto è geniale! Storia cruda e imprevedibile. Mix perfetto di azione, horror e momenti surreali.', 1, 33, NOW() - INTERVAL 1 MONTH),
-(8, 'Ottimo shonen moderno. Sistema di magia ben strutturato, combattimenti spettacolari. Gojo iconico!', 1, 38, NOW() - INTERVAL 15 DAY);
+INSERT INTO review (score, text, user_id, manga_id, creation_timestamp) VALUES
+(4, 'Storia avvincente di Ciel e Sebastian. Perfetto mix di mistero e azione, ambientazione vittoriana curata. Consigliatissimo!', 1, 26, NOW() - INTERVAL 6 MONTH),
+(4, 'Capolavoro assoluto! Mondo vasto, personaggi indimenticabili. I temi di amicizia e sogni sono sublimi.', 1, 7, NOW() - INTERVAL 3 MONTH),
+(3, 'Premesse originali, bei disegni. A volte prevedibile ma merita una lettura.', 1, 12, NOW() - INTERVAL 8 MONTH),
+(2, 'Isayama ha sovvertito ogni aspettativa. Opera complessa su guerra e natura umana. Ogni capitolo è un colpo di scena!', 1, 18, NOW() - INTERVAL 2 MONTH),
+(4, 'Fujimoto è geniale! Storia cruda e imprevedibile. Mix perfetto di azione, horror e momenti surreali.', 1, 33, NOW() - INTERVAL 1 MONTH),
+(4, 'Ottimo shonen moderno. Sistema di magia ben strutturato, combattimenti spettacolari. Gojo iconico!', 1, 38, NOW() - INTERVAL 15 DAY);
