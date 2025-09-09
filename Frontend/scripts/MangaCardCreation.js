@@ -6,151 +6,152 @@ let cardContainer = document.getElementById("cardContainer"); // html made div
 
 // function for creating a card given a manga object
 function createCard(manga) {
-    let card = document.createElement("div"); // in all the part like this i create element and give details
-    card.classList.add("card");
-    let favorite = document.createElement("span");
-    favorite.classList.add("favorite");
-    favorite.textContent = "♡"
+  let card = document.createElement("div"); // in all the part like this i create element and give details
+  card.classList.add("card");
+  let favorite = document.createElement("span");
+  favorite.classList.add("favorite");
+  favorite.textContent = "♡"
 
-    let img = document.createElement("img");
-    img.src = manga.image;
-    img.alt = manga.title;
+  let img = document.createElement("img");
+  img.src = manga.image;
+  img.alt = manga.title;
 
-    let title = document.createElement("h3");
-    title.textContent = manga.title;
+  let title = document.createElement("h3");
+  title.textContent = manga.title;
 
-    // let year = document.createElement("p");
-    // year.textContent = "Anno d'uscita: " + manga.year;
+  // let year = document.createElement("p");
+  // year.textContent = "Anno d'uscita: " + manga.year;
 
-    let author = document.createElement("p");
-    author.textContent = "Autore: " + manga.author.full_name;
+  let author = document.createElement("p");
+  author.textContent = "Autore: " + manga.author.full_name;
 
-    // let editor = document.createElement("p");
-    // editor.textContent = "Pubblicazione italiana: " + manga.editor_name;
+  // let editor = document.createElement("p");
+  // editor.textContent = "Pubblicazione italiana: " + manga.editor_name;
 
-    // let volumes = document.createElement("p");
-    // volumes.textContent = "Numeri volumi: " + manga.volumes;
+  // let volumes = document.createElement("p");
+  // volumes.textContent = "Numeri volumi: " + manga.volumes;
 
-    // let status = document.createElement("p");
-    // status.textContent = "Stato: " + manga.status;
+  // let status = document.createElement("p");
+  // status.textContent = "Stato: " + manga.status;
 
-    let button = document.createElement("button");
-    button.textContent = "info";
-    button.classList.add("modalButton");
-    button.addEventListener("click", () => {
-        openMangaDetails(manga);
-    });
+  card.addEventListener("click", (e) => {
+    if (e.target.matches(".favorite")) {
+      return;
+    }
+    openMangaDetails(manga)
+  })
 
-    card.append(img, title, author, button, favorite); // in this part i m giving the card all the info
 
-    return card; // i return the card to be appended
+  card.append(img, title, author, favorite); // in this part i m giving the card all the info
+
+  return card; // i return the card to be appended
 }
 
 // function to deploy all cards
 function deploymentCard() {
-    cardContainer.innerHTML = ""; // we make that there is space for new element
-    fetch(MangaLink + "/find")
-        .then(response => response.json()) // i receive the json
-        .then(mangas => { // i use the json as array
-            mangas.forEach(manga => { // find all the element of the array
-                cardContainer.appendChild(createCard(manga)); // giving the card to the html made div 
-            });
-        })
-        .catch(err => console.error("Errore nel fetch:", err));
+  cardContainer.innerHTML = ""; // we make that there is space for new element
+  fetch(MangaLink + "/find")
+    .then(response => response.json()) // i receive the json
+    .then(mangas => { // i use the json as array
+      mangas.forEach(manga => { // find all the element of the array
+        cardContainer.appendChild(createCard(manga)); // giving the card to the html made div 
+      });
+    })
+    .catch(err => console.error("Errore nel fetch:", err));
 }
 
 // function to deploy cards on input
 function cardCreationByInput() {
-    let input = document.getElementById("search"); // i get the input element
-    let query = input.value.trim(); // i take the value of the input
-    cardContainer.innerHTML = ""; // i clear the container
+  let input = document.getElementById("search"); // i get the input element
+  let query = input.value.trim(); // i take the value of the input
+  cardContainer.innerHTML = ""; // i clear the container
 
-    if (query === "") {
-        deploymentCard(); // if there is no input it deploy all the card
-        return; // i stop the function
-    }
+  if (query === "") {
+    deploymentCard(); // if there is no input it deploy all the card
+    return; // i stop the function
+  }
 
-    fetch(MangaLink + "/findWkeyWords?keywords=" + encodeURIComponent(query)) // i call the endpoint with query param
-        .then(response => response.json())
-        .then(mangas => {
-            if (mangas.length === 0) {
-                cardContainer.innerHTML = "<p>Nessun manga trovato.</p>"; // verify if there is something that match input
-                return;
-            }
-            mangas.forEach(manga => { // find all the element of the array
-                cardContainer.appendChild(createCard(manga)); // giving the card to the html made div 
-            });
-        })
-        .catch(err => console.error("Errore nella ricerca:", err));
+  fetch(MangaLink + "/findWkeyWords?keywords=" + encodeURIComponent(query)) // i call the endpoint with query param
+    .then(response => response.json())
+    .then(mangas => {
+      if (mangas.length === 0) {
+        cardContainer.innerHTML = "<p>Nessun manga trovato.</p>"; // verify if there is something that match input
+        return;
+      }
+      mangas.forEach(manga => { // find all the element of the array
+        cardContainer.appendChild(createCard(manga)); // giving the card to the html made div 
+      });
+    })
+    .catch(err => console.error("Errore nella ricerca:", err));
 }
 
 // this is needed for postReview
 let currentMangaId = null;
 //for the opening of the dynamic page
-function openMangaDetails(manga){
-   
-    const params = new URLSearchParams({
-        title: manga.title,
-        summary: manga.summary,
-        year:manga.year,
-        image: manga.image,
-        volumes:manga.volumes,
-        editor: manga.editor_name,
-        score: manga.score,
-        status:manga.status,
-         author: manga.author.full_name, 
-        genres: JSON.stringify(manga.genres) 
-    }).toString();
-    window.open("MangaDetails.html?"+params,"_blank")
+function openMangaDetails(manga) {
+
+  const params = new URLSearchParams({
+    title: manga.title,
+    summary: manga.summary,
+    year: manga.year,
+    image: manga.image,
+    volumes: manga.volumes,
+    editor: manga.editor_name,
+    score: manga.score,
+    status: manga.status,
+    author: manga.author.full_name,
+    genres: JSON.stringify(manga.genres)
+  }).toString();
+  window.open("MangaDetails.html?" + params, "_blank")
 }
 // function to open modal with details
 function openModel(manga) {
 
-    // openModel stores manga id so that backend Post method can know which manga it is
-    currentMangaId = manga.id;
+  // openModel stores manga id so that backend Post method can know which manga it is
+  currentMangaId = manga.id;
 
-    console.log(manga);
-    let modal = document.getElementById("modal");
-    let closeButton = document.getElementById("closeButton");
+  console.log(manga);
+  let modal = document.getElementById("modal");
+  let closeButton = document.getElementById("closeButton");
 
-    let img = document.getElementById("mangaImage");
-    img.src = manga.image;
-    img.alt = manga.title;
+  let img = document.getElementById("mangaImage");
+  img.src = manga.image;
+  img.alt = manga.title;
 
-    let title = document.getElementById("mangaTitle");
-    title.textContent = manga.title;
+  let title = document.getElementById("mangaTitle");
+  title.textContent = manga.title;
 
-    let summary = document.getElementById("mangaSummaryBody");
-    summary.textContent = manga.summary;
+  let summary = document.getElementById("mangaSummaryBody");
+  summary.textContent = manga.summary;
 
-    let genr = document.getElementById("mangaGenresBody");
-    genr.textContent = manga.genres.map(g => g.name).join(", ");
+  let genr = document.getElementById("mangaGenresBody");
+  genr.textContent = manga.genres.map(g => g.name).join(", ");
 
-    let year = document.getElementById("mangaYearBody");
-    year.textContent = manga.year;
+  let year = document.getElementById("mangaYearBody");
+  year.textContent = manga.year;
 
-    let author = document.getElementById("mangaAuthorBody");
-    author.textContent = manga.author.full_name;
+  let author = document.getElementById("mangaAuthorBody");
+  author.textContent = manga.author.full_name;
 
-    let editor = document.getElementById("mangaEditorBody");
-    editor.textContent = manga.editor_name;
+  let editor = document.getElementById("mangaEditorBody");
+  editor.textContent = manga.editor_name;
 
-    let volumes = document.getElementById("mangaVolumesBody");
-    volumes.textContent = manga.volumes;
+  let volumes = document.getElementById("mangaVolumesBody");
+  volumes.textContent = manga.volumes;
 
-    let status = document.getElementById("mangaStatusBody");
-    status.textContent = manga.status;
+  let status = document.getElementById("mangaStatusBody");
+  status.textContent = manga.status;
 
-    let score = document.getElementById("mangaScoreBody");
-    score.textContent = manga.score;
+  let score = document.getElementById("mangaScoreBody");
+  score.textContent = manga.score;
 
-    showReview(manga);
+  showReview(manga);
 
 
-    modal.style.display = "flex";
-    closeButton.onclick = () => {
-        modal.style.display = "none";
-    };
+  modal.style.display = "flex";
+  closeButton.onclick = () => {
+    modal.style.display = "none";
+  };
 }
 
 
@@ -190,7 +191,7 @@ async function postReview() {
     if (response.ok) {
       alert("Recensione inviata con successo!");
       document.getElementById("reviewForm").reset();
-      showReview({ id: currentMangaId }); 
+      showReview({ id: currentMangaId });
     } else {
       const errorText = await response.text();
       alert("Errore durante l'invio della recensione: " + errorText);
@@ -200,69 +201,69 @@ async function postReview() {
     alert("Errore di rete.");
   }
 }
-    function showReview(manga) {
-	  fetch(`${reviewLink}/getMangaById?manga_id=${manga.id}`)
-	    .then((response) => {
-	      if (!response.ok) {
-	        throw new Error("errors yaml");
-	      }
-	      return response.json();
-	    })
-	    .then((reviewList) => {
-	      const reviewsContainer = document.getElementById("mangaReview");
-	      reviewsContainer.innerHTML = "";
+function showReview(manga) {
+  fetch(`${reviewLink}/getMangaById?manga_id=${manga.id}`)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("errors yaml");
+      }
+      return response.json();
+    })
+    .then((reviewList) => {
+      const reviewsContainer = document.getElementById("mangaReview");
+      reviewsContainer.innerHTML = "";
 
-          // if there are no reviews, we get funny message
-	      if (reviewList.length === 0) {
-	        reviewsContainer.innerHTML =
-	          "<p>Non ci sono recensioni, vuoi essere il primo?.</p>";
-	        return;
-	      }
-	      reviewList.forEach((review) => {
-	        const reviewDiv = document.createElement("div");
-	        reviewDiv.className = "review";
+      // if there are no reviews, we get funny message
+      if (reviewList.length === 0) {
+        reviewsContainer.innerHTML =
+          "<p>Non ci sono recensioni, vuoi essere il primo?.</p>";
+        return;
+      }
+      reviewList.forEach((review) => {
+        const reviewDiv = document.createElement("div");
+        reviewDiv.className = "review";
 
-	        // do we need to add checks when the username is not valid?
-	        let username = "persona magica";
+        // do we need to add checks when the username is not valid?
+        let username = "persona magica";
 
-	        // I'll leave a check just in case, if you think it's redundant remove it and just use username = review.user.username;
-	        if (review.user && review.user.username) {
-	          username = review.user.username;
-	        }
+        // I'll leave a check just in case, if you think it's redundant remove it and just use username = review.user.username;
+        if (review.user && review.user.username) {
+          username = review.user.username;
+        }
 
 
-	        const uName = document.createElement("h3");
-	        uName.textContent = `${username}`;
+        const uName = document.createElement("h3");
+        uName.textContent = `${username}`;
 
-	        const score = document.createElement("p");
-	        score.textContent = `Punteggio: ${review.score}`;
+        const score = document.createElement("p");
+        score.textContent = `Punteggio: ${review.score}`;
 
-	        const comment = document.createElement("p");
-	        comment.textContent = `${review.text}`;
+        const comment = document.createElement("p");
+        comment.textContent = `${review.text}`;
 
-	        reviewDiv.appendChild(uName);
-	        reviewDiv.appendChild(score);
-	        reviewDiv.appendChild(comment);
+        reviewDiv.appendChild(uName);
+        reviewDiv.appendChild(score);
+        reviewDiv.appendChild(comment);
 
-	        reviewsContainer.appendChild(reviewDiv);
-	      });
-	    })
-	    .catch((error) => {
-	      console.error("Error fetching reviews:", error);
-	    });
-	}
+        reviewsContainer.appendChild(reviewDiv);
+      });
+    })
+    .catch((error) => {
+      console.error("Error fetching reviews:", error);
+    });
+}
 
 // run on load
 window.onload = () => {
-    deploymentCard(); // charging all the card on the start of the website
-    let input = document.getElementById("search");
-    // i add a listener so when i type, the function cardCreationByInput is called
-    input.addEventListener("input", cardCreationByInput);
+  deploymentCard(); // charging all the card on the start of the website
+  let input = document.getElementById("search");
+  // i add a listener so when i type, the function cardCreationByInput is called
+  input.addEventListener("input", cardCreationByInput);
 
-    document.getElementById("reviewForm").addEventListener("submit", function(event) {
+  document.getElementById("reviewForm").addEventListener("submit", function (event) {
     event.preventDefault(); // prevent page reload
     postReview();
-});
+  });
 
 
 };

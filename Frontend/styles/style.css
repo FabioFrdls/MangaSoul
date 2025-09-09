@@ -256,7 +256,11 @@ body {
 }
 
 
-.card:hover { transform: translateY(-5px); }
+.card:hover { 
+  transform: translateY(-5px);
+   background-color: #b52d36;
+   cursor: pointer;
+ }
 
 .card img {
   width: 100%;
@@ -266,6 +270,7 @@ body {
   margin-bottom: 1rem;
   background: #222;
 }
+
 
 .card h3 {
   color: #fff;

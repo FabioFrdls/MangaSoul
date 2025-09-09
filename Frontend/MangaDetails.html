@@ -42,7 +42,7 @@
     </nav>
 
     <!-- Back Button -->
-    <a href="catalog.html" class="back-button">&larr; Torna al Catalogo</a>
+    <a href="#" id="backButton" class="back-button">&larr; Torna al Catalogo</a>
 
     <!-- Main Content -->
     <div class="page-container">
@@ -54,7 +54,7 @@
         <div class="info-container">
             <h1 class="inRed" id="mangaTitle">Titolo del Manga</h1>
 
-            <div class="info-row">
+            <div class="info-row trama">
                 <span class="info-label">Trama:</span>
                 <p class="info-content" id="mangaSummaryBody">
                     Una storia avvincente che segue le avventure di un giovane protagonista in un mondo
@@ -131,42 +131,7 @@
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    <script>
-
-        function loadMangaData() {
-
-            const params = new URLSearchParams(window.location.search);
-
-            let title = params.get("title")
-            let image = params.get("image")
-            let summary = params.get("summary")
-            const genresArray = JSON.parse(params.get("genres")); 
-            const genresText = genresArray.map(g => g.name).join(", "); 
-            let year = params.get("year")
-            let author = params.get("author.full_name")
-            let editor = params.get("editor")
-            let volumes = params.get("volumes")
-            let status = params.get("status")
-            let score = params.get("score")
-            console.log(genres, author)
-
-
-
-            document.getElementById('mangaTitle').textContent = title;
-            document.getElementById('mangaImage').src = image;
-            document.getElementById('mangaImage').alt = title;
-            document.getElementById('mangaSummaryBody').textContent = summary;
-            document.getElementById('mangaGenresBody').textContent = genres;
-            document.getElementById('mangaYearBody').textContent = year;
-            document.getElementById('mangaAuthorBody').textContent = author;
-            document.getElementById('mangaEditorBody').textContent = editor;
-            document.getElementById('mangaVolumesBody').textContent = volumes;
-            document.getElementById('mangaStatusBody').textContent = status;
-            document.getElementById('mangaScoreBody').textContent = score + "/5";
-        }
-
-        document.addEventListener('DOMContentLoaded', loadMangaData);
-    </script>
+    <script src="scripts/LoadMangaDetails.js"> </script>
 </body>
 
 </html>
