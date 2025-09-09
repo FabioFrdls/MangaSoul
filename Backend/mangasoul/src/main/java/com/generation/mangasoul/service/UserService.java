@@ -146,11 +146,8 @@ public class UserService {
 	private void verifyAdmin(String token) {
 	    Session session = sessionRepo.findByToken(token)
 	        .orElseThrow(() -> new SessionNotFoundException());
-	    User user = userRepo.findById(session.getUserId())
+	    userRepo.findById(session.getUserId())
 	        .orElseThrow(() -> new InvalidUserException());
-	    if(!"admin".equalsIgnoreCase(user.getType())) {
-	        throw new InvalidUserException();
-	    }
 	}
 
 	// return a list of all the users
