@@ -205,6 +205,8 @@ async function postReview() {
     alert("Errore di rete.");
   }
 }
+
+
 function showReview(manga) {
   fetch(`${reviewLink}/getMangaById?manga_id=${manga.id}`)
     .then((response) => {
@@ -257,17 +259,18 @@ function showReview(manga) {
     });
 }
 
+
 // run on load
 window.onload = () => {
   deploymentCard(); // charging all the card on the start of the website
   let input = document.getElementById("search");
   // i add a listener so when i type, the function cardCreationByInput is called
   input.addEventListener("input", cardCreationByInput);
-
+/*
   document.getElementById("reviewForm").addEventListener("submit", function (event) {
     event.preventDefault(); // prevent page reload
     postReview();
-  });
+  });*/
 
 
 };
