@@ -1,5 +1,6 @@
 package com.generation.mangasoul.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import com.generation.mangasoul.model.Manga;
@@ -51,6 +52,21 @@ public class MangaService {
 		} else {
 			throw new EntityNotFoundException("Manga con id " + id + " non trovato"); // if not exist
 		}
+	}
+	
+	
+	/*
+	 * Builted this method to pick the top ten manga
+	 * of the library
+	 * */
+	public List<Manga> getTop(){
+		List<Manga> manga = findManga();
+		manga.sort((m1, m2) -> Double.compare(m2.getScore(), m1.getScore()));
+		List<Manga> topManga = new ArrayList<Manga>();
+		for(int i = 0; i < 10; i++) {
+			topManga.add(manga.get(i));
+		}
+		return topManga;
 	}
 
 }

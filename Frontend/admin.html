@@ -17,6 +17,7 @@
 
     <!-- Import del css -->
     <link rel="stylesheet" href="styles/style.css" />
+    <link rel="stylesheet" href="styles/admin.css">
 
     <title>Dashboard Admin - Manga Soul</title>
 </head>
@@ -159,6 +160,28 @@
             </div>
         </div>
     </div>
+
+
+    <!-- Modal per visualizzare le recensioni dell'utente -->
+    <div class="modal fade" id="reviewsModal" tabindex="-1" aria-labelledby="reviewsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content bg-dark text-white">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="reviewsModalLabel">Recensioni di <span id="reviewsUsername"></span></h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Chiudi"></button>
+                </div>
+                <div class="modal-body" id="reviews-container">
+
+                    <div class="text-center">Caricamento...</div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 
     <!-- Footer della pagina-->

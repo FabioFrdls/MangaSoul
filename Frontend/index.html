@@ -16,11 +16,15 @@
 
   <!-- Stile custom -->
   <link rel="stylesheet" href="styles/style.css" />
+  <link rel="stylesheet" href="styles/scroller.css">
+  <link rel="stylesheet" href="styles/home.css">
 
   <title>Home - Manga Soul</title>
 </head>
 
 <body>
+
+<img id="themeSwitcher" src="images/switch_bianco_nero/soul_eater_sun.png" alt="switcher" class="switcher">
   <!-- NAVBAR -->
   <nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
@@ -49,10 +53,27 @@
 
   <!-- HERO -->
   <header class="hero">
-    <h1 class="display-4">Benvenuto su Manga Soul</h1>
+    <h1 id="welcome-message" class="display-4"></h1>
     <p class="lead">La tua libreria digitale di manga, sempre con te.</p>
     <a href="catalogo.html" class="btn btn-danger mt-3">Scopri il Catalogo</a>
   </header>
+
+  <!-- HORIZONTAL MANGA SCROLLER -->
+  <section class="container my-5">
+    <h2 class="text-white text-center mb-3">Scopri i manga più letti</h2>
+
+    <div class="manga-scroller-wrap position-relative">
+      <button class="scroller-btn left" aria-label="Prev"><</button>
+
+      <!-- Container delle card che possono poi essere scrollate-->
+      <div id="manga-scroller" class="manga-scroller">
+        
+      </div>
+
+      <button class="scroller-btn right" aria-label="Next">></button>
+    </div>
+  </section>
+
 
   <!-- CHI SIAMO -->
   <section class="container my-5 section-dark">
@@ -142,6 +163,9 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"></script>
   <script src="scripts/navbar.js"></script>
   <script src="scripts/authentication.js"></script>
+  <script src="scripts/scroller.js"></script>
+  <script src="scripts/home.js"></script>
+  <script src="scripts/Switch_Theme.js"></script>
 </body>
 
 </html>

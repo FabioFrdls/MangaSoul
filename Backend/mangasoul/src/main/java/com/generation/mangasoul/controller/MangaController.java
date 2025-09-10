@@ -33,5 +33,10 @@ public class MangaController {
 	public ResponseEntity<List<Manga>> findByKeyWord(@RequestParam String keywords) {
 		return ResponseEntity.ok(mangaServ.findByKeyWord(keywords));
 	}
+	
+	@GetMapping("/top")
+	public ResponseEntity<List<Manga>> getTop(){
+		return ResponseEntity.ok(mangaServ.getTop());
+	}
 
 }
