@@ -203,5 +203,27 @@ body {
   transform: scale(1.2); 
 }
 .card button:hover { background: #ff4d5a; }
-
+/*Switcher of Theme*/
+.inverted {
+  filter: invert(1) hue-rotate(180deg);
+}
+.inverted img {
+    filter: invert(1) hue-rotate(180deg); 
+}
+.notClicked{
+  visibility: hidden;
+}
+.switcher {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 60px;      
+  height: auto;
+  cursor: pointer;
+  z-index: 9999;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  object-fit: contain; 
+  background-color: transparent; 
+}
 
