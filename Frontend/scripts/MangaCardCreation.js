@@ -1,6 +1,6 @@
 const MangaLink = "http://localhost:8080/api/manga";
 const GenresLink = "http://localhost:8080/api/genres"
-let originalMangas;
+const genreBox = document.getElementById("genresBox");
 const reviewLink = "http://localhost:8080/api/review";
 let genresFiltred = false;
 let cardContainer = document.getElementById("cardContainer"); // html made div
@@ -9,16 +9,15 @@ function deployGenres() {
   fetch(GenresLink + "/get")
     .then(response => response.json())
     .then(genres => {
-      const genreBox = document.getElementById("genresBox");
-      genreBox.innerHTML = ""; 
+      genreBox.innerHTML = "";
 
-   
+
       const defaultOption = document.createElement("option");
       defaultOption.value = "";
       defaultOption.textContent = "-- Seleziona un genere --";
       genreBox.appendChild(defaultOption);
 
-     
+
       genres.forEach(genre => {
         let option = document.createElement("option");
         option.value = genre.name;
@@ -79,6 +78,12 @@ function deploymentCard() {
     .then(response => response.json()) // i receive the json
     .then(mangas => { // i use the json as array
       originalMangas = mangas;
+      if (genresFiltred) {
+        mangas = mangas.filter(manga =>
+          manga.genres.some(g => g.name === genreBox.value)
+        );
+      }
+
       mangas.forEach(manga => { // find all the element of the array
         cardContainer.appendChild(createCard(manga)); // giving the card to the html made div 
       });
@@ -105,8 +110,11 @@ function cardCreationByInput() {
         return;
       }
       if (genresFiltred) {
-        mangas = mangas.filter(manga => manga.genres.includes(genresSelector.values))
+        mangas = mangas.filter(manga =>
+          manga.genres.some(g => g.name === genreBox.value)
+        );
       }
+
       mangas.forEach(manga => { // find all the element of the array
         cardContainer.appendChild(createCard(manga)); // giving the card to the html made div 
       });
@@ -300,3 +308,12 @@ window.onload = () => {
 
 
 };
+genreBox.addEventListener("change", () => {
+  if (genreBox.value !== "") {
+    genresFiltred = true
+    deploymentCard();
+    return;
+  }
+  genresFiltred = false;
+  deploymentCard();
+})
