@@ -14,7 +14,7 @@ function deployGenres() {
 
       const defaultOption = document.createElement("option");
       defaultOption.value = "";
-      defaultOption.textContent = "-- Seleziona un genere --";
+      defaultOption.textContent = "-- nessuno --";
       genreBox.appendChild(defaultOption);
 
 

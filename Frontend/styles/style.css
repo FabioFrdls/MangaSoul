@@ -226,4 +226,27 @@ body {
   object-fit: contain; 
   background-color: transparent; 
 }
+#filterbox {
+  background-color: #111; 
+  color: white;           
+}
+
+
+#filterbox select {
+  background-color: #111; 
+  color: white;           
+  border: 1px solid #333; 
+}
+#filterbox select:hover{
+  background-color: #e63946;
+}
+  #filterbox select option:hover {
+    background-color: #e63946;
+  }
+
+#filterbox select option {
+  background-color: #111; 
+  color: white;          
+}
+
 
