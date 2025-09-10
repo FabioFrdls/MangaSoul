@@ -1,3 +1,5 @@
+DROP DATABASE IF EXISTS manga_soul;
+
 CREATE DATABASE manga_soul;
 USE manga_soul;
 
@@ -8,6 +10,12 @@ CREATE TABLE user (
     password VARCHAR(255) NOT NULL, 
     creation_timestamp TIMESTAMP,
     type VARCHAR(10) NOT NULL
+);
+
+CREATE TABLE session (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT NOT NULL,
+    token VARCHAR(255) NOT NULL UNIQUE
 );
 
 CREATE TABLE genre (
@@ -29,7 +37,7 @@ CREATE TABLE manga (
     image VARCHAR(255) NOT NULL, 
     volumes INT NOT NULL,
     editor_name VARCHAR(255) NOT NULL,
-    score Double,
+    score DOUBLE,
     status VARCHAR(10) NOT NULL,
     author_id BIGINT NOT NULL,
     FOREIGN KEY (author_id) REFERENCES author(id)
@@ -45,8 +53,9 @@ CREATE TABLE manga_genre (
 
 CREATE TABLE review (
     id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY, 
-    score INT NOT NULL, 
-    text TEXT, 
+    score DOUBLE NOT NULL, 
+    text TEXT,
+    creation_timestamp TIMESTAMP,
     user_id BIGINT NOT NULL, 
     manga_id BIGINT NOT NULL,
     FOREIGN KEY (manga_id) REFERENCES manga(id),
@@ -57,7 +66,7 @@ CREATE TABLE library (
     id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     user_id BIGINT NOT NULL, 
     manga_id BIGINT NOT NULL,
-    status VARCHAR(10) NOT NULL,
+    status VARCHAR(15) NOT NULL,
     fav VARCHAR(3),
     FOREIGN KEY (user_id) REFERENCES user(id),
     FOREIGN KEY (manga_id) REFERENCES manga(id)
