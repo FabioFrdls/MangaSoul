@@ -1,8 +1,33 @@
 const MangaLink = "http://localhost:8080/api/manga";
+const GenresLink = "http://localhost:8080/api/genres"
 let originalMangas;
 const reviewLink = "http://localhost:8080/api/review";
-
+let genresFiltred = false;
 let cardContainer = document.getElementById("cardContainer"); // html made div
+//function for getting all genres
+function deployGenres() {
+  fetch(GenresLink + "/get")
+    .then(response => response.json())
+    .then(genres => {
+      const genreBox = document.getElementById("genresBox");
+      genreBox.innerHTML = ""; 
+
+   
+      const defaultOption = document.createElement("option");
+      defaultOption.value = "";
+      defaultOption.textContent = "-- Seleziona un genere --";
+      genreBox.appendChild(defaultOption);
+
+     
+      genres.forEach(genre => {
+        let option = document.createElement("option");
+        option.value = genre.name;
+        option.textContent = genre.name;
+        genreBox.appendChild(option);
+      });
+    })
+    .catch(err => console.error("Errore nel caricamento generi:", err));
+}
 
 // function for creating a card given a manga object
 function createCard(manga) {
@@ -266,11 +291,12 @@ window.onload = () => {
   let input = document.getElementById("search");
   // i add a listener so when i type, the function cardCreationByInput is called
   input.addEventListener("input", cardCreationByInput);
-/*
-  document.getElementById("reviewForm").addEventListener("submit", function (event) {
-    event.preventDefault(); // prevent page reload
-    postReview();
-  });*/
+  deployGenres();
+  /*
+    document.getElementById("reviewForm").addEventListener("submit", function (event) {
+      event.preventDefault(); // prevent page reload
+      postReview();
+    });*/
 
 
 };
