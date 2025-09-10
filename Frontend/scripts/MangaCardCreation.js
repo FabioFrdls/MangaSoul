@@ -1,5 +1,5 @@
 const MangaLink = "http://localhost:8080/api/manga";
-
+let originalMangas;
 const reviewLink = "http://localhost:8080/api/review";
 
 let cardContainer = document.getElementById("cardContainer"); // html made div
@@ -53,6 +53,7 @@ function deploymentCard() {
   fetch(MangaLink + "/find")
     .then(response => response.json()) // i receive the json
     .then(mangas => { // i use the json as array
+      originalMangas = mangas;
       mangas.forEach(manga => { // find all the element of the array
         cardContainer.appendChild(createCard(manga)); // giving the card to the html made div 
       });
@@ -77,6 +78,9 @@ function cardCreationByInput() {
       if (mangas.length === 0) {
         cardContainer.innerHTML = "<p>Nessun manga trovato.</p>"; // verify if there is something that match input
         return;
+      }
+      if (genresFiltred) {
+        mangas = mangas.filter(manga => manga.genres.includes(genresSelector.values))
       }
       mangas.forEach(manga => { // find all the element of the array
         cardContainer.appendChild(createCard(manga)); // giving the card to the html made div 
