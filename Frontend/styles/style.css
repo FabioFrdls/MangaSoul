@@ -134,7 +134,7 @@ body {
 
 /* Card */
 .card {
-  position: relative; /* necessario per far funzionare la posizione assoluta dei child */
+  position: relative; 
   background: #1a1a1a;
   border-radius: 8px;
   padding: 1rem;
