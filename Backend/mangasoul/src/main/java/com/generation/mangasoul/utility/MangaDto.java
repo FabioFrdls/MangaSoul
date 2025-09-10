@@ -6,6 +6,7 @@ import com.generation.mangasoul.model.Author;
 import com.generation.mangasoul.model.Genre;
 
 public class MangaDto {
+	private long id;
 	private String image;
 	private String title;
 	private String summery;
@@ -17,9 +18,10 @@ public class MangaDto {
 	private String status;
 	private double score;
 	
-	public MangaDto(String image, String title, String summery, List<Genre> genres, int year, Author author, String editor, int volumes,
+	public MangaDto(long id, String image, String title, String summery, List<Genre> genres, int year, Author author, String editor, int volumes,
 			String status, double score) {
 		super();
+		this.id = id;
 		this.image = image;
 		this.title = title;
 		this.summery = summery;
@@ -34,6 +36,14 @@ public class MangaDto {
 	
 	public MangaDto() {}
 
+	public long getId() {
+		return id;
+	}
+	
+	public void setId(long id) {
+		this.id = id;
+	}
+	
 	public String getImage() {
 		return image;
 	}

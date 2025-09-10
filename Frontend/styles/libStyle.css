@@ -1,0 +1,242 @@
+/*search bar style*/
+
+.search-container {
+  position: relative;
+  max-width: 600px;
+  margin: 2rem auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.search-input {
+  width: 100%;
+  height: 50px;
+  border-radius: 30px;
+  padding-left: 50px;
+  padding-right: 20px;
+  border: none;
+  background-color: #222;
+  color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.search-input:focus {
+  outline: none;
+  box-shadow: 0 0 10px rgba(230, 57, 70, 0.5);
+}
+
+.search-icon {
+  position: absolute;
+  top: 25px;
+  left: 18px;
+  transform: translateY(-50%);
+  color: #888;
+  pointer-events: none;
+}
+/*--------------------------------------------------------------*/
+
+/*filter button's style*/
+
+.filter-container-inline {
+  display: flex;
+  gap: 0.8rem;  /* spazio tra i controlli */
+  align-items: center;
+}
+
+
+
+.filter-container label {
+  color: #888;
+  font-size: 0.9rem;
+  margin-left: 10px;
+}
+
+.filter-inline {
+  flex: 1 1 auto;        /* ciascun elemento occupa spazio flessibile */
+  min-width: 0;          /* evita overflow indesiderati */
+    width: 100%;
+  height: 45px;
+  border-radius: 30px;
+  border: none;
+  padding: 0 15px;
+  background-color: #222;
+  color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  appearance: none;
+}
+
+.filter-inline:focus {
+  outline: none;
+  box-shadow: 0 0 10px rgba(230, 57, 70, 0.5);
+}
+
+.filter-btn {
+    flex: 0 0 auto;        /* il bottone mantiene dimensione propria */
+  align-self: center;
+  padding: 10px 20px;
+  border-radius: 30px;
+  border: none;
+  background-color: #e63946;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  transition: background-color 0.3s ease;
+}
+
+.filter-btn:hover {
+  background-color: #d62839;
+}
+/*--------------------------------------------------------------*/
+
+/* Card */
+.card {
+  position: relative; /* necessario per far funzionare la posizione assoluta dei child */
+  background: #1a1a1a;
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+  transition: transform 0.2s;
+  max-width: 250px;
+  justify-self: center;
+}
+
+
+.card:hover { transform: translateY(-5px); }
+
+.card img {
+  width: 100%;
+  height: 280px;
+  object-fit: contain;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  background: #222;
+}
+
+.card h3 {
+  color: #fff;
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.card p {
+  color: #bbb;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  display: -webkit-box;
+  overflow: hidden;
+  flex-grow: 1;
+}
+
+.card button {
+  background: #222;
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  width: 20%;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-top: auto;
+}
+.library {
+  position: absolute; 
+  top: 10px;          
+  right: 10px;        
+  font-size: 24px;    
+  cursor: pointer;    
+  color: red;        
+  z-index: 10;        
+}
+.library:hover {
+  color: #ff4d5a; 
+  transform: scale(1.2); 
+}
+.card button:hover { background: #ff4d5a; }
+/*--------------------------------------------------------------*/
+
+/*delete banner*/
+
+.confirm-banner {
+  position: fixed;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -30%);
+  background: #222;
+  color: #fff;
+  padding: 1.5rem 2rem;
+  border-radius: 20px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.6);
+  text-align: center;
+  z-index: 1000;
+}
+
+.confirm-banner .btn-group {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.confirm-banner .btn-danger {
+  background-color: #e63946;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.confirm-banner .btn-secondary {
+  background-color: #555;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  cursor: pointer;
+}
+/*--------------------------------------------------------------*/
+
+/*update window*/
+
+.update-options {
+  position: fixed;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -30%);
+  background: #222;
+  color: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  z-index: 2000;
+  width: 300px;
+  text-align: center;
+}
+
+.update-options label {
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
+  color: #f0f0f0;
+}
+
+.update-options select {
+  width: 100%;
+  margin-top: 5px;
+  padding: 8px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  background: #333;
+  color: #fff;
+}
+
+.update-options select option {
+  background: #222;
+  color: #fff;
+}
+
+.update-options select option:hover {
+  background: #e63946;
+}

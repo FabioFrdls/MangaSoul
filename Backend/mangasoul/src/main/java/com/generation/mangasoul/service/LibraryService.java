@@ -45,7 +45,8 @@ public class LibraryService {
 		return lib.stream() 								// transforms the Library list into an object Library stream
                 .map(Library::getManga)					// maps each Library of the stream to a Manga object
                 .map(m -> new MangaDto(					// maps each manga in a MandaDto
-                        m.getImage(),
+                        m.getId(),
+                		m.getImage(),
                 		m.getTitle(),
                         m.getSummary(),
                         m.getGenres(),
@@ -64,7 +65,8 @@ public class LibraryService {
 	public List<MangaDto> mangaToDto(List<Manga> manga){
 		return manga.stream() 							
                 .map(m -> new MangaDto(					
-                        m.getImage(),
+                        m.getId(),
+                		m.getImage(),
                 		m.getTitle(),
                         m.getSummary(),
                         m.getGenres(),
@@ -81,12 +83,18 @@ public class LibraryService {
 	
 	// http methods
 	
-	public void insert(long userId, Manga manga, String status, String fav) {
+	public void insert(long userId, Manga manga) {
 		User user = userRepository.findById(userId).get();
-		Library lib = new Library(user, manga, status, fav);
+		//if(libraryRepository.findByUser_IdAndManga_Id(userId, manga.getId()) == null)
+			//return;
+		Library lib = new Library(user, manga, "", "no");
 		libraryRepository.save(lib);
 	}
 	
+	
+	public Library findById(long userId, long mangaId) {
+		return libraryRepository.findByUser_IdAndManga_Id(userId, mangaId);
+	}
 	
 	public List<MangaDto> findAll(long userId){
 		return libToDto(libraryRepository.findByUser_Id(userId));
@@ -102,7 +110,7 @@ public class LibraryService {
 	}
 
 	public List<MangaDto> findByFav(long userId, String fav) {
-	    return libToDto(libraryRepository.findByUser_IdAndStatus(userId, fav));
+	    return libToDto(libraryRepository.findByUser_IdAndFav(userId, fav));
 	}
 	
 	public List<MangaDto> findByStatAndFav(long userId, String status, String fav) {
