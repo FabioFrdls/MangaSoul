@@ -231,9 +231,12 @@ INSERT INTO manga_genre (manga_id, genre_id) VALUES
 (41, 1), (41, 3);
 
 INSERT INTO user (id, username, email, password, creation_timestamp, type)
-VALUES (1, 'user', 'utente1@example.com', '1234', NOW(), 'user');
-INSERT INTO user (id, username, email, password, creation_timestamp, type)
-VALUES (2, 'admin', 'admin@example.com', '1234', NOW(), 'admin');
+VALUES 
+  (1, 'admin', 'admin@example.com', '1234', NOW(), 'admin'),
+  (2, 'pio', 'pio@example.com', '1234', NOW(), 'user'),
+  (3, 'salvatore', 'salvatore@example.com', '1234', NOW(), 'user'),
+  (4, 'fabio', 'fabio@example.com', '1234', NOW(), 'user'),
+  (5, 'alessio', 'alessio@example.com', '1234', NOW(), 'user');
 
 INSERT INTO library (user_id, manga_id, status, fav) VALUES
 (1, 3, 'da leggere', 'no'),
@@ -247,11 +250,32 @@ INSERT INTO library (user_id, manga_id, status, fav) VALUES
 (1, 38, 'completato', 'no'),
 (1, 41, 'da leggere', 'si');
 
--- Review per l'utente con id 1
+-- Review per l'utente con id 2
 INSERT INTO review (score, text, user_id, manga_id, creation_timestamp) VALUES
-(4, 'Storia avvincente di Ciel e Sebastian. Perfetto mix di mistero e azione, ambientazione vittoriana curata. Consigliatissimo!', 1, 26, NOW() - INTERVAL 6 MONTH),
-(4, 'Capolavoro assoluto! Mondo vasto, personaggi indimenticabili. I temi di amicizia e sogni sono sublimi.', 1, 7, NOW() - INTERVAL 3 MONTH),
-(3, 'Premesse originali, bei disegni. A volte prevedibile ma merita una lettura.', 1, 12, NOW() - INTERVAL 8 MONTH),
-(2, 'Isayama ha sovvertito ogni aspettativa. Opera complessa su guerra e natura umana. Ogni capitolo è un colpo di scena!', 1, 18, NOW() - INTERVAL 2 MONTH),
-(4, 'Fujimoto è geniale! Storia cruda e imprevedibile. Mix perfetto di azione, horror e momenti surreali.', 1, 33, NOW() - INTERVAL 1 MONTH),
-(4, 'Ottimo shonen moderno. Sistema di magia ben strutturato, combattimenti spettacolari. Gojo iconico!', 1, 38, NOW() - INTERVAL 15 DAY);
+(4, 'Storia avvincente di Ciel e Sebastian. Perfetto mix di mistero e azione, ambientazione vittoriana curata. Consigliatissimo!', 2, 26, DATE_SUB(NOW(), INTERVAL 6 MONTH)),
+(5, 'Capolavoro assoluto! Mondo vasto, personaggi indimenticabili. I temi di amicizia e sogni sono sublimi.', 2, 7, DATE_SUB(NOW(), INTERVAL 3 MONTH)),
+(3, 'Premesse originali, bei disegni. A volte prevedibile ma merita una lettura.', 2, 12, DATE_SUB(NOW(), INTERVAL 8 MONTH)),
+(5, 'Isayama ha sovvertito ogni aspettativa. Opera complessa su guerra e natura umana. Ogni capitolo è un colpo di scena!', 2, 18, DATE_SUB(NOW(), INTERVAL 2 MONTH)),
+(4, 'Fujimoto è geniale! Storia cruda e imprevedibile. Mix perfetto di azione, horror e momenti surreali.', 2, 33, DATE_SUB(NOW(), INTERVAL 1 MONTH)),
+(4, 'Ottimo shonen moderno. Sistema di magia ben strutturato, combattimenti spettacolari. Gojo iconico!', 2, 38, DATE_SUB(NOW(), INTERVAL 15 DAY));
+
+-- Review per l'utente con id 3
+INSERT INTO review (score, text, user_id, manga_id, creation_timestamp) VALUES
+(5, 'Narrazione intensa e piena di colpi di scena. Una lettura obbligata.', 3, 10, DATE_SUB(NOW(), INTERVAL 7 MONTH)),
+(4, 'Classico immortale. Personaggi e atmosfere senza tempo.', 3, 15, DATE_SUB(NOW(), INTERVAL 2 MONTH)),
+(3, 'Storia interessante ma ritmo un po lento in alcuni punti.', 3, 21, DATE_SUB(NOW(), INTERVAL 5 MONTH)),
+(4, 'Avvincente e ben disegnato. Combattimenti spettacolari!', 3, 30, DATE_SUB(NOW(), INTERVAL 12 DAY));
+
+-- Review per l'utente con id 4
+INSERT INTO review (score, text, user_id, manga_id, creation_timestamp) VALUES
+(4, 'Storia cupa e filosofica. Perfetto mix di azione e riflessione sull esistenza.', 4, 11, DATE_SUB(NOW(), INTERVAL 9 MONTH)),
+(5, 'Shonen d avventura epico. Oda ha creato un universo vasto e coerente.', 4, 7, DATE_SUB(NOW(), INTERVAL 4 MONTH)),
+(3, 'Carino ma non sempre costante. Alcuni archi narrativi più forti di altri.', 4, 35, DATE_SUB(NOW(), INTERVAL 6 MONTH)),
+(4, 'Disegni spettacolari, battaglie intense e un protagonista iconico.', 4, 5, DATE_SUB(NOW(), INTERVAL 20 DAY));
+
+-- Review per l'utente con id 5
+INSERT INTO review (score, text, user_id, manga_id, creation_timestamp) VALUES
+(5, 'Emozionante e coinvolgente, ogni capitolo lascia il segno.', 5, 8, DATE_SUB(NOW(), INTERVAL 10 MONTH)),
+(4, 'Opera ben scritta, atmosfera unica e personaggi memorabili.', 5, 19, DATE_SUB(NOW(), INTERVAL 3 MONTH)),
+(3, 'Interessante ma non sempre brillante. Alcuni capitoli sono più forti.', 5, 28, DATE_SUB(NOW(), INTERVAL 7 MONTH)),
+(5, 'Capolavoro moderno. Temi maturi e grande profondità emotiva.', 5, 40, DATE_SUB(NOW(), INTERVAL 1 MONTH));

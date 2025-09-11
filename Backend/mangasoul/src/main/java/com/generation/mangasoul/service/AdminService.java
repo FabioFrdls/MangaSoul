@@ -88,8 +88,9 @@ public class AdminService {
 	 * It returns a list of map (because I am too lazy to use a dto)
 	 * All the review are sorted by time stamp
 	 * 
+	 * 
 	 * */
-	public List<Map<String, Object>> getReviewsById(String token, long id) {
+	public List<Map<String, Object>> getReviewsByUserId(String token, long id) {
 	    verifyAdmin(token);
 
 	    User user = userRepo.findById(id)
@@ -119,6 +120,7 @@ public class AdminService {
 	}
 	
 	
+	
 	/*
 	 * Here I defined some crud methods for Creating,
 	 * Updating and deleting manga having  the admin
@@ -143,8 +145,15 @@ public class AdminService {
 		
 		manga.setTitle(updatedManga.getTitle());
 		manga.setSummary(updatedManga.getSummary());
+		manga.setYear(updatedManga.getYear());
 		manga.setScore(updatedManga.getScore());
 	    manga.setImage(updatedManga.getImage());
+	    manga.setAuthor(updatedManga.getAuthor());
+	    manga.setEditor_name(updatedManga.getEditor_name());
+	    
+	    manga.setStatus(updatedManga.getStatus());
+	    manga.setVolumes(updatedManga.getVolumes());
+	    
 	    
 	    manga.getGenres().clear();
 	    manga.getGenres().addAll(updatedManga.getGenres());

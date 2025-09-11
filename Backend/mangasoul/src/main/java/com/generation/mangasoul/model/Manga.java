@@ -18,6 +18,8 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
 
@@ -28,32 +30,35 @@ public class Manga {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
-	@NotBlank(message = "title cannot be blank")
+	@NotBlank(message = "Title cannot be blank")
 	private String title;
 	
-	@NotBlank(message = "summary cannot be blank")
+	@NotBlank(message = "Summary cannot be blank")
 	@Lob
 	private String summary;
 
-	@Min(value = 1947, message = "doesn't exixts a manga written before 1947")
+	@Min(value = 1947, message = "Year must be greater than or equal to 1947")
 	private int year;
 	
-	@NotBlank(message = "image cannot be blank")
+	@NotBlank(message = "Image cannot be blank")
+	@Lob
 	private String image;
 	
-	@Positive()
+	@Positive(message = "Volumes must be a positive number")
 	private int volumes;
 	
-	@NotBlank(message = "editor name cannot be blank")
+	@NotBlank(message = "Editor name cannot be blank")
 	private String editor_name;
 	
 	private double score;
 	
-	@Pattern(regexp = "^(?i)(on going|completed|dropped)$")
+	@Pattern(regexp = "^(?i)(on going|completed|dropped)$", 
+	         message = "Status must be 'on going', 'completed', or 'dropped'")
 	private String status;
 	
 	@ManyToOne()
 	@JoinColumn(name = "author_id")
+	@NotNull(message = "You must select an author for this manga")
 	private Author author;
 	
 	@ManyToMany(fetch = FetchType.EAGER)
@@ -62,6 +67,7 @@ public class Manga {
 			joinColumns = @JoinColumn(name = "manga_id"),
 			inverseJoinColumns = @JoinColumn(name = "genre_id")
 	)
+	@NotEmpty(message = "You must select at least one genre")
 	private List<Genre> genres;
 	
 	@OneToMany(mappedBy = "manga")
@@ -211,4 +217,3 @@ public class Manga {
 	}	
 	
 }
-

@@ -19,6 +19,8 @@ import com.generation.mangasoul.model.Manga;
 import com.generation.mangasoul.model.User;
 import com.generation.mangasoul.service.AdminService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("api/admin")
 @CrossOrigin(origins = "*")
@@ -59,30 +61,30 @@ public class AdminController {
 	            @RequestHeader("access-token") String token,
 	            @PathVariable long id) {
 
-	        List<Map<String, Object>> reviews = adminService.getReviewsById(token, id);
+	        List<Map<String, Object>> reviews = adminService.getReviewsByUserId(token, id);
 	        return ResponseEntity.ok(reviews);
 	    }
 
 	// MANGA ENDPOINTS
 
-	@PostMapping("manga/")
+	@PostMapping("/manga/add")
 	public ResponseEntity<String> createManga(
 			@RequestHeader("access-token") String token, 
-			@RequestBody Manga manga) {
+			@RequestBody @Valid Manga manga) {
 		
 		return ResponseEntity.ok(adminService.createManga(token, manga));
 	}
 
-	@PutMapping("manga/{id}")
+	@PutMapping("/manga/put/{id}")
 	public ResponseEntity<String> updateManga(
 			@RequestHeader("access-token") String token, 
 			@PathVariable long id,
-			@RequestBody Manga updatedManga) {
+			@Valid @RequestBody Manga updatedManga) {
 		
 		return ResponseEntity.ok(adminService.updateManga(token, id, updatedManga));
 	}
 
-	@DeleteMapping("/manga/{id}")
+	@DeleteMapping("/manga/delete/{id}")
 	public ResponseEntity<String> deleteManga(
 			@RequestHeader("access-token") String token, 
 			@PathVariable long id) {
