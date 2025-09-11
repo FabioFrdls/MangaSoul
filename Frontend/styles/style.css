@@ -238,28 +238,33 @@ body {
 }
 
 #filterbox {
-  margin: 2rem auto 0;
-  max-width: 1200px;
-  padding-left: 2rem;
+  display: flex;
+  gap: 1rem; /* distanza tra i filtri */
+  flex-wrap: wrap;
+  align-items: center;
 }
 
 
-
-#filterbox select {
+#filterbox select,
+.authorSearch {
   background-color: #111;
   color: white;
   border: 1px solid #333;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border-radius: 5px;
 }
 
-#filterbox select:hover {
-  background-color: #e63946;
-}
-
-#filterbox select option:hover {
+#filterbox select:hover,
+.authorSearch:hover {
   background-color: #e63946;
 }
 
 #filterbox select option {
   background-color: #111;
   color: white;
+}
+
+#filterbox select option:hover {
+  background-color: #e63946;
 }
