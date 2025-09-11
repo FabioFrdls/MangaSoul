@@ -288,6 +288,7 @@ body {
   background-color: #e63946;
   color: white;
 }
-.clicked{
-  background-color: #e63946;
+#scorebtn.clicked {
+  background-color: #e63946 !important;
+  color: white;
 }
