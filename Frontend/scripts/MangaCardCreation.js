@@ -2,8 +2,12 @@ const MangaLink = "http://localhost:8080/api/manga";
 const GenresLink = "http://localhost:8080/api/genres"
 const genreBox = document.getElementById("genresBox");
 const reviewLink = "http://localhost:8080/api/review";
+let scoreFiltredHigh = false;
+let scoreFiltreLow = false;
 let genresFiltred = false;
 let authorFiltred = false;
+let scoreBox = document.getElementById("scorebtn");
+let scorebtnClickedTime = 0;
 let cardContainer = document.getElementById("cardContainer"); // html made div
 let authorBox = document.getElementById("authorSearch"); // i get the input element
 //function for getting all genres
@@ -84,6 +88,17 @@ function deploymentCard() {
         mangas = mangas.filter(manga =>
           manga.genres.some(g => g.name === genreBox.value)
         );
+      }
+      if (authorFiltred && authorBox.value.trim() !== "") {
+        mangas = mangas.filter(manga =>
+          manga.author.full_name.toLowerCase().includes(authorBox.value.trim().toLowerCase())
+        );
+      }
+      if (scoreFiltreLow) {
+        mangas = mangas.sort((a, b) => a.score - b.score);
+      }
+      if (scoreFiltredHigh) {
+        mangas = mangas.sort((a, b) => b.score - a.score)
       }
 
       mangas.forEach(manga => { // find all the element of the array
@@ -333,8 +348,8 @@ function showReview(manga) {
 window.onload = () => {
   deploymentCard(); // charging all the card on the start of the website
   let input = document.getElementById("search");
-   input.addEventListener("input", () => {
-      cardCreationByInput();
+  input.addEventListener("input", () => {
+    cardCreationByInput();
   });
 
   let inputOffAuthor = document.getElementById("authorSearch")
@@ -346,7 +361,7 @@ window.onload = () => {
       cardCreationByAuthorInput()
       return;
     }
-    authorFiltred=false;
+    authorFiltred = false;
     deploymentCard();
   }
   )
@@ -358,6 +373,35 @@ window.onload = () => {
 
 
 };
+scoreBox.addEventListener("click", () => {
+  if (scorebtnClickedTime === 0) {
+    scorebtnClickedTime = 1;
+    scoreBox.classList.toggle("clicked")
+    scoreBox.textContent = "decrescente"
+    scoreFiltreLow = true;
+    scoreFiltredHigh = false;
+    deploymentCard();
+    return;
+  }
+  if (scorebtnClickedTime === 1) {
+    scorebtnClickedTime = 2;
+    scoreBox.textContent = "crescente"
+    scoreFiltreLow = false;
+    scoreFiltredHigh = true;
+    deploymentCard();
+    return;
+  }
+  if (scorebtnClickedTime === 2) {
+    scorebtnClickedTime = 0;
+    scoreBox.textContent ="Valutazione"
+    scoreBox.classList.toggle("clicked")
+    scoreFiltreLow = false;
+    scoreFiltredHigh = false;
+    deploymentCard();
+    return;
+  }
+})
+
 genreBox.addEventListener("change", () => {
   if (genreBox.value !== "") {
     genresFiltred = true
