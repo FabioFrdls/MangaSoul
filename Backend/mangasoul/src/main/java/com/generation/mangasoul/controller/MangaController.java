@@ -38,5 +38,10 @@ public class MangaController {
 	public ResponseEntity<List<Manga>> getTop(){
 		return ResponseEntity.ok(mangaServ.getTop());
 	}
+	@GetMapping("/authorInput")
+	public ResponseEntity<List<Manga>> getAuthorInput(@RequestParam String keywords){
+		return ResponseEntity.ok(mangaServ.findByauthorKeyword(keywords));
+		
+	}
 
 }

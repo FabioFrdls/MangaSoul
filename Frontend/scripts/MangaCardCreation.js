@@ -3,7 +3,9 @@ const GenresLink = "http://localhost:8080/api/genres"
 const genreBox = document.getElementById("genresBox");
 const reviewLink = "http://localhost:8080/api/review";
 let genresFiltred = false;
+let authorFiltred = false;
 let cardContainer = document.getElementById("cardContainer"); // html made div
+let authorBox = document.getElementById("authorSearch"); // i get the input element
 //function for getting all genres
 function deployGenres() {
   fetch(GenresLink + "/get")
@@ -94,7 +96,7 @@ function deploymentCard() {
 // function to deploy cards on input
 function cardCreationByInput() {
   let input = document.getElementById("search"); // i get the input element
-  let query = input.value.trim(); // i take the value of the input
+  let query = input.value.trim().toLowerCase(); // i take the value of the input
   cardContainer.innerHTML = ""; // i clear the container
 
   if (query === "") {
@@ -103,6 +105,40 @@ function cardCreationByInput() {
   }
 
   fetch(MangaLink + "/findWkeyWords?keywords=" + encodeURIComponent(query)) // i call the endpoint with query param
+    .then(response => response.json())
+    .then(mangas => {
+      if (mangas.length === 0) {
+        cardContainer.innerHTML = "<p>Nessun manga trovato.</p>"; // verify if there is something that match input
+        return;
+      }
+      if (genresFiltred) {
+        mangas = mangas.filter(manga =>
+          manga.genres.some(g => g.name === genreBox.value)
+        );
+      }
+      if (authorFiltred && authorBox.value.trim() !== "") {
+        mangas = mangas.filter(manga =>
+          manga.author.full_name.toLowerCase().includes(authorBox.value.trim().toLowerCase())
+        );
+      }
+
+      mangas.forEach(manga => { // find all the element of the array
+        cardContainer.appendChild(createCard(manga)); // giving the card to the html made div 
+      });
+    })
+    .catch(err => console.error("Errore nella ricerca:", err));
+}
+function cardCreationByAuthorInput() {
+  let input = document.getElementById("authorSearch"); // i get the input element
+  let query = input.value.trim(); // i take the value of the input
+  cardContainer.innerHTML = ""; // i clear the container
+
+  if (query === "") {
+    deploymentCard(); // if there is no input it deploy all the card
+    return; // i stop the function
+  }
+
+  fetch(MangaLink + "/authorInput?keywords=" + encodeURIComponent(query)) // i call the endpoint with query param
     .then(response => response.json())
     .then(mangas => {
       if (mangas.length === 0) {
@@ -297,9 +333,23 @@ function showReview(manga) {
 window.onload = () => {
   deploymentCard(); // charging all the card on the start of the website
   let input = document.getElementById("search");
+   input.addEventListener("input", () => {
+      cardCreationByInput();
+  });
+
+  let inputOffAuthor = document.getElementById("authorSearch")
   // i add a listener so when i type, the function cardCreationByInput is called
-  input.addEventListener("input", cardCreationByInput);
   deployGenres();
+  inputOffAuthor.addEventListener("input", () => {
+    if (authorBox.value !== "") {
+      authorFiltred = true;
+      cardCreationByAuthorInput()
+      return;
+    }
+    authorFiltred=false;
+    deploymentCard();
+  }
+  )
   /*
     document.getElementById("reviewForm").addEventListener("submit", function (event) {
       event.preventDefault(); // prevent page reload

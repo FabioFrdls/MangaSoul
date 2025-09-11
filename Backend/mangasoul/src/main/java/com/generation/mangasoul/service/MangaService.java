@@ -28,6 +28,9 @@ public class MangaService {
 	public List<Manga> findByKeyWord(String keyWord) {
 		return mangaRep.findByTitleContainingIgnoreCase(keyWord);
 	}
+	public List<Manga> findByauthorKeyword(String keyWord){
+		return mangaRep.findByAuthor_FullNameContainingIgnoreCase(keyWord);
+	}
 
 	public void createManga(Manga manga) {
 		if (!mangaRep.existsById(manga.getId())) { // verify if the manga didn't exist yet

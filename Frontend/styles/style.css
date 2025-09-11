@@ -1,5 +1,6 @@
 /* GLOBAL STYLE*/
-html, body {
+html,
+body {
   min-height: 100vh;
   margin: 0;
   padding: 0;
@@ -12,7 +13,7 @@ body {
   box-sizing: border-box;
   position: relative;
   min-height: 100vh;
-  padding-bottom: 70px; 
+  padding-bottom: 70px;
 }
 
 
@@ -134,23 +135,23 @@ body {
 
 /* Card */
 .card {
-  position: relative; 
+  position: relative;
   background: #1a1a1a;
   border-radius: 8px;
   padding: 1rem;
   text-align: center;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
   transition: transform 0.2s;
   max-width: 250px;
   justify-self: center;
 }
 
 
-.card:hover { 
+.card:hover {
   transform: translateY(-5px);
-   background-color: #b52d36;
-   cursor: pointer;
- }
+  background-color: #b52d36;
+  cursor: pointer;
+}
 
 .card img {
   width: 100%;
@@ -175,7 +176,7 @@ body {
   display: -webkit-box;
   overflow: hidden;
   flex-grow: 1;
-    text-align: center;
+  text-align: center;
 }
 
 .card button {
@@ -189,64 +190,76 @@ body {
   transition: background 0.2s;
   margin-top: auto;
 }
+
 .favorite {
-  position: absolute; 
-  top: 10px;          
-  right: 10px;        
-  font-size: 24px;    
-  cursor: pointer;    
-  color: red;        
-  z-index: 10;        
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 24px;
+  cursor: pointer;
+  color: red;
+  z-index: 10;
 }
+
 .favorite:hover {
-  color: #ff4d5a; 
-  transform: scale(1.2); 
+  color: #ff4d5a;
+  transform: scale(1.2);
 }
-.card button:hover { background: #ff4d5a; }
+
+.card button:hover {
+  background: #ff4d5a;
+}
+
 /*Switcher of Theme*/
 .inverted {
   filter: invert(1) hue-rotate(180deg);
 }
+
 .inverted img {
-    filter: invert(1) hue-rotate(180deg); 
+  filter: invert(1) hue-rotate(180deg);
 }
-.notClicked{
+
+.notClicked {
   visibility: hidden;
 }
+
 .switcher {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  width: 60px;      
+  width: 60px;
   height: auto;
   cursor: pointer;
   z-index: 9999;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-  object-fit: contain; 
-  background-color: transparent; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  object-fit: contain;
+  background-color: transparent;
 }
+
 #filterbox {
-  background-color: #111; 
-  color: white;           
+  margin: 2rem auto 0;
+  max-width: 1200px;
+  padding-left: 2rem;
 }
+
 
 
 #filterbox select {
-  background-color: #111; 
-  color: white;           
-  border: 1px solid #333; 
+  background-color: #111;
+  color: white;
+  border: 1px solid #333;
 }
-#filterbox select:hover{
+
+#filterbox select:hover {
   background-color: #e63946;
 }
-  #filterbox select option:hover {
-    background-color: #e63946;
-  }
 
-#filterbox select option {
-  background-color: #111; 
-  color: white;          
+#filterbox select option:hover {
+  background-color: #e63946;
 }
 
-
+#filterbox select option {
+  background-color: #111;
+  color: white;
+}
