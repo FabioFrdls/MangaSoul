@@ -376,7 +376,7 @@ window.onload = () => {
 scoreBox.addEventListener("click", () => {
   if (scorebtnClickedTime === 0) {
     scorebtnClickedTime = 1;
-    scoreBox.classList.toggle("clicked")
+    scoreBox.classList.add("clicked")
     scoreBox.textContent = "decrescente"
     scoreFiltreLow = true;
     scoreFiltredHigh = false;
@@ -394,7 +394,7 @@ scoreBox.addEventListener("click", () => {
   if (scorebtnClickedTime === 2) {
     scorebtnClickedTime = 0;
     scoreBox.textContent ="Valutazione"
-    scoreBox.classList.toggle("clicked")
+    scoreBox.classList.remove("clicked")
     scoreFiltreLow = false;
     scoreFiltredHigh = false;
     deploymentCard();
