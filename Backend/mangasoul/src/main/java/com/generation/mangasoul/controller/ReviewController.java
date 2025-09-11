@@ -16,10 +16,14 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.generation.mangasoul.model.Manga;
 import com.generation.mangasoul.model.Review;
 import com.generation.mangasoul.model.User;
 import com.generation.mangasoul.service.ReviewService;
 import com.generation.mangasoul.service.UserService;
+import com.generation.mangasoul.utility.ReviewDto;
+
+import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("api/review")
@@ -35,35 +39,71 @@ public class ReviewController {
 	}
 
 	@PostMapping("/insert")
-	public ResponseEntity<String> insertReview(
-			@RequestHeader(name = "access-token") String token,
-			@RequestBody Review r)
-	{
-		
-		// we get the token through user
+	public ResponseEntity<String> insertReview(@RequestHeader(name = "access-token") String token,
+			@RequestBody @Valid  Review r) {
 		User u = userService.getUserByToken(token);
-		
-		// check if it's null
-		if(u == null)
-		{
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("something about token is not right.");
+
+		if (u == null) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token non valido.");
 		}
-		
-		// review ha un getter/setter di user
+
 		r.setUser(u);
-		
+
+		Manga manga = r.getManga();
+
+		if (reviewService.reviewExists(u, manga)) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).body("Hai già lasciato una recensione per questo manga.");
+		}
+
 		reviewService.postReview(r);
-		return ResponseEntity.ok("Review posted successfully");
+		return ResponseEntity.ok("Recensione pubblicata con successo.");
 	}
+
+	@GetMapping("/sortedReviewsByMangaIdDesc")
+	public ResponseEntity<List<ReviewDto>> sortedReviewsByMangaIdDesc(@RequestParam(name = "manga_id") long id) {
+
+		List<ReviewDto> reviewDtoListDesc = reviewService.sortedReviewsByMangaIdDesc(id);
+
+		return ResponseEntity.ok(reviewDtoListDesc);
+	}
+
+	@GetMapping("/sortedReviewsByMangaIdAsc")
+	public ResponseEntity<List<ReviewDto>> sortedReviewsByMangaIdAsc(@RequestParam(name = "manga_id") long id) {
+
+		List<ReviewDto> reviewDtoListAsc = reviewService.sortedReviewsByMangaIdAsc(id);
+
+		return ResponseEntity.ok(reviewDtoListAsc);
+	}
+
+	// notes in service, I'll keep it here in case admin needs it
+	// --------------------------------------------------------------------------------------------------------
+	@GetMapping("/getReviewsByMangaIdAsc")
+	public ResponseEntity<List<Review>> getReviewsByMangaIdAsc(@RequestParam(name = "manga_id") long id) {
+
+		List<Review> reviewListAsc = reviewService.getReviewsByMangaIdAsc(id);
+
+		return ResponseEntity.ok(reviewListAsc);
+
+	}
+
+	@GetMapping("/getReviewsByMangaIdDesc")
+	public ResponseEntity<List<Review>> getReviewsByMangaIdDesc(@RequestParam(name = "manga_id") long id) {
+
+		List<Review> reviewListDesc = reviewService.getReviewsByMangaIdDesc(id);
+
+		return ResponseEntity.ok(reviewListDesc);
+	}
+
+	// --------------------------------------------------------------------------------------------------------
 
 	// gets the review based on manga Id, otherwise all manga's review section
 	// would print every single review, including the ones from other manga.
 	@GetMapping("/getMangaById")
 	public ResponseEntity<List<Review>> getMangaById(@RequestParam(name = "manga_id") long id) {
-		
+
 		List<Review> reviewList = reviewService.getReviewsByMangaId(id);
-		
-		return ResponseEntity.ok(reviewList); 
+
+		return ResponseEntity.ok(reviewList);
 	}
 
 	// somewhat redundant, has no practical use
@@ -81,7 +121,8 @@ public class ReviewController {
 		return ResponseEntity.ok(reviewList);
 	}
 
-	// mostly for admin
+	// mostly for admin, also somewhat redundant, getting all reviews from a
+	// specific user would be more fitting
 	@GetMapping("/getById/{id}")
 	public ResponseEntity<Review> getReviewById(@PathVariable long id) {
 
@@ -93,8 +134,11 @@ public class ReviewController {
 
 	}
 
+	// should allow the user to change their comment, should timestamp be updated
+	// aswell?
+	// or we just flag the comment with " edited "
 	@PutMapping("/updateById/{id}")
-	public ResponseEntity<Review> updateById(@PathVariable long id, @RequestBody Review r) {
+	public ResponseEntity<Review> updateById(@PathVariable long id, @RequestBody @Valid Review r) {
 
 		r.setId(id);
 		reviewService.updateReviewById(r);

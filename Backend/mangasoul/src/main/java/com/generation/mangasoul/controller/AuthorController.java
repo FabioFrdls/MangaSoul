@@ -41,7 +41,7 @@ public class AuthorController {
 	}
 
 	@PostMapping("/insert")
-	public ResponseEntity<String> insertReview(@RequestBody Author a) {
+	public ResponseEntity<String> insertAuthor(@RequestBody Author a) {
 
 		autoreService.postAuthor(a);
 

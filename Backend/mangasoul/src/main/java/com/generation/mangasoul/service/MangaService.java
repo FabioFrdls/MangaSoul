@@ -21,8 +21,8 @@ public class MangaService {
 		return mangaRep.findAll();
 	}
 
-	public void findById(long id) {
-		mangaRep.findById(id);
+	public Manga findById(long id) {
+		return mangaRep.findById(id).orElseThrow();
 	}
 
 	public List<Manga> findByKeyWord(String keyWord) {

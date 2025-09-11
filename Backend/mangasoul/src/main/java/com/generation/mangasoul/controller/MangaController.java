@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,6 +28,14 @@ public class MangaController {
 	@GetMapping("/find")
 	public ResponseEntity<List<Manga>> findManga() {
 		return ResponseEntity.ok(mangaServ.findManga());
+	}
+	
+	@GetMapping("/findById/{id}")
+	public ResponseEntity<Manga> findMangaById(@PathVariable long id){
+		
+		Manga manga = mangaServ.findById(id);
+		
+		return ResponseEntity.ok(manga);
 	}
 
 	@GetMapping("/findWkeyWords")

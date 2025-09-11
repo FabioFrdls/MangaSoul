@@ -2,6 +2,8 @@ package com.generation.mangasoul.model;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -30,6 +32,8 @@ public class Review {
 	@JoinColumn(name = "manga_id")
 	private Manga manga;
 	
+	// shows timeStamp till the minute
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm")
 	private LocalDateTime creationTimestamp;
 
 	public Review() {
