@@ -238,11 +238,16 @@ body {
 }
 
 #filterbox {
+ 
   display: flex;
-  gap: 1rem; /* distanza tra i filtri */
+  gap: 2rem;
   flex-wrap: wrap;
   align-items: center;
+  margin: 2rem auto 0;
+   max-width: 1200px;
+    padding-left: 2rem;
 }
+
 
 
 #filterbox select,
