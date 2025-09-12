@@ -16,15 +16,15 @@
 
   <!-- Stile custom -->
   <link rel="stylesheet" href="styles/style.css" />
-  <link rel="stylesheet" href="styles/scroller.css">
-  <link rel="stylesheet" href="styles/home.css">
+  <link rel="stylesheet" href="styles/scroller.css" />
+  <link rel="stylesheet" href="styles/home.css" />
 
   <title>Home - Manga Soul</title>
 </head>
 
 <body>
+  <img id="themeSwitcher" src="images/switch_bianco_nero/soul_eater_sun.png" alt="switcher" class="switcher" />
 
-<img id="themeSwitcher" src="images/switch_bianco_nero/soul_eater_sun.png" alt="switcher" class="switcher">
   <!-- NAVBAR -->
   <nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
@@ -36,14 +36,47 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarContent">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="catalogo.html">Catalogo</a>
+          </li>
+          <!-- Libreria visibile solo agli utenti loggati -->
+          <li class="nav-item" id="libraryNavItem" style="display: none">
+            <a class="nav-link" href="library.html">Libreria</a>
+          </li>
+          <!-- Dashboard visibile solo agli admin -->
+          <li class="nav-item" id="adminDashboard" style="display: none">
+            <a class="nav-link" href="admin.html"> Dashboard </a>
+          </li>
+        </ul>
         <ul class="navbar-nav ms-auto">
-          <li class="nav-item" id="guestLogin"><a class="nav-link" href="login.html">Login</a></li>
-          <li class="nav-item" id="guestRegister"><a class="nav-link" href="register.html">Sign Up</a></li>
-          <li class="nav-item dropdown" id="userProfile" style="display:none">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Profilo</a>
+          <!-- Guest Links -->
+          <li class="nav-item" id="guestLogin">
+            <a class="nav-link" href="login.html">Login</a>
+          </li>
+          <li class="nav-item" id="guestRegister">
+            <a class="nav-link" href="register.html">Sign Up</a>
+          </li>
+          <!-- User Profile -->
+          <li class="nav-item dropdown" id="userProfile" style="display: none">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+              <i class="fas fa-user me-1"></i>Profilo
+            </a>
             <ul class="dropdown-menu dropdown-menu-end">
-              <li><a class="dropdown-item" href="library.html" id="libraryLink">Libreria</a></li>
-              <li><a class="dropdown-item text-danger" href="#" id="logoutBtn" onclick="logout()">Logout</a></li>
+              <li>
+                <a class="dropdown-item" href="library.html">La Mia Libreria</a>
+              </li>
+              <li>
+                <hr class="dropdown-divider" />
+              </li>
+              <li>
+                <a class="dropdown-item text-danger" href="#" id="logoutBtn" onclick="logout()">
+                  <i class="fas fa-sign-out-alt me-1"></i>Logout
+                </a>
+              </li>
             </ul>
           </li>
         </ul>
@@ -63,24 +96,22 @@
     <h2 class="text-white text-center mb-3">Scopri i manga più letti</h2>
 
     <div class="manga-scroller-wrap position-relative">
-      <button class="scroller-btn left" aria-label="Prev"><</button>
+      <button class="scroller-btn left" aria-label="Prev">&lt;</button>
 
       <!-- Container delle card che possono poi essere scrollate-->
-      <div id="manga-scroller" class="manga-scroller">
-        
-      </div>
+      <div id="manga-scroller" class="manga-scroller"></div>
 
-      <button class="scroller-btn right" aria-label="Next">></button>
+      <button class="scroller-btn right" aria-label="Next">&gt;</button>
     </div>
   </section>
-
 
   <!-- CHI SIAMO -->
   <section class="container my-5 section-dark">
     <h2 class="text-center mb-4">Chi siamo</h2>
     <p class="text-center">
-      Manga Soul nasce con l’idea di riunire gli appassionati di manga in un’unica piattaforma digitale.
-      Offriamo un catalogo aggiornato, recensioni e una libreria personale sempre accessibile.
+      Manga Soul nasce con l’idea di riunire gli appassionati di manga in
+      un’unica piattaforma digitale. Offriamo un catalogo aggiornato,
+      recensioni e una libreria personale sempre accessibile.
     </p>
   </section>
 
@@ -88,10 +119,9 @@
   <section class="container my-5 section-dark">
     <h2 class="text-center mb-4">Il nostro team</h2>
     <div class="row justify-content-center">
-
       <!-- Membro 1 -->
       <div class="col-6 col-md-3 text-center mb-4 team-member">
-        <img src="images/team_pics/fabio.jpg" alt="Membro 1" class="rounded-circle mb-3" width="120" height="120">
+        <img src="images/team_pics/fabio.jpg" alt="Membro 1" class="rounded-circle mb-3" width="120" height="120" />
         <h5>Fabio</h5>
         <a href="https://github.com/FabioFrdls" target="_blank" class="btn btn-sm mt-2">
           <i class="fab fa-github"></i> GitHub
@@ -100,7 +130,7 @@
 
       <!-- Membro 2 -->
       <div class="col-6 col-md-3 text-center mb-4 team-member">
-        <img src="images/team_pics/alessio.jpg" alt="Membro 2" class="rounded-circle mb-3" width="120" height="120">
+        <img src="images/team_pics/alessio.jpg" alt="Membro 2" class="rounded-circle mb-3" width="120" height="120" />
         <h5>Alessio</h5>
         <a href="https://github.com/Ditolo23" target="_blank" class="btn btn-sm mt-2">
           <i class="fab fa-github"></i> GitHub
@@ -109,7 +139,7 @@
 
       <!-- Membro 3 -->
       <div class="col-6 col-md-3 text-center mb-4 team-member">
-        <img src="images/team_pics/pio.jpg" alt="Membro 3" class="rounded-circle mb-3" width="120" height="120">
+        <img src="images/team_pics/pio.jpg" alt="Membro 3" class="rounded-circle mb-3" width="120" height="120" />
         <h5>Pio</h5>
         <a href="https://github.com/pio918" target="_blank" class="btn btn-sm mt-2">
           <i class="fab fa-github"></i> GitHub
@@ -118,13 +148,12 @@
 
       <!-- Membro 4 -->
       <div class="col-6 col-md-3 text-center mb-4 team-member">
-        <img src="images/team_pics/salvatore.jpg" alt="Membro 4" class="rounded-circle mb-3" width="120" height="120">
+        <img src="images/team_pics/salvatore.jpg" alt="Membro 4" class="rounded-circle mb-3" width="120" height="120" />
         <h5>Salvatore</h5>
         <a href="https://github.com/SalvatoreBaiano" target="_blank" class="btn btn-sm mt-2">
           <i class="fab fa-github"></i> GitHub
         </a>
       </div>
-
     </div>
   </section>
 
