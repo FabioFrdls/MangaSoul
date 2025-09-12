@@ -1,4 +1,5 @@
 const URL_ADMIN_API = "http://localhost:8080/api/admin";
+const URL_REVIEWS_API = "http://localhost:8080/api/review";
 
 /**
  * when the content is loaded it will run the function
@@ -137,6 +138,8 @@ async function openReviewsModal(userId, username) {
           review.timestamp
         ).toLocaleDateString()} | Score: ${review.score}</small>
         <p class="mt-2 mb-0"><strong>Commento:</strong> ${review.text}</p>
+        <button class="mt-2 btn btn-danger btn-sm dlt-review-btn" onclick="deleteReview(${review.id
+          })">Elimina Recensione</button>
       </div>`;
       });
 
@@ -316,5 +319,25 @@ async function deleteUser() {
     console.error("Errore fetch elimina utente:", error);
     errContainer.innerHTML =
       '<div class="alert alert-danger">Errore durante la fetch</div>';
+  }
+}
+
+
+
+
+
+async function deleteReview(id) {
+  try {
+    const response = await fetch(URL_REVIEWS_API + "/deleteById/" + id, {
+      method: "DELETE",
+    });
+
+    if (response.ok) {
+      window.alert("Recensione eliminata correttamente");
+      window.location.reload();
+    } else {
+      window.alert("Sium");
+    }
+  } catch (error) {
   }
 }
