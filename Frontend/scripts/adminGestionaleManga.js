@@ -570,6 +570,8 @@ async function viewReviews(mangaId) {
             Score: ${review.score}
           </small>
           <p class="mt-2 mb-0">${review.text}</p>
+          <button class="mt-2 btn btn-danger btn-sm dlt-review-btn" onclick="deleteReview(${review.id
+          })">Elimina Recensione</button>
       </div>
     `;
       });
@@ -580,5 +582,22 @@ async function viewReviews(mangaId) {
     console.error("Errore fetch recensioni manga:", error);
     container.innerHTML =
       '<div class="alert alert-danger">Errore nel caricamento delle recensioni</div>';
+  }
+}
+
+async function deleteReview(id) {
+  try {
+    const response = await fetch(URL_REVIEWS_API + "/deleteById/" + id, {
+      method: "DELETE",
+    });
+
+    if (response.ok) {
+      window.alert("Recensione eliminata correttamente");
+      window.location.reload();
+    } else {
+      window.alert("Sium");
+    }
+  } catch (error) {
+    console.err("Errore durante l'eliminazione della review");
   }
 }
