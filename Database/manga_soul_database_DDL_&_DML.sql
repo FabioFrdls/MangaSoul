@@ -238,17 +238,61 @@ VALUES
   (4, 'fabio', 'fabio@example.com', '1234', NOW(), 'user'),
   (5, 'alessio', 'alessio@example.com', '1234', NOW(), 'user');
 
+-- Libreria per l'utente 2 (pio)
 INSERT INTO library (user_id, manga_id, status, fav) VALUES
-(1, 3, 'da leggere', 'no'),
-(1, 7, 'in lettura', 'si'),
-(1, 12, 'completato', 'no'),
-(1, 18, 'in lettura', 'no'),
-(1, 21, 'abbandonato', 'no'),
-(1, 26, 'completato', 'si'),
-(1, 29, 'da leggere', 'si'),
-(1, 33, 'in lettura', 'no'),
-(1, 38, 'completato', 'no'),
-(1, 41, 'da leggere', 'si');
+(2, 1, 'completato', 'si'),    -- Berserk
+(2, 2, 'completato', 'si'),    -- Monster  
+(2, 5, 'in lettura', 'no'),    -- My Hero Academia
+(2, 7, 'completato', 'si'),    -- One Piece
+(2, 9, 'in lettura', 'si'),    -- Hunter x Hunter
+(2, 15, 'completato', 'no'),   -- One-Punch Man
+(2, 18, 'completato', 'si'),   -- L'attacco Dei Giganti
+(2, 20, 'da leggere', 'no'),   -- I Tre Adolf
+(2, 32, 'completato', 'no'),   -- Vinland Saga
+(2, 39, 'in lettura', 'no'),   -- JoJo
+(2, 40, 'da leggere', 'si');   -- Akira
+
+-- Libreria per l'utente 3 (salvatore)
+INSERT INTO library (user_id, manga_id, status, fav) VALUES
+(3, 3, 'completato', 'si'),    -- 20th Century Boys
+(3, 6, 'in lettura', 'no'),    -- Black Clover
+(3, 8, 'completato', 'si'),    -- Full Metal Alchemist
+(3, 10, 'completato', 'no'),   -- Naruto
+(3, 11, 'abbandonato', 'no'),  -- Bleach
+(3, 14, 'completato', 'si'),   -- Kaguya-Sama
+(3, 16, 'abbandonato', 'no'),  -- Fairy Tail
+(3, 19, 'completato', 'no'),   -- Magi
+(3, 27, 'in lettura', 'si'),   -- Black Lagoon
+(3, 33, 'da leggere', 'si'),   -- Chainsaw Man
+(3, 38, 'in lettura', 'no');   -- Jujutsu Kaisen
+
+-- Libreria per l'utente 4 (fabio)  
+INSERT INTO library (user_id, manga_id, status, fav) VALUES
+(4, 4, 'completato', 'no'),    -- Pluto
+(4, 7, 'in lettura', 'si'),    -- One Piece
+(4, 12, 'in lettura', 'no'),   -- Ragna Crimson
+(4, 13, 'completato', 'si'),   -- Oshi No Ko
+(4, 17, 'abbandonato', 'no'),  -- Edens Zero
+(4, 21, 'da leggere', 'no'),   -- Hanako-kun
+(4, 29, 'completato', 'si'),   -- Devilman
+(4, 30, 'completato', 'no'),   -- Soul Eater
+(4, 34, 'completato', 'si'),   -- Fire Punch
+(4, 36, 'da leggere', 'no'),   -- Tomie
+(4, 41, 'in lettura', 'no');   -- Dragon Ball
+
+-- Libreria per l'utente 5 (alessio)
+INSERT INTO library (user_id, manga_id, status, fav) VALUES
+(5, 1, 'da leggere', 'si'),    -- Berserk
+(5, 5, 'completato', 'no'),    -- My Hero Academia
+(5, 9, 'abbandonato', 'no'),   -- Hunter x Hunter
+(5, 15, 'in lettura', 'si'),   -- One-Punch Man
+(5, 18, 'completato', 'si'),   -- L'attacco Dei Giganti
+(5, 26, 'in lettura', 'no'),   -- Black Butler
+(5, 28, 'abbandonato', 'no'),  -- Yu-Gi-Oh!
+(5, 31, 'completato', 'no'),   -- Fire Force
+(5, 35, 'completato', 'si'),   -- Hell's Paradise
+(5, 37, 'da leggere', 'no'),   -- Uzumaki
+(5, 39, 'da leggere', 'si');   -- JoJo
 
 -- Review per l'utente con id 2
 INSERT INTO review (score, text, user_id, manga_id, creation_timestamp) VALUES
