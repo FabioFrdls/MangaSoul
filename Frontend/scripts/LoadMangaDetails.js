@@ -5,7 +5,8 @@ const reviewLink = "http://localhost:8080/api/review";
 
 async function loadMangaData() {
     const params = new URLSearchParams(window.location.search);
-    currentMangaId = params.get('id');  // assign global here
+    currentMangaId = localStorage.getItem("currentMangaId");
+
 
     if (!currentMangaId) {
         alert("ID del manga non trovato.");
@@ -102,7 +103,6 @@ async function loadMangaData() {
         
 
 
-
 async function postReview() {
   const text = document.getElementById("comment").value.trim();
   const score = parseFloat(document.getElementById("score").value);
@@ -129,6 +129,8 @@ async function postReview() {
     score: score,
     manga: { id: currentMangaId }
   };
+
+  console.log(review);
 
   try {
     const response = await fetch(`${reviewLink}/insert`, {
@@ -163,6 +165,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (backButton) {
       backButton.addEventListener("click", e => {
         e.preventDefault();
+        localStorage.removeItem("currentMangaId");
         window.location.href = 'catalogo.html';
       });
     }
@@ -202,54 +205,47 @@ function ShowReviews(mangaId) {
 function renderReviews(reviewList) {
   const reviewsContainer = document.getElementById("mangaReview");
   reviewsContainer.innerHTML = "";
-
+  
   if (reviewList.length === 0) {
-    reviewsContainer.innerHTML =
-      "<p>Non ci sono recensioni. Vuoi essere il primo?</p>";
+    reviewsContainer.innerHTML = `<p class = "no-reviews-message">Non ci sono recensioni. Vuoi essere il primo?</p>`;
     return;
   }
-
+  
+  let list = "";
   for (let i = 0; i < reviewList.length; i++) {
     const review = reviewList[i];
-    const reviewDiv = document.createElement("div");
-    reviewDiv.className = "review";
-
+    
     let username = "persona magica";
     if (review.username && review.username.trim() !== "") {
       username = review.username;
     }
-
-    let uName = document.createElement("h3");
-    uName.textContent = username;
-
-    let score = document.createElement("p");
-    score.textContent = "Punteggio: " + review.score;
-
-    let comment = document.createElement("p");
-    comment.textContent = review.text;
-
-    let timestamp = document.createElement("p");
+    
     let rawDate = review.creationTimestamp.replace(" ", "T");
     let date = new Date(rawDate);
-
+    let dateString = "";
+    
     if (!isNaN(date)) {
       let year = date.getFullYear();
       let month = (date.getMonth() + 1).toString().padStart(2, "0");
       let day = date.getDate().toString().padStart(2, "0");
       let hour = date.getHours().toString().padStart(2, "0");
       let minutes = date.getMinutes().toString().padStart(2, "0");
-
-      timestamp.textContent =
-        year + "-" + month + "-" + day + " " + hour + ":" + minutes;
+      dateString = year + "-" + month + "-" + day + " " + hour + ":" + minutes;
     } else {
-      timestamp.textContent = "Data non valida";
+      dateString = "Data non valida";
     }
-
-    reviewDiv.appendChild(uName);
-    reviewDiv.appendChild(score);
-    reviewDiv.appendChild(comment);
-    reviewDiv.appendChild(timestamp);
-
-    reviewsContainer.appendChild(reviewDiv);
+    
+    list += `
+      <div class="list-group-item mb-3 shadow-sm rounded p-3">
+          <h5 class="mb-1">${username}</h5>
+          <small class="text-muted">
+            Data: ${dateString} |
+            Score: ${review.score}
+          </small>
+          <p class="mt-2 mb-0">${review.text}</p>
+      </div>
+    `;
   }
+  
+  reviewsContainer.innerHTML = list;
 }

@@ -100,30 +100,28 @@
             </div>
 
             <!-- REVIEW FORM, post comment/score, lo stile è tipo quello di youtube -->
-      <form id="reviewForm" style="max-width: 400px; display: flex; flex-direction: column; gap: 10px;">
-        <label for="comment">Commento:</label>
-        <textarea id="comment" name="comment" required rows="3"
-          style="resize: vertical; padding: 8px; font-size: 1rem;"></textarea>
+            <form id="reviewForm" style="max-width: 400px; display: flex; flex-direction: column; gap: 10px;">
+                <label for="comment">Commento:</label>
+                <textarea id="comment" name="comment" required rows="3"
+                    style="resize: vertical; padding: 8px; font-size: 1rem;"></textarea>
 
-        <label for="score">Punteggio:</label>
-        <input type="number" id="score" name="score" min="0" max="5" step="0.1" required
-          style="width: 80px; padding: 5px; font-size: 1rem;">
+                <label for="score">Punteggio:</label>
+                <input type="number" id="score" name="score" min="0" max="5" step="0.1" required
+                    style="width: 80px; padding: 5px; font-size: 1rem;">
 
-        <button type="submit" style="align-self: flex-start; padding: 8px 16px; font-size: 1rem;">Aggiungi
-          commento</button>
-      </form>
-        <label for="reviewOrder">Ordina per</label>
-        <select id="reviewOrder" onchange="ShowReviews(currentMangaId)">
-        <option value="desc">Dal più recente</option>
-        <option value="asc">Dal più vecchio</option>
-        </select>
-        <div id="mangaReview"></div>
+                <button type="button" class="post-rvw" onclick="postReview()" style="align-self: flex-start; padding: 8px 16px; font-size: 1rem;">Aggiungi
+                    commento</button>
+            </form>
+            <label for="reviewOrder">Ordina per</label>
+            <select id="reviewOrder" onchange="ShowReviews(currentMangaId)">
+                <option value="desc">Dal più recente</option>
+                <option value="asc">Dal più vecchio</option>
+            </select>
+            <div id="mangaReview"></div>
 
         </div>
     </div>
-    </div>
-    </div>
-    </div>
+
 
     <!-- Footer della pagina-->
     <footer class="site-footer">
@@ -136,6 +134,8 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <script src="scripts/LoadMangaDetails.js"> </script>
+    <script src="scripts/navbar.js"></script>
+    <script src="scripts/authentication.js"></script>
 </body>
 
 </html>

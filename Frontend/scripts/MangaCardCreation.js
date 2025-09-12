@@ -192,6 +192,9 @@ function openMangaDetails(manga) {
     genres: JSON.stringify(manga.genres)
   }).toString();
   window.open("MangaDetails.html?" + params, "_blank")
+
+  localStorage.setItem("currentMangaId", manga.id);
+
 }
 // function to open modal with details
 function openModel(manga) {

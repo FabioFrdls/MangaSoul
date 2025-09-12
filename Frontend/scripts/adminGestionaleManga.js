@@ -471,7 +471,7 @@ async function editManga() {
   };
 
   try {
-    const response = await fetch(URL_ADMIN_API2 + "/manga/put/" + id, {
+    const response = await fetch(URL_ADMIN_API + "/manga/put/" + id, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -554,6 +554,7 @@ async function viewReviews(mangaId) {
     if (response.ok) {
       const reviews = await response.json();
 
+      console.log(reviews);
       if (reviews.length === 0) {
         container.innerHTML =
           '<div class="alert alert-info">Nessuna recensione per questo manga</div>';
@@ -565,7 +566,7 @@ async function viewReviews(mangaId) {
       <div class="list-group-item mb-3 shadow-sm rounded p-3">
           <h5 class="mb-1">${review.user.username}</h5>
           <small class="text-muted">
-            Data: ${new Date(review.timestamp).toLocaleDateString()} | 
+            Data: ${new Date(review.creationTimestamp).toLocaleDateString()} | 
             Score: ${review.score}
           </small>
           <p class="mt-2 mb-0">${review.text}</p>
