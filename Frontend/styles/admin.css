@@ -8,6 +8,7 @@
 }
 
 .admin-hero h1 {
+  margin-top: 5%;
   margin-bottom: 0.5rem;
   color: #e63946;               
   font-size: 2rem;
@@ -513,4 +514,15 @@ tr {
     width: 80px;
     text-align: center;
     color: #888;
+}
+
+
+/* Maka in background fixed */
+.anime-character {
+  position: fixed;
+  bottom: 10%;
+  right: 5%;
+  max-width: 250px;
+  z-index: -1;
+  opacity: 0.9;
 }
