@@ -15,6 +15,9 @@
 </head>
 
 <body>
+
+     <img id="themeSwitcher" src="images/switch_bianco_nero/soul_eater_sun.png" alt="switcher" class="switcher" />
+
     <!-- NAVBAR -->
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
@@ -26,24 +29,46 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="catalogo.html">Catalogo</a>
+                    </li>
+                    <!-- Libreria visibile solo agli utenti loggati -->
+                    <li class="nav-item" id="libraryNavItem" style="display: none">
+                        <a class="nav-link" href="library.html">Libreria</a>
+                    </li>
+                    <!-- Dashboard visibile solo agli admin -->
+                    <li class="nav-item" id="adminDashboard" style="display: none">
+                        <a class="nav-link" href="admin.html"> Dashboard </a>
+                    </li>
+                </ul>
                 <ul class="navbar-nav ms-auto">
+                    <!-- Guest Links -->
                     <li class="nav-item" id="guestLogin">
                         <a class="nav-link" href="login.html">Login</a>
                     </li>
                     <li class="nav-item" id="guestRegister">
                         <a class="nav-link" href="register.html">Sign Up</a>
                     </li>
+                    <!-- User Profile -->
                     <li class="nav-item dropdown" id="userProfile" style="display: none">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                            Profilo <i class="bi bi-person-circle"></i>
+                            <i class="fas fa-user me-1"></i>Profilo
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li>
-                                <a class="dropdown-item" href="library.html" id="libraryLink">Libreria</a>
+                                <a class="dropdown-item" href="library.html">La Mia Libreria</a>
                             </li>
                             <li>
-                                <a class="dropdown-item text-danger" href="#" id="logoutBtn"
-                                    onclick="logout()">Logout</a>
+                                <hr class="dropdown-divider" />
+                            </li>
+                            <li>
+                                <a class="dropdown-item text-danger" href="#" id="logoutBtn" onclick="logout()">
+                                    <i class="fas fa-sign-out-alt me-1"></i>Logout
+                                </a>
                             </li>
                         </ul>
                     </li>
@@ -170,6 +195,7 @@
     <script src="scripts/navbar.js"></script>
     <script src="scripts/authentication.js"></script>
     <script src="scripts/adminGestionaleAutori.js"></script>
+    <script src="scripts/Switch_Theme.js"></script>
 </body>
 
 </html>
