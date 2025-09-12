@@ -7,7 +7,12 @@ let scoreFiltreLow = false;
 let genresFiltred = false;
 let authorFiltred = false;
 let scoreBox = document.getElementById("scorebtn");
+let dateFiltredLow = false;
+let dateFiltredHigh = false;
+let dateBox = document.getElementById("datebtn");
 let scorebtnClickedTime = 0;
+let datebtnClickedTime = 0;
+
 let cardContainer = document.getElementById("cardContainer"); // html made div
 let authorBox = document.getElementById("authorSearch"); // i get the input element
 //function for getting all genres
@@ -98,7 +103,13 @@ function deploymentCard() {
         mangas = mangas.sort((a, b) => a.score - b.score);
       }
       if (scoreFiltredHigh) {
-        mangas = mangas.sort((a, b) => b.score - a.score)
+        mangas = mangas.sort((a, b) => b.score - a.score);
+      }
+      if(dateFiltredLow){
+        mangas=mangas.sort((a,b)=> a.year-b.year);
+      }
+      if(dateFiltredHigh){
+        mangas=mangas.sort((a,b)=> b.year-a.year);
       }
 
       mangas.forEach(manga => { // find all the element of the array
@@ -265,12 +276,8 @@ window.onload = () => {
     deploymentCard();
   }
   )
-  
-  // SUBMIT 
-    // document.getElementById("reviewForm").addEventListener("submit", function (event) {
-    //   event.preventDefault(); // prevent page reload
-    //   postReview();
-    // });
+
+
 
 
 };
@@ -294,10 +301,38 @@ scoreBox.addEventListener("click", () => {
   }
   if (scorebtnClickedTime === 2) {
     scorebtnClickedTime = 0;
-    scoreBox.textContent ="Valutazione"
+    scoreBox.textContent = "Valutazione"
     scoreBox.classList.remove("clicked")
     scoreFiltreLow = false;
     scoreFiltredHigh = false;
+    deploymentCard();
+    return;
+  }
+})
+dateBox.addEventListener("click", () => {
+  if (datebtnClickedTime === 0) {
+    datebtnClickedTime = 1;
+    dateBox.classList.add("clicked")
+    dateBox.textContent = "decrescente"
+    dateFiltreLow = true;
+    dateFiltredHigh = false;
+    deploymentCard();
+    return;
+  }
+  if (datebtnClickedTime === 1) {
+    datebtnClickedTime = 2;
+    dateBox.textContent = "crescente"
+    dateFiltreLow = false;
+    dateFiltredHigh = true;
+    deploymentCard();
+    return;
+  }
+  if (datebtnClickedTime === 2) {
+    datebtnClickedTime = 0;
+    dateBox.textContent = "Data Pubblicazione"
+    dateBox.classList.remove("clicked")
+    dateFiltreLow = false;
+    dateFiltredHigh = false;
     deploymentCard();
     return;
   }
