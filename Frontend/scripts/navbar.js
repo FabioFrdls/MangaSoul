@@ -12,34 +12,36 @@ function checkAuthNavbar() {
   const guestLogin = document.getElementById("guestLogin");
   const guestRegister = document.getElementById("guestRegister");
   const userProfile = document.getElementById("userProfile");
+  const libraryNavItem = document.getElementById("libraryNavItem");
+  const adminDashboard = document.getElementById("adminDashboard");
+
+  guestLogin.style.display = "none";
+  guestRegister.style.display = "none";
+  userProfile.style.display = "none";
+  libraryNavItem.style.display = "none";
+  adminDashboard.style.display = "none";
 
   if (token && type === "user") {
-
-    // Utente loggato
     guestLogin.style.display = "none";
     guestRegister.style.display = "none";
     userProfile.style.display = "block";
-  
+    libraryNavItem.style.display = "block";
   } else if (token && type === "admin") {
-    
     // Admin loggato
     guestLogin.style.display = "none";
     guestRegister.style.display = "none";
     userProfile.style.display = "block";
-    // TODO: devo aggiungere opzioni solo per admin
-  
+    adminDashboard.style.display = "block";
+    libraryNavItem.style.display = "none";
   } else {
-  
     // Utente non loggato
     guestLogin.style.display = "block";
     guestRegister.style.display = "block";
     userProfile.style.display = "none";
-  
+    libraryNavItem.style.display = "none";
+    adminDashboard.style.display = "none";
   }
 }
-
-
-
 
 // viene eseguito da index.html non appena il dom viene caricato
 document.addEventListener("DOMContentLoaded", checkAuthNavbar);
