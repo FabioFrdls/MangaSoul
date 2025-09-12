@@ -3,7 +3,7 @@ const GenresLink = "http://localhost:8080/api/genres"
 const genreBox = document.getElementById("genresBox");
 const reviewLink = "http://localhost:8080/api/review";
 let scoreFiltredHigh = false;
-let scoreFiltreLow = false;
+let scoreFiltredLow = false;
 let genresFiltred = false;
 let authorFiltred = false;
 let scoreBox = document.getElementById("scorebtn");
@@ -99,7 +99,7 @@ function deploymentCard() {
           manga.author.full_name.toLowerCase().includes(authorBox.value.trim().toLowerCase())
         );
       }
-      if (scoreFiltreLow) {
+      if (scoreFiltredLow) {
         mangas = mangas.sort((a, b) => a.score - b.score);
       }
       if (scoreFiltredHigh) {
@@ -285,16 +285,16 @@ scoreBox.addEventListener("click", () => {
   if (scorebtnClickedTime === 0) {
     scorebtnClickedTime = 1;
     scoreBox.classList.add("clicked")
-    scoreBox.textContent = "decrescente"
-    scoreFiltreLow = true;
+    scoreBox.textContent = "crescente"
+    scoreFiltredLow = true;
     scoreFiltredHigh = false;
     deploymentCard();
     return;
   }
   if (scorebtnClickedTime === 1) {
     scorebtnClickedTime = 2;
-    scoreBox.textContent = "crescente"
-    scoreFiltreLow = false;
+    scoreBox.textContent = "decrescente"
+    scoreFiltredLow = false;
     scoreFiltredHigh = true;
     deploymentCard();
     return;
@@ -303,7 +303,7 @@ scoreBox.addEventListener("click", () => {
     scorebtnClickedTime = 0;
     scoreBox.textContent = "Valutazione"
     scoreBox.classList.remove("clicked")
-    scoreFiltreLow = false;
+    scoreFiltredLow = false;
     scoreFiltredHigh = false;
     deploymentCard();
     return;
@@ -313,16 +313,16 @@ dateBox.addEventListener("click", () => {
   if (datebtnClickedTime === 0) {
     datebtnClickedTime = 1;
     dateBox.classList.add("clicked")
-    dateBox.textContent = "decrescente"
-    dateFiltreLow = true;
+    dateBox.textContent = "crescente"
+    dateFiltredLow = true;
     dateFiltredHigh = false;
     deploymentCard();
     return;
   }
   if (datebtnClickedTime === 1) {
     datebtnClickedTime = 2;
-    dateBox.textContent = "crescente"
-    dateFiltreLow = false;
+    dateBox.textContent = "decrescente"
+    dateFiltredLow = false;
     dateFiltredHigh = true;
     deploymentCard();
     return;
@@ -331,7 +331,7 @@ dateBox.addEventListener("click", () => {
     datebtnClickedTime = 0;
     dateBox.textContent = "Data Pubblicazione"
     dateBox.classList.remove("clicked")
-    dateFiltreLow = false;
+    dateFiltredLow = false;
     dateFiltredHigh = false;
     deploymentCard();
     return;
