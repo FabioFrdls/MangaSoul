@@ -97,5 +97,10 @@ import jakarta.persistence.EntityNotFoundException;
   			throw new ReviewNotFoundException();
   		}
   	}
+  	
+  	
+  	public List<Review> getByUser(User user){
+  		return reviewRepo.findByUser(user);
+  	}
 
   }

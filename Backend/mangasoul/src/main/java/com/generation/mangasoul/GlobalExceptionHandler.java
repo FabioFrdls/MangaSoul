@@ -57,7 +57,8 @@ public class GlobalExceptionHandler  extends ResponseEntityExceptionHandler{
 		ReviewNotFoundException.class,
 		SessionNotFoundException.class,
 		EntityNotFoundException.class,
-		MangaNotFoundException.class
+		MangaNotFoundException.class,
+		RuntimeException.class
 	})
 	public ResponseEntity<Object> handleCustomException(RuntimeException ex){
 		Map<String, Object> error = new HashMap<String, Object>();
@@ -75,6 +76,10 @@ public class GlobalExceptionHandler  extends ResponseEntityExceptionHandler{
 				|| ex instanceof DuplicateParamException 
 				|| ex instanceof LoginException) {
 			status = 401;
+		}
+		
+		else if(ex instanceof RuntimeException) {
+			status = 400;
 		}
 		
 		

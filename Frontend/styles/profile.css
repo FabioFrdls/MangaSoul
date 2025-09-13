@@ -1,0 +1,410 @@
+/* =========================
+   PROFILE PAGE STYLE
+   ========================= */
+
+/* Hero Profilo */
+.profile-hero {
+  background-color: #1a1a1a;
+  color: #fff;
+  padding: 3rem 1rem;
+  border-radius: 12px;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.profile-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background-color: #222;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  position: relative;
+}
+
+.avatar-overlay i {
+  color: #e63946;
+}
+
+.profile-name {
+  font-size: 2rem;
+  color: #e63946;
+  margin-bottom: 0.2rem;
+}
+
+.profile-email {
+  color: #bbb;
+  font-size: 0.95rem;
+  margin-bottom: 1rem;
+}
+
+.profile-stats {
+  display: flex;
+  gap: 2rem;
+  justify-content: flex-start;
+  margin-top: 1rem;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-number {
+  font-size: 1.3rem;
+  font-weight: bold;
+  display: block;
+}
+
+.stat-label {
+  font-size: 0.85rem;
+  color: #ccc;
+}
+
+/* Buttons */
+.profile-hero .btn-outline-danger {
+  border-color: #e63946;
+  color: #e63946;
+}
+
+.profile-hero .btn-outline-danger:hover {
+  background-color: #e63946;
+  color: #fff;
+}
+
+/* Tabs */
+.profile-tabs .nav-link {
+  color: #ddd !important;
+  font-weight: 500;
+}
+
+.profile-tabs .nav-link.active {
+  color: #fff !important;
+  background-color: #e63946 !important;
+  border-color: #e63946 #e63946 #fff;
+}
+
+.profile-content {
+  background-color: #1a1a1a;
+  padding: 1rem;
+  border-radius: 12px;
+  margin-top: 1rem;
+  color: #fff;
+}
+
+/* =========================
+   LIST GROUP DARK THEME
+   ========================= */
+
+/* Stile generale per i list-group */
+.list-group {
+  background-color: transparent;
+}
+
+.list-group-item {
+  background-color: #222 !important;
+  color: #fff !important;
+  border: 1px solid #444 !important;
+  transition: all 0.3s ease;
+}
+
+.list-group-item:hover {
+  background-color: #2a2a2a !important;
+  border-color: #e63946 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(230, 57, 70, 0.2);
+}
+
+/* Titoli nei list-group */
+.list-group-item h5 {
+  color: #e63946 !important;
+  margin-bottom: 0.5rem;
+}
+
+/* Testo secondario nei list-group */
+.list-group-item small,
+.list-group-item .text-muted {
+  color: #aaa !important;
+}
+
+/* Paragrafi nei list-group */
+.list-group-item p {
+  color: #ddd !important;
+}
+
+/* Bottoni nei list-group */
+.list-group-item .btn-danger {
+  background-color: #e63946;
+  border-color: #e63946;
+  color: #fff;
+}
+
+.list-group-item .btn-danger:hover {
+  background-color: #ff4d5a;
+  border-color: #ff4d5a;
+  transform: scale(1.05);
+}
+
+.list-group-item .btn-secondary {
+  background-color: #444;
+  border-color: #444;
+  color: #fff;
+}
+
+.list-group-item .btn-secondary:hover {
+  background-color: #e63946;
+  border-color: #e63946;
+}
+
+.list-group-item .btn-outline-danger {
+  color: #e63946;
+  border-color: #e63946;
+  background-color: transparent;
+}
+
+.list-group-item .btn-outline-danger:hover {
+  background-color: #e63946;
+  color: #fff;
+}
+
+/* Bordo sinistro per i manga nella libreria */
+.list-group-item.border-start.border-danger {
+  border-left: 4px solid #e63946 !important;
+}
+
+/* Immagini nei list-group (per la libreria degli amici) */
+.list-group-item img {
+  border: 1px solid #444;
+}
+
+/* Row alignment nei list-group */
+.list-group-item .row {
+  align-items: center;
+}
+
+/* Shadow personalizzato per list-group-item */
+.list-group-item.shadow-sm {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* =========================
+   FRIENDS & REQUESTS LIST (originali mantenuti)
+   ========================= */
+#friendsList,
+#pendingRequests,
+#searchResults {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.friend-card,
+.request-card {
+  background-color: #222;
+  border-radius: 12px;
+  padding: 0.8rem;
+  flex: 1 1 200px;
+  max-width: 250px;
+  text-align: center;
+  color: #fff;
+  transition: 0.3s;
+}
+
+.friend-card:hover,
+.request-card:hover {
+  background-color: #333;
+}
+
+.friend-card button,
+.request-card button {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  padding: 0.3rem 0.5rem;
+}
+
+/* =========================
+   MODALS
+   ========================= */
+.modal-content {
+  background-color: #1a1a1a;
+  color: #fff;
+  border-radius: 12px;
+}
+
+.modal-header,
+.modal-footer {
+  border-color: #444;
+}
+
+.modal-title {
+  color: #fff;
+}
+
+.form-control,
+.form-select {
+  background-color: #222;
+  border: 1px solid #444;
+  color: #fff;
+  border-radius: 6px;
+  padding: 0.5rem;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: #e63946;
+  box-shadow: 0 0 0 0.2rem rgba(230, 57, 70, 0.5);
+  outline: none;
+}
+
+label {
+  color: #fff;
+  font-weight: 500;
+}
+
+/* Search results */
+.search-results {
+  max-height: 300px;
+  overflow-y: auto;
+  margin-top: 0.5rem;
+}
+
+/* =========================
+   MODAL FIXES
+   ========================= */
+/* Aumenta la larghezza del modal per l'aggiunta amici */
+#addFriendModal .modal-dialog {
+  max-width: 700px;
+}
+
+/* Fix per i risultati della ricerca */
+#addFriendModal .search-results {
+  width: 100%;
+}
+
+#addFriendModal .search-results .list-group {
+  width: 100%;
+}
+
+#addFriendModal .search-results .list-group-item {
+  width: 100% !important;
+  display: block !important;
+}
+
+#addFriendModal .search-results .d-flex {
+  width: 100% !important;
+  display: flex !important;
+}
+
+/* Assicura che gli elementi flex prendano tutto lo spazio */
+#addFriendModal .search-results .d-flex .col {
+  flex: 1;
+}
+
+#addFriendModal .search-results .d-flex .col-auto {
+  flex-shrink: 0;
+}
+
+/* =========================
+   MODAL LIBRERIA AMICI - Stile specifico
+   ========================= */
+#friendLibraryModal .list-group-item {
+  background-color: #222 !important;
+  border-left: 4px solid #e63946 !important;
+}
+
+#friendLibraryModal .list-group-item h5 {
+  color: #e63946 !important;
+}
+
+#friendLibraryModal .list-group-item .text-muted {
+  color: #999 !important;
+}
+
+#friendLibraryModal .list-group-item img {
+  border: 2px solid #444;
+  transition: transform 0.3s;
+}
+
+#friendLibraryModal .list-group-item:hover img {
+  transform: scale(1.05);
+  border-color: #e63946;
+}
+
+/* =========================
+   RESPONSIVE HERO PROFILO
+   ========================= */
+@media (max-width: 768px) {
+  .profile-hero {
+    padding: 2rem 1rem;
+    text-align: center;
+  }
+
+  .profile-hero .row {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .profile-hero .col-md-3,
+  .profile-hero .col-md-6,
+  .profile-hero .col-md-3.text-end {
+    text-align: center !important;
+    margin-bottom: 1rem;
+  }
+
+  .profile-hero .profile-avatar {
+    width: 100px;
+    height: 100px;
+  }
+
+  .profile-name {
+    font-size: 1.6rem;
+  }
+
+  .profile-email {
+    font-size: 0.85rem;
+  }
+
+  .profile-stats {
+    flex-direction: row;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 0.5rem;
+  }
+
+  .stat-item {
+    flex: 1;
+  }
+
+  .stat-number {
+    font-size: 1.1rem;
+  }
+
+  .profile-hero .btn-outline-danger {
+    font-size: 0.85rem;
+    padding: 0.4rem 0.8rem;
+  }
+}
+
+/* =========================
+   RESPONSIVE FRIENDS & REQUESTS
+   ========================= */
+@media (max-width: 576px) {
+  #friendsList,
+  #pendingRequests,
+  #searchResults {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .friend-card,
+  .request-card {
+    max-width: 90%;
+  }
+
+  /* Modal responsive */
+  #addFriendModal .modal-dialog {
+    max-width: 95%;
+    margin: 1rem;
+  }
+}

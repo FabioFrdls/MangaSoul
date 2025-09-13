@@ -40,7 +40,8 @@ public class ReviewController {
 
 	@PostMapping("/insert")
 	public ResponseEntity<String> insertReview(@RequestHeader(name = "access-token") String token,
-			@RequestBody @Valid  Review r) {
+			@RequestBody @Valid Review r) {
+
 		User u = userService.getUserByToken(token);
 
 		if (u == null) {
@@ -152,6 +153,25 @@ public class ReviewController {
 		reviewService.deleteReviewById(id);
 		return ResponseEntity.ok("Review successfully deleted");
 
+	}
+
+	/*
+	 * I need this for the user in his private area
+	 * 
+	 * Pio
+	 * 
+	 */
+
+	@GetMapping("/getByToken")
+	public ResponseEntity<List<Review>> getByToken(@RequestHeader(name = "access-token") String token){
+		User user = userService.getUserByToken(token);
+		List<Review> reviews = reviewService.getByUser(user);
+		
+		if(user == null) {
+			return ResponseEntity.noContent().build();
+		}
+		
+		return ResponseEntity.ok(reviews);
 	}
 
 }
