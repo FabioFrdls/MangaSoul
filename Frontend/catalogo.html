@@ -17,48 +17,73 @@
 
   <!-- Import del css -->
   <link rel="stylesheet" href="styles/style.css" />
-  <link rel="stylesheet" href="styles/mangaCards.css">
+  <link rel="stylesheet" href="styles/mangaCards.css" />
 
   <title>Catalogo - Manga Soul</title>
 </head>
 
 <body>
+
+   <img id="themeSwitcher" src="images/switch_bianco_nero/soul_eater_sun.png" alt="switcher" class="switcher" />
+
   <!-- NAVBAR -->
   <nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
-      <!-- Logo e titolo -->
       <a class="navbar-brand" href="index.html">
         <img src="images/logo.png" alt="Logo" class="logo-navbar" />
         <span>Manga Soul</span>
       </a>
-
-      <!-- Toggler per mobile -->
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
         <span class="navbar-toggler-icon"></span>
       </button>
-
-      <!-- Menu -->
       <div class="collapse navbar-collapse" id="navbarContent">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="catalogo.html">Catalogo</a>
+          </li>
+          <!-- Libreria visibile solo agli utenti loggati -->
+          <li class="nav-item" id="libraryNavItem" style="display: none">
+            <a class="nav-link" href="library.html">Libreria</a>
+          </li>
+          <!-- Dashboard visibile solo agli admin -->
+          <li class="nav-item" id="adminDashboard" style="display: none">
+            <a class="nav-link" href="admin.html"> Dashboard </a>
+          </li>
+        </ul>
         <ul class="navbar-nav ms-auto">
-          <!-- Link visibili solo se l'utente NON è loggato -->
+          <!-- Guest Links -->
           <li class="nav-item" id="guestLogin">
             <a class="nav-link" href="login.html">Login</a>
           </li>
           <li class="nav-item" id="guestRegister">
             <a class="nav-link" href="register.html">Sign Up</a>
           </li>
-
-          <!-- Dropdown visibile solo se l'utente è loggato -->
+          <!-- User Profile -->
           <li class="nav-item dropdown" id="userProfile" style="display: none">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-              Profilo <i class="bi bi-person-circle"></i>
+              <i class="fas fa-user me-1"></i>Profilo
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
               <li>
-                <a class="dropdown-item" href="library.html" id="libraryLink">Libreria</a>
+                <a class="dropdown-item" id="profileLink" href="profile.html">Il Mio Profilo</a>
+              </li>
+
+              <li>
+                <a class="dropdown-item" id="adminDashboardLink" href="admin.html">Dashboard Admin</a>
               </li>
               <li>
-                <a class="dropdown-item text-danger" href="#" id="logoutBtn" onclick="logout()">Logout</a>
+                <a class="dropdown-item" id="libraryLink" href="library.html">La Mia Libreria</a>
+              </li>
+              <li>
+                <hr class="dropdown-divider" />
+              </li>
+              <li>
+                <a class="dropdown-item text-danger" href="#" id="logoutBtn" onclick="logout()">
+                  <i class="fas fa-sign-out-alt me-1"></i>Logout
+                </a>
               </li>
             </ul>
           </li>
@@ -82,89 +107,12 @@
   <div id="filterbox" class="filterbox">
     <label for="genresBox">Scegliere un genere</label>
     <select name="genresBox" id="genresBox"></select>
-    <input type="text" id="authorSearch" placeholder="ricerca per autore" class="authorSearch">
+    <input type="text" id="authorSearch" placeholder="ricerca per autore" class="authorSearch" />
     <button id="scorebtn">Valutazione</button>
     <button id="datebtn">Data Pubblicazione</button>
   </div>
-<!--Card Container -->
+  <!--Card Container -->
   <div id="cardContainer" class="cards-container"></div>
-
-  <!-- Modal 
- <div id="modal">
-  <div id="modalContent">
-    <span id="closeButton">&times;</span>
-    <div id="modalImageContainer">
-      <img id="mangaImage" src="" alt="Manga Image">
-    </div>
-    <div id="modalInfo">
-  <h5 class="inRed" id="mangaTitle" style="margin-bottom: 1.5rem;"></h5>
-  
-  <div class="modal-info-row">
-    <span class="modal-label">Trama:</span>
-    <p class="modal-content" id="mangaSummaryBody"></p>
-  </div>
-  
-  <div class="modal-info-row">
-    <span class="modal-label">Genere:</span>
-    <p class="modal-content" id="mangaGenresBody"></p>
-  </div>
-  
-  <div class="modal-info-row">
-    <span class="modal-label">Anno d'uscita:</span>
-    <p class="modal-content" id="mangaYearBody"></p>
-  </div>
-  
-  <div class="modal-info-row">
-    <span class="modal-label">Autore:</span>
-    <p class="modal-content" id="mangaAuthorBody"></p>
-  </div>
-  
-  <div class="modal-info-row">
-    <span class="modal-label">Editore:</span>
-    <p class="modal-content" id="mangaEditorBody"></p>
-  </div>
-  
-  <div class="modal-info-row">
-    <span class="modal-label">N° volumi:</span>
-    <p class="modal-content" id="mangaVolumesBody"></p>
-  </div>
-  
-  <div class="modal-info-row">
-    <span class="modal-label">Stato:</span>
-    <p class="modal-content" id="mangaStatusBody"></p>
-  </div>
-  
-  <div class="modal-score-row">
-    <span class="modal-score-label">Valutazione:</span>
-    <p class="modal-score-content" id="mangaScoreBody"></p>
-  </div>
-
-
-   REVIEW FORM, post comment/score, lo stile è tipo quello di youtube 
-      <form id="reviewForm" style="max-width: 400px; display: flex; flex-direction: column; gap: 10px;">
-        <label for="comment">Commento:</label>
-        <textarea id="comment" name="comment" required rows="3"
-          style="resize: vertical; padding: 8px; font-size: 1rem;"></textarea>
-
-        <label for="score">Punteggio:</label>
-        <input type="number" id="score" name="score" min="0" max="5" step="0.1" required
-          style="width: 80px; padding: 5px; font-size: 1rem;">
-
-        <button type="submit" style="align-self: flex-start; padding: 8px 16px; font-size: 1rem;">Aggiungi
-          commento</button>
-      </form>
-
-       <div id="mangaReview"></div>
-
-    </div>
-  </div>
-</div>
-  </div>
-</div>
-
--->
-
-
 
   <!-- Footer della pagina-->
   <footer class="site-footer">
@@ -185,6 +133,7 @@
   <script src="scripts/navbar.js"></script>
   <script src="scripts/authentication.js"></script>
   <script src="scripts/MangaCardCreation.js"></script>
+  <script src="scripts/Switch_Theme.js"></script>
 </body>
 
 </html>

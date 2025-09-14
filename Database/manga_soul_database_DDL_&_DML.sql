@@ -12,6 +12,16 @@ CREATE TABLE user (
     type VARCHAR(10) NOT NULL
 );
 
+CREATE TABLE friendship (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT NOT NULL,
+    friend_id BIGINT NOT NULL,
+    status VARCHAR(255) NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES user(id),
+    FOREIGN KEY (friend_id) REFERENCES user(id)
+);
+
+
 CREATE TABLE session (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     user_id BIGINT NOT NULL,

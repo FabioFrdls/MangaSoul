@@ -1,292 +1,480 @@
 <!DOCTYPE html>
 <html lang="it">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
     <link rel="shortcut icon" href="images/logo.png" />
     <link rel="stylesheet" href="styles/style.css" />
     <link rel="stylesheet" href="styles/admin.css" />
 
     <title>Dashboard Admin - Manga</title>
-</head>
+  </head>
 
-<body>
-    <!-- NAVBAR -->
-    <nav class="navbar navbar-expand-lg">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="index.html">
-                <img src="images/logo.png" alt="Logo" class="logo-navbar" />
-                <span>Manga Soul</span>
+  <body>
+     <img id="themeSwitcher" src="images/switch_bianco_nero/soul_eater_sun.png" alt="switcher" class="switcher" />
+
+     <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="index.html">
+        <img src="images/logo.png" alt="Logo" class="logo-navbar" />
+        <span>Manga Soul</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarContent">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="catalogo.html">Catalogo</a>
+          </li>
+          <!-- Libreria visibile solo agli utenti loggati -->
+          <li class="nav-item" id="libraryNavItem" style="display: none">
+            <a class="nav-link" href="library.html">Libreria</a>
+          </li>
+          <!-- Dashboard visibile solo agli admin -->
+          <li class="nav-item" id="adminDashboard" style="display: none">
+            <a class="nav-link" href="admin.html"> Dashboard </a>
+          </li>
+        </ul>
+        <ul class="navbar-nav ms-auto">
+          <!-- Guest Links -->
+          <li class="nav-item" id="guestLogin">
+            <a class="nav-link" href="login.html">Login</a>
+          </li>
+          <li class="nav-item" id="guestRegister">
+            <a class="nav-link" href="register.html">Sign Up</a>
+          </li>
+          <!-- User Profile -->
+          <li class="nav-item dropdown" id="userProfile" style="display: none">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+              <i class="fas fa-user me-1"></i>Profilo
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarContent">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item" id="guestLogin">
-                        <a class="nav-link" href="login.html">Login</a>
-                    </li>
-                    <li class="nav-item" id="guestRegister">
-                        <a class="nav-link" href="register.html">Sign Up</a>
-                    </li>
-                    <li class="nav-item dropdown" id="userProfile" style="display: none">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                            Profilo <i class="bi bi-person-circle"></i>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end">
-                            <li>
-                                <a class="dropdown-item" href="library.html" id="libraryLink">Libreria</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item text-danger" href="#" id="logoutBtn"
-                                    onclick="logout()">Logout</a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li>
+                <a class="dropdown-item" id="profileLink" href="profile.html">Il Mio Profilo</a>
+              </li>
 
-
+              <li>
+                <a class="dropdown-item" id="adminDashboardLink" href="admin.html">Dashboard Admin</a>
+              </li>
+              <li>
+                <a class="dropdown-item" id="libraryLink" href="library.html">La Mia Libreria</a>
+              </li>
+              <li>
+                <hr class="dropdown-divider" />
+              </li>
+              <li>
+                <a class="dropdown-item text-danger" href="#" id="logoutBtn" onclick="logout()">
+                  <i class="fas fa-sign-out-alt me-1"></i>Logout
+                </a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
     <div class="container mt-4">
-        <div style="
+      <div
+        style="
           display: flex;
           align-items: center;
           gap: 10px;
           flex-wrap: wrap;
           margin-bottom: 1rem;
-        ">
-            <h2 class="mb-0 text-white" style="margin-right: auto">
-                Gestionale Manga
-            </h2>
-            <input type="text" class="search-input-admin" id="mangaSearchInput" placeholder="Cerca manga..."
-                style="height: 30px; padding: 2px 8px; font-size: 0.9rem" />
-            <button class="btn btn-success btn-sm" id="addMangaBtn" onclick="openModalAddManga()">
-                Aggiungi Manga
-            </button>
-        </div>
-        <div id="manga-container" class="responsive"></div>
+        "
+      >
+        <h2 class="mb-0 text-white" style="margin-right: auto">
+          Gestionale Manga
+        </h2>
+        <input
+          type="text"
+          class="search-input-admin"
+          id="mangaSearchInput"
+          placeholder="Cerca manga..."
+          style="height: 30px; padding: 2px 8px; font-size: 0.9rem"
+        />
+        <button
+          class="btn btn-success btn-sm"
+          id="addMangaBtn"
+          onclick="openModalAddManga()"
+        >
+          Aggiungi Manga
+        </button>
+      </div>
+      <div id="manga-container" class="responsive"></div>
     </div>
 
     <!-- Modal: Aggiungi Manga -->
-    <div class="modal fade admin-modal" id="addMangaModal" tabindex="-1" aria-labelledby="addMangaModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="addMangaModalLabel">Aggiungi Manga</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Chiudi"></button>
+    <div
+      class="modal fade admin-modal"
+      id="addMangaModal"
+      tabindex="-1"
+      aria-labelledby="addMangaModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addMangaModalLabel">Aggiungi Manga</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Chiudi"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form id="addMangaForm">
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="mangaTitle" class="form-label">Titolo</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="mangaTitle"
+                    required
+                  />
                 </div>
-                <div class="modal-body">
-                    <form id="addMangaForm">
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="mangaTitle" class="form-label">Titolo</label>
-                                <input type="text" class="form-control" id="mangaTitle" required />
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="mangaYear" class="form-label">Anno</label>
-                                <input type="number" class="form-control" id="mangaYear" min="1900" max="2100" />
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="mangaScore" class="form-label">Score</label>
-                                <input type="number" class="form-control" id="mangaScore" min="0" max="5" />
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="mangaSummary" class="form-label">Trama</label>
-                            <textarea class="form-control" id="mangaSummary" rows="3" required></textarea>
-                        </div>
-
-                        <div class="col-md-6 mb-3">
-                            <label for="editorName" class="form-label">Editor</label>
-                            <input type="text" class="form-control" id="editorName" />
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="mangaVolumes" class="form-label">Volumi</label>
-                                <input type="number" class="form-control" id="mangaVolumes" min="1" />
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="mangaStatus" class="form-label">Stato</label>
-                                <select id="mangaStatus" class="form-select" required>
-                                    <option value="on going">In corso</option>
-                                    <option value="completed">Completato</option>
-                                    <option value="dropped">In pausa</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="mb-3" id="select-author"></div>
-
-                        <label for="mangaGenre" class="form-label">Generi</label>
-                        <div class="mb-3" id="addMangaGenreContainer"></div>
-
-                        <div class="mb-3">
-                            <label for="mangaImage" class="form-label">Copertina (URL immagine)</label>
-                            <input type="url" class="form-control" id="mangaImage" />
-                        </div>
-                    </form>
-                    <div id="errors-manga-container" class="text-danger small"></div>
+                <div class="col-md-6 mb-3">
+                  <label for="mangaYear" class="form-label">Anno</label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="mangaYear"
+                    min="1900"
+                    max="2100"
+                  />
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                        Chiudi
-                    </button>
-                    <button type="button" class="btn btn-success" id="saveMangaBtn" onclick="addManga()">
-                        Salva
-                    </button>
+                <div class="col-md-6 mb-3">
+                  <label for="mangaScore" class="form-label">Score</label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="mangaScore"
+                    min="0"
+                    max="5"
+                  />
                 </div>
-            </div>
+              </div>
+              <div class="mb-3">
+                <label for="mangaSummary" class="form-label">Trama</label>
+                <textarea
+                  class="form-control"
+                  id="mangaSummary"
+                  rows="3"
+                  required
+                ></textarea>
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label for="editorName" class="form-label">Editor</label>
+                <input type="text" class="form-control" id="editorName" />
+              </div>
+
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="mangaVolumes" class="form-label">Volumi</label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="mangaVolumes"
+                    min="1"
+                  />
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="mangaStatus" class="form-label">Stato</label>
+                  <select id="mangaStatus" class="form-select" required>
+                    <option value="on going">In corso</option>
+                    <option value="completed">Completato</option>
+                    <option value="dropped">In pausa</option>
+                  </select>
+                </div>
+              </div>
+              <div class="mb-3" id="select-author"></div>
+
+              <label for="mangaGenre" class="form-label">Generi</label>
+              <div class="mb-3" id="addMangaGenreContainer"></div>
+
+              <div class="mb-3">
+                <label for="mangaImage" class="form-label"
+                  >Copertina (URL immagine)</label
+                >
+                <input type="url" class="form-control" id="mangaImage" />
+              </div>
+            </form>
+            <div id="errors-manga-container" class="text-danger small"></div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Chiudi
+            </button>
+            <button
+              type="button"
+              class="btn btn-success"
+              id="saveMangaBtn"
+              onclick="addManga()"
+            >
+              Salva
+            </button>
+          </div>
         </div>
+      </div>
     </div>
 
     <!-- Modal elimina manga -->
-    <div class="modal fade admin-modal" id="deleteMangaModal" tabindex="-1" aria-labelledby="deleteMangaModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteMangaModalLabel">
-                        Conferma eliminazione
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Chiudi"></button>
-                </div>
-                <div class="modal-body">
-                    <p id="deleteMangaMessage">
-                        Sei sicuro di voler eliminare questo manga?
-                    </p>
-                    <input type="hidden" id="deleteMangaId" />
-                    <div id="errors-delete-manga-container"></div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" id="deleteCancelBtn" data-bs-dismiss="modal">
-                        Annulla
-                    </button>
-                    <button type="button" class="btn btn-danger" id="deleteConfirmBtn" onclick="deleteManga()">
-                        Elimina
-                    </button>
-                    <button type="button" class="btn btn-primary d-none" id="deleteCloseBtn" data-bs-dismiss="modal">
-                        Chiudi
-                    </button>
-                </div>
-            </div>
+    <div
+      class="modal fade admin-modal"
+      id="deleteMangaModal"
+      tabindex="-1"
+      aria-labelledby="deleteMangaModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="deleteMangaModalLabel">
+              Conferma eliminazione
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Chiudi"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <p id="deleteMangaMessage">
+              Sei sicuro di voler eliminare questo manga?
+            </p>
+            <input type="hidden" id="deleteMangaId" />
+            <div id="errors-delete-manga-container"></div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              id="deleteCancelBtn"
+              data-bs-dismiss="modal"
+            >
+              Annulla
+            </button>
+            <button
+              type="button"
+              class="btn btn-danger"
+              id="deleteConfirmBtn"
+              onclick="deleteManga()"
+            >
+              Elimina
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary d-none"
+              id="deleteCloseBtn"
+              data-bs-dismiss="modal"
+            >
+              Chiudi
+            </button>
+          </div>
         </div>
+      </div>
     </div>
 
     <!-- Modal: Modifica Manga -->
-    <div class="modal fade admin-modal" id="editMangaModal" tabindex="-1" aria-labelledby="editMangaModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editMangaModalLabel">Modifica Manga</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Chiudi"></button>
+    <div
+      class="modal fade admin-modal"
+      id="editMangaModal"
+      tabindex="-1"
+      aria-labelledby="editMangaModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="editMangaModalLabel">Modifica Manga</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Chiudi"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form id="editMangaForm">
+              <!-- hidden id manga -->
+              <input type="hidden" id="editMangaId" />
+
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="editMangaTitle" class="form-label">Titolo</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="editMangaTitle"
+                    required
+                  />
                 </div>
-                <div class="modal-body">
-                    <form id="editMangaForm">
-                        <!-- hidden id manga -->
-                        <input type="hidden" id="editMangaId" />
-
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="editMangaTitle" class="form-label">Titolo</label>
-                                <input type="text" class="form-control" id="editMangaTitle" required />
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="editMangaYear" class="form-label">Anno</label>
-                                <input type="number" class="form-control" id="editMangaYear" min="1900" max="2100" />
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="editMangaScore" class="form-label">Score</label>
-                                <input type="number" class="form-control" id="editMangaScore" min="0" max="5" />
-                            </div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="editMangaSummary" class="form-label">Trama</label>
-                            <textarea class="form-control" id="editMangaSummary" rows="3" required></textarea>
-                        </div>
-
-                        <div class="col-md-6 mb-3">
-                            <label for="editEditorName" class="form-label">Editor</label>
-                            <input type="text" class="form-control" id="editEditorName" />
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="editMangaVolumes" class="form-label">Volumi</label>
-                                <input type="number" class="form-control" id="editMangaVolumes" min="1" />
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="editMangaStatus" class="form-label">Stato</label>
-                                <select id="editMangaStatus" class="form-select" required>
-                                    <option value="on going">In corso</option>
-                                    <option value="completed">Completato</option>
-                                    <option value="dropped">In pausa</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="mb-3" id="select-edit-author"></div>
-
-                        <label for="mangaGenre" class="form-label">Generi</label>
-                        <div class="mb-3" id="editMangaGenreContainer"></div>
-
-                        <!-- copertina -->
-                        <div class="mb-3">
-                            <label for="editMangaImage" class="form-label">Copertina (URL immagine)</label>
-                            <input type="url" class="form-control" id="editMangaImage" />
-                        </div>
-                    </form>
-
-                    <div id="errors-edit-manga-container" class="text-danger small"></div>
+                <div class="col-md-6 mb-3">
+                  <label for="editMangaYear" class="form-label">Anno</label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="editMangaYear"
+                    min="1900"
+                    max="2100"
+                  />
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                        Chiudi
-                    </button>
-                    <button type="button" class="btn btn-primary" id="editMangaBtn" onclick="editManga()">
-                        Salva modifiche
-                    </button>
+                <div class="col-md-6 mb-3">
+                  <label for="editMangaScore" class="form-label">Score</label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="editMangaScore"
+                    min="0"
+                    max="5"
+                  />
                 </div>
-            </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="editMangaSummary" class="form-label">Trama</label>
+                <textarea
+                  class="form-control"
+                  id="editMangaSummary"
+                  rows="3"
+                  required
+                ></textarea>
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label for="editEditorName" class="form-label">Editor</label>
+                <input type="text" class="form-control" id="editEditorName" />
+              </div>
+
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="editMangaVolumes" class="form-label"
+                    >Volumi</label
+                  >
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="editMangaVolumes"
+                    min="1"
+                  />
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="editMangaStatus" class="form-label">Stato</label>
+                  <select id="editMangaStatus" class="form-select" required>
+                    <option value="on going">In corso</option>
+                    <option value="completed">Completato</option>
+                    <option value="dropped">In pausa</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="mb-3" id="select-edit-author"></div>
+
+              <label for="mangaGenre" class="form-label">Generi</label>
+              <div class="mb-3" id="editMangaGenreContainer"></div>
+
+              <!-- copertina -->
+              <div class="mb-3">
+                <label for="editMangaImage" class="form-label"
+                  >Copertina (URL immagine)</label
+                >
+                <input type="url" class="form-control" id="editMangaImage" />
+              </div>
+            </form>
+
+            <div
+              id="errors-edit-manga-container"
+              class="text-danger small"
+            ></div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Chiudi
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              id="editMangaBtn"
+              onclick="editManga()"
+            >
+              Salva modifiche
+            </button>
+          </div>
         </div>
+      </div>
     </div>
 
-
     <!-- Modal Recensioni -->
-    <div class="modal fade admin-modal" id="reviewsModal" tabindex="-1" aria-labelledby="reviewsModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="reviewsModalLabel">Recensioni Manga</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Chiudi"></button>
-                </div>
-                <div class="modal-body">
-                    <div id="reviewsContainer"></div>
-                    <div id="errors-reviews-container" class="text-danger small"></div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                        Chiudi
-                    </button>
-                </div>
-            </div>
+    <div
+      class="modal fade admin-modal"
+      id="reviewsModal"
+      tabindex="-1"
+      aria-labelledby="reviewsModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="reviewsModalLabel">Recensioni Manga</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Chiudi"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div id="reviewsContainer"></div>
+            <div id="errors-reviews-container" class="text-danger small"></div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Chiudi
+            </button>
+          </div>
         </div>
+      </div>
     </div>
 
     <!-- Footer della pagina-->
     <footer class="site-footer">
-        &copy; 2025 Manga Soul. Tutti i diritti riservati.
-        <a href="https://github.com/FabioFrdls/MangaSoul" target="_blank" class="git-link"><i
-                class="fab fa-github"></i></a>
+      &copy; 2025 Manga Soul. Tutti i diritti riservati.
+      <a
+        href="https://github.com/FabioFrdls/MangaSoul"
+        target="_blank"
+        class="git-link"
+        ><i class="fab fa-github"></i
+      ></a>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
@@ -294,6 +482,6 @@
     <script src="scripts/navbar.js"></script>
     <script src="scripts/authentication.js"></script>
     <script src="scripts/adminGestionaleManga.js"></script>
-</body>
-
+    <script src="scripts/Switch_Theme.js"></script>
+  </body>
 </html>

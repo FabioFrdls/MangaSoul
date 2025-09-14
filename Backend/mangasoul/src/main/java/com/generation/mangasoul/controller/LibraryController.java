@@ -98,4 +98,20 @@ public class LibraryController {
 		return ResponseEntity.ok("Manga deleted");
 	}
 	
+	
+	
+	
+	
+	/*
+	 * For fabio i need a new endpoint to get the libraries
+	 * using the user id without authorization 
+	 * 
+	 * Pio
+	 * 
+	 * */
+	@GetMapping("/getByUserId/{id}")
+	public ResponseEntity<List<MangaDto>> getByUserId(@PathVariable long id){
+		return ResponseEntity.ok(libraryService.findAll(id));
+	}
+	
 }

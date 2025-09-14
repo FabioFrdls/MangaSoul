@@ -2,6 +2,8 @@ package com.generation.mangasoul.service;
 
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -11,25 +13,42 @@ import com.generation.mangasoul.exception.DuplicateParamException;
 import com.generation.mangasoul.exception.InvalidUserException;
 import com.generation.mangasoul.exception.LoginException;
 import com.generation.mangasoul.exception.SessionNotFoundException;
+import com.generation.mangasoul.model.Friendship;
+import com.generation.mangasoul.model.Library;
+import com.generation.mangasoul.model.Review;
 import com.generation.mangasoul.model.Session;
 import com.generation.mangasoul.model.User;
+import com.generation.mangasoul.repository.FriendshipRepository;
+import com.generation.mangasoul.repository.LibraryRepository;
+import com.generation.mangasoul.repository.ReviewRepository;
 import com.generation.mangasoul.repository.SessionRepository;
 import com.generation.mangasoul.repository.UserRepository;
 import com.generation.mangasoul.utility.UserDto;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class UserService {
 
 	private UserRepository userRepo;
 	private SessionRepository sessionRepo;
+	private LibraryRepository libraryRepo;
+	private ReviewRepository reviewRepo;
+	private FriendshipRepository friendshipRepo;
 	
 	// constructor dependency injection 
 	public UserService(
 			UserRepository userRepo,
-			SessionRepository sessionRepo) {
+			SessionRepository sessionRepo,
+			LibraryRepository libraryRepo,
+			ReviewRepository reviewRepo,
+			FriendshipRepository friendshipRepo) {
 		
 		this.userRepo = userRepo;
 		this.sessionRepo = sessionRepo;
+		this.libraryRepo = libraryRepo;
+		this.reviewRepo = reviewRepo;
+		this.friendshipRepo = friendshipRepo;
 		
 		// resets all sessions when the server is started
 		sessionRepo.deleteAll();
@@ -93,7 +112,7 @@ public class UserService {
 	}
 	
 	
-	public String register(User user) {
+	public User register(User user) {
 		
 		// A string builder for building the final message error
 		StringBuilder errors = new StringBuilder();
@@ -119,7 +138,7 @@ public class UserService {
 		// save the new user on the table
 		userRepo.save(user);
 		
-		return "REGISTER SUCCESS";
+		return user;
 	}
 
 	
@@ -140,9 +159,121 @@ public class UserService {
 
 
 	
+	public Map<String, Object> getUserStats(String token){
+		// check if the session exists with the given token
+		Session session = sessionRepo.findByToken(token).orElseThrow(
+						()-> new SessionNotFoundException());
+					
+		// checks if the user associated with the session exists
+		User user = userRepo.findById(session.getUserId()).orElseThrow(
+				() -> new InvalidUserException());
+		
+		Map<String, Object> map = new LinkedHashMap<String, Object>();
+		
+		map.put("username", user.getUsername());
+		map.put("email", user.getEmail());
+		map.put("read", getReadedMangaCount(user));
+		map.put("friends", getFriendsCount(user));		
+		map.put("reviews", getReviewCount(user));
+		map.put("id", user.getId());
+		
+				
+		
+		return map;
+		
+	}
 	
+	
+	public Map<String, Object> getFriendStats(long id){
+		
+		User user = userRepo.findById(id).orElseThrow(
+				() -> new InvalidUserException("Friend not found"));
+		
+		Map<String, Object> map = new LinkedHashMap<String, Object>();
+		
+		map.put("username", user.getUsername());
+		map.put("email", user.getEmail());
+		map.put("read", getReadedMangaCount(user));
+		map.put("friends", getFriendsCount(user));		
+		map.put("reviews", getReviewCount(user));
+		map.put("id", user.getId());
+		
+		
+		return map;
+	}
+	
+	
+	public Map<String, Object> getUserStatsByUsername(String username) {
+	    // Cerca l’utente con lo username
+	    User user = userRepo.findByUsername(username)
+	            .orElseThrow(() -> new InvalidUserException("User not found"));
 
+	    Map<String, Object> map = new LinkedHashMap<>();
+
+	    map.put("username", user.getUsername());
+	    map.put("email", user.getEmail());
+	    map.put("read", getReadedMangaCount(user));
+	    map.put("friends", getFriendsCount(user));
+	    map.put("reviews", getReviewCount(user));
+
+	    return map;
+	}
+
+	@Transactional
+	public User updateUser(String token, User updatedUser) {
+		Session session = sessionRepo.findByToken(token).orElseThrow(
+				()-> new SessionNotFoundException());
+			
+		// checks if the user associated with the session exists
+		User user = userRepo.findById(session.getUserId()).orElseThrow(
+				() -> new InvalidUserException());
+		
+		StringBuilder errors = new StringBuilder();
+		
+		if(!updatedUser.getUsername().equals(user.getUsername())) {
+			if (userRepo.findByUsername(updatedUser.getUsername()).isPresent())
+				errors.append("Username taken. ");
+		}
+		
+		if(!updatedUser.getEmail().equals(user.getEmail())) {
+			if (userRepo.findByEmail(updatedUser.getEmail()).isPresent())
+				errors.append("Email taken. ");
+		}
+		
+		if(errors.length()!=0) {
+			throw new DuplicateParamException(errors.toString());
+		}
+		
+		user.setUsername(updatedUser.getUsername());
+		user.setEmail(updatedUser.getEmail());
+		user.setPassword(updatedUser.getPassword());
+		
+		userRepo.save(user);
+		
+		return user;
+		
+	}
 	
+	
+	public List<User> getUsers(){
+		return userRepo.findByType("user");
+	}
+	
+	
+	public int getReadedMangaCount(User user) {
+		List<Library> list = libraryRepo.findByUser_IdAndStatus(user.getId(), "completato");
+		return list.size();
+	}
+	
+	private int getReviewCount(User user) {
+		List<Review> list = reviewRepo.findByUser(user);
+		return list.size();
+	}
+	
+	private int getFriendsCount(User user) {
+		List<Friendship> list = friendshipRepo.findByUserAndStatus(user, "accettata");
+		return list.size();
+	}
 	
 	
 }
