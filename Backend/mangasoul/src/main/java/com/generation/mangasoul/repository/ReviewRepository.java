@@ -25,29 +25,31 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
 	List<Review> findByManga_IdOrderByCreationTimestampAsc(long mangaId);
 
 	@Query("""
-			    SELECT new com.generation.mangasoul.utility.ReviewDto(
-			        r.user.username,
-			        r.score,
-			        r.text,
-			        r.creationTimestamp
-			    )
-			    FROM Review r
-			    WHERE r.manga.id = :mangaId
-			    ORDER BY r.creationTimestamp DESC
-			""")
+		    SELECT new com.generation.mangasoul.utility.ReviewDto(
+		        r.id,
+		        r.user.username,
+		        r.score,
+		        r.text,
+		        r.creationTimestamp
+		    )
+		    FROM Review r
+		    WHERE r.manga.id = :mangaId
+		    ORDER BY r.creationTimestamp DESC
+		""")
 	List<ReviewDto> sortedReviewsByMangaIdDesc(@Param("mangaId") Long mangaId);
 
 	@Query("""
-			    SELECT new com.generation.mangasoul.utility.ReviewDto(
-			        r.user.username,
-			        r.score,
-			        r.text,
-			        r.creationTimestamp
-			    )
-			    FROM Review r
-			    WHERE r.manga.id = :mangaId
-			    ORDER BY r.creationTimestamp ASC
-			""")
+		    SELECT new com.generation.mangasoul.utility.ReviewDto(
+		        r.id,
+		        r.user.username,
+		        r.score,
+		        r.text,
+		        r.creationTimestamp
+		    )
+		    FROM Review r
+		    WHERE r.manga.id = :mangaId
+		    ORDER BY r.creationTimestamp ASC
+		""")
 	List<ReviewDto> sortedReviewsByMangaIdAsc(@Param("mangaId") Long mangaId);
 
 	boolean existsByUserAndManga(User user, Manga manga);

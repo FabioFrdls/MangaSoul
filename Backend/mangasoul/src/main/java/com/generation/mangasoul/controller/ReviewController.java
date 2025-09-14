@@ -38,6 +38,7 @@ public class ReviewController {
 		this.userService = userService;
 	}
 
+	// only 1 review per user
 	@PostMapping("/insert")
 	public ResponseEntity<String> insertReview(@RequestHeader(name = "access-token") String token,
 			@RequestBody @Valid  Review r) {
@@ -61,18 +62,37 @@ public class ReviewController {
 
 	@GetMapping("/sortedReviewsByMangaIdDesc")
 	public ResponseEntity<List<ReviewDto>> sortedReviewsByMangaIdDesc(@RequestParam(name = "manga_id") long id) {
+	    List<Review> reviews = reviewService.getReviewsByMangaIdDesc(id);
 
-		List<ReviewDto> reviewDtoListDesc = reviewService.sortedReviewsByMangaIdDesc(id);
+	    // Convert Review to ReviewDto with id, username, etc.
+	    List<ReviewDto> reviewDtoListDesc = reviews.stream()
+	        .map(review -> new ReviewDto(
+	            review.getId(),
+	            review.getUser().getUsername(),
+	            review.getScore(),
+	            review.getText(),
+	            review.getCreationTimestamp()
+	        ))
+	        .toList();
 
-		return ResponseEntity.ok(reviewDtoListDesc);
+	    return ResponseEntity.ok(reviewDtoListDesc);
 	}
 
 	@GetMapping("/sortedReviewsByMangaIdAsc")
 	public ResponseEntity<List<ReviewDto>> sortedReviewsByMangaIdAsc(@RequestParam(name = "manga_id") long id) {
+	    List<Review> reviews = reviewService.getReviewsByMangaIdAsc(id);
 
-		List<ReviewDto> reviewDtoListAsc = reviewService.sortedReviewsByMangaIdAsc(id);
+	    List<ReviewDto> reviewDtoListAsc = reviews.stream()
+	        .map(review -> new ReviewDto(
+	            review.getId(),
+	            review.getUser().getUsername(),
+	            review.getScore(),
+	            review.getText(),
+	            review.getCreationTimestamp()
+	        ))
+	        .toList();
 
-		return ResponseEntity.ok(reviewDtoListAsc);
+	    return ResponseEntity.ok(reviewDtoListAsc);
 	}
 
 	// notes in service, I'll keep it here in case admin needs it
@@ -134,17 +154,41 @@ public class ReviewController {
 
 	}
 
-	// should allow the user to change their comment, should timestamp be updated
-	// aswell?
-	// or we just flag the comment with " edited "
+	
 	@PutMapping("/updateById/{id}")
-	public ResponseEntity<Review> updateById(@PathVariable long id, @RequestBody @Valid Review r) {
+	public ResponseEntity<String> updateById(
+	        @RequestHeader(name = "access-token") String token,
+	        @PathVariable long id,
+	        @RequestBody @Valid ReviewDto dto
+	) {
+	    
+		// Authentication
+	    User u = userService.getUserByToken(token);
+	    if (u == null) {
+	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token non valido.");
+	    }
 
-		r.setId(id);
-		reviewService.updateReviewById(r);
-		return ResponseEntity.ok(r);
+	    // Get the review by ID 
+	    Review existingReview = reviewService.getById(id);
+	    if (existingReview == null) {
+	        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Recensione non trovata.");
+	    }
 
+	    // Check that the review belongs to the authenticated user
+	    if (existingReview.getUser().getId() != u.getId()) {
+	        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Boss, non puoi cambiare "
+	        		+ "una review che non sia tua :) .");
+	    }
+
+	    //Update allowed fields
+	    existingReview.setText(dto.getText());
+	    existingReview.setScore(dto.getScore());
+
+	    reviewService.updateReviewById(existingReview);
+
+	    return ResponseEntity.ok("Recensione aggiornata con successo.");
 	}
+	
 
 	@DeleteMapping("/deleteById/{id}")
 	public ResponseEntity<String> deleteById(@PathVariable long id) {

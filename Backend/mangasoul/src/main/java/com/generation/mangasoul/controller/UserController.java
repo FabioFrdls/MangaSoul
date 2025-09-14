@@ -2,6 +2,7 @@ package com.generation.mangasoul.controller;
 
 import java.util.Map;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -51,5 +52,14 @@ public class UserController {
 		String response = userService.profile(token);
 		return ResponseEntity.ok(response);
 	}
+	
+	@GetMapping("/getCurrentToken")
+	public ResponseEntity<UserDto> token(@RequestHeader(name = "access-token") String token) {
+	    User user = userService.getUserByToken(token);
+	    if (user == null) {
+	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+	    }
 
+	    return ResponseEntity.ok(new UserDto(user.getUsername()));
+	}
 }
