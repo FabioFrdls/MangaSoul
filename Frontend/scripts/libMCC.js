@@ -190,7 +190,11 @@ function createCard(lib) {
 
     card.append(buttons, img, title);
     card.onclick = (e) => {
-      if (e.target.matches(".status") || e.target.matches(".favorite") || e.target.matches(".remove")) {
+      if (e.target.matches(".status") || 
+          e.target.matches(".favorite") || 
+          e.target.matches(".remove") || 
+          e.target.matches("a")){
+        
       return;
     }
       openMangaDetails(manga);

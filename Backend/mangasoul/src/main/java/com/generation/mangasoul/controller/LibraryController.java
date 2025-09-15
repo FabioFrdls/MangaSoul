@@ -22,6 +22,7 @@ import com.generation.mangasoul.model.Library;
 import com.generation.mangasoul.model.Manga;
 import com.generation.mangasoul.service.LibraryService;
 import com.generation.mangasoul.utility.LibraryDto;
+import com.generation.mangasoul.utility.MangaDto;
 
 @RestController
 @RequestMapping("/api/library")
@@ -100,6 +101,11 @@ public class LibraryController {
 		Long userId = libraryService.getUserIdFromToken(token);
 		libraryService.delete(userId, mangaId);
 		return ResponseEntity.ok("Manga deleted");
+	}
+	
+	@GetMapping("/getByUserId/{id}")
+	public ResponseEntity<List<MangaDto>> getByUserId(@PathVariable long id){
+		return ResponseEntity.ok(libraryService.findAllM(id));
 	}
 	
 }

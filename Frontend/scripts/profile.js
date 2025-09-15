@@ -315,7 +315,7 @@ async function showFriendLibrary(friendId, friendUsername) {
 
   document.getElementById(
     "friendLibraryName"
-  ).textContent = `Libreria di ${friendUsername}`;
+  ).textContent = `${friendUsername}`;
 
   try {
     const response = await fetch(API_LIBRARY_URL + "/getByUserId/" + friendId, {
