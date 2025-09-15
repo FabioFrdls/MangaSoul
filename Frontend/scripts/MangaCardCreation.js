@@ -100,16 +100,16 @@ function deploymentCard() {
         );
       }
       if (scoreFiltredLow) {
-        mangas = mangas.sort((a, b) => a.score - b.score);
+        mangas = mangas.sort((a, b) => a.score - b.score); //sort by the lowest score
       }
       if (scoreFiltredHigh) {
-        mangas = mangas.sort((a, b) => b.score - a.score);
+        mangas = mangas.sort((a, b) => b.score - a.score);//sort by the highest score
       }
       if(dateFiltredLow){
-        mangas=mangas.sort((a,b)=> a.year-b.year);
+        mangas=mangas.sort((a,b)=> a.year-b.year);//sort by the lowest year
       }
       if(dateFiltredHigh){
-        mangas=mangas.sort((a,b)=> b.year-a.year);
+        mangas=mangas.sort((a,b)=> b.year-a.year);//sort by the highest year
       }
 
       mangas.forEach(manga => { // find all the element of the array
@@ -281,13 +281,14 @@ window.onload = () => {
 
 
 };
-scoreBox.addEventListener("click", () => {
+//eventListener that verify if the button of score is clicked and change it
+scoreBox.addEventListener("click", () => { 
   if (scorebtnClickedTime === 0) {
     scorebtnClickedTime = 1;
-    scoreBox.classList.add("clicked")
+    scoreBox.classList.add("clicked") //make the button red until it came back to the point of origin
     scoreBox.textContent = "crescente"
-    scoreFiltredLow = true;
-    scoreFiltredHigh = false;
+    scoreFiltredLow = true; //boolean to verify in the deployment method if the method of filter is active 
+    scoreFiltredHigh = false; //boolean to verify in the deployment method if the method of filter is active 
     deploymentCard();
     return;
   }
@@ -309,13 +310,14 @@ scoreBox.addEventListener("click", () => {
     return;
   }
 })
+//eventListener that verify if the button of date is clicked and change it
 dateBox.addEventListener("click", () => {
   if (datebtnClickedTime === 0) {
     datebtnClickedTime = 1;
-    dateBox.classList.add("clicked")
+    dateBox.classList.add("clicked") //make the button red until it came back to the point of origin
     dateBox.textContent = "crescente"
-    dateFiltredLow = true;
-    dateFiltredHigh = false;
+    dateFiltredLow = true; //boolean to verify in the deployment method if the method of filter is active 
+    dateFiltredHigh = false;//boolean to verify in the deployment method if the method of filter is active 
     deploymentCard();
     return;
   }
