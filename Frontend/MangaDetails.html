@@ -2,21 +2,21 @@
 <html lang="it">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dettagli Manga</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Favicon -->
-    <link rel="shortcut icon" href="images/logo.png" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dettagli Manga</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="images/logo.png" />
 
-    <!-- Stile custom -->
-    <link rel="stylesheet" href="styles/MangaDetails.css" />
-    <link rel="stylesheet" href="styles/style.css">
+  <!-- Stile custom -->
+  <link rel="stylesheet" href="styles/MangaDetails.css" />
+  <link rel="stylesheet" href="styles/style.css">
 </head>
 
 <body>
 
-   <img id="themeSwitcher" src="images/switch_bianco_nero/soul_eater_sun.png" alt="switcher" class="switcher" />
+  <img id="themeSwitcher" src="images/switch_bianco_nero/soul_eater_sun.png" alt="switcher" class="switcher" />
 
   <!-- NAVBAR -->
   <nav class="navbar navbar-expand-lg">
@@ -84,102 +84,103 @@
     </div>
   </nav>
 
+
+  <!-- Main Content -->
+  <div class="page-container">
     <!-- Back Button -->
     <a href="#" id="backButton" class="back-button">&larr; Torna al Catalogo</a>
 
-    <!-- Main Content -->
-    <div class="page-container">
-        <div class="image-container">
-            <img id="mangaImage" src="https://via.placeholder.com/400x600/1a1a1a/e63946?text=Manga+Cover"
-                alt="Manga Image">
-        </div>
-
-        <div class="info-container">
-            <h1 class="inRed" id="mangaTitle">Titolo del Manga</h1>
-
-            <div class="info-row trama">
-                <span class="info-label">Trama:</span>
-                <p class="info-content" id="mangaSummaryBody">
-                    Una storia avvincente che segue le avventure di un giovane protagonista in un mondo
-                    fantastico pieno di magia, mistero e pericoli. Attraverso battaglie epiche e amicizie
-                    profonde, il nostro eroe crescerà e diventerà più forte, scoprendo segreti sul suo passato e
-                    il suo destino.
-                </p>
-            </div>
-
-            <div class="info-row">
-                <span class="info-label">Genere:</span>
-                <p class="info-content" id="mangaGenresBody">Azione, Avventura, Fantasy</p>
-            </div>
-
-            <div class="info-row">
-                <span class="info-label">Anno d'uscita:</span>
-                <p class="info-content" id="mangaYearBody">2020</p>
-            </div>
-
-            <div class="info-row">
-                <span class="info-label">Autore:</span>
-                <p class="info-content" id="mangaAuthorBody">Autore Esempio</p>
-            </div>
-
-            <div class="info-row">
-                <span class="info-label">Editore:</span>
-                <p class="info-content" id="mangaEditorBody">Editore Esempio</p>
-            </div>
-
-            <div class="info-row">
-                <span class="info-label">N° volumi:</span>
-                <p class="info-content" id="mangaVolumesBody">15</p>
-            </div>
-
-            <div class="info-row">
-                <span class="info-label">Stato:</span>
-                <p class="info-content" id="mangaStatusBody">In corso</p>
-            </div>
-
-            <div class="score-row">
-                <span class="score-label">Valutazione:</span>
-                <p class="score-content" id="mangaScoreBody">4.5/5</p>
-            </div>
-
-            <!-- REVIEW FORM, post comment/score, lo stile è tipo quello di youtube -->
-            <form id="reviewForm" style="max-width: 400px; display: flex; flex-direction: column; gap: 10px;">
-                <label for="comment">Commento:</label>
-                <textarea id="comment" name="comment" required rows="3"
-                    style="resize: vertical; padding: 8px; font-size: 1rem;"></textarea>
-
-                <label for="score">Punteggio:</label>
-                <input type="number" id="score" name="score" min="0" max="5" step="0.1" required
-                    style="width: 80px; padding: 5px; font-size: 1rem;">
-
-                <button type="button" class="post-rvw" onclick="postReview()" style="align-self: flex-start; padding: 8px 16px; font-size: 1rem;">Aggiungi
-                    commento</button>
-            </form>
-            <label for="reviewOrder">Ordina per</label>
-            <select id="reviewOrder" onchange="ShowReviews(currentMangaId)">
-                <option value="desc">Dal più recente</option>
-                <option value="asc">Dal più vecchio</option>
-            </select>
-            <div id="mangaReview"></div>
-
-        </div>
+    <div class="image-container">
+      <img id="mangaImage" src="https://via.placeholder.com/400x600/1a1a1a/e63946?text=Manga+Cover" alt="Manga Image">
     </div>
 
+    <div class="info-container">
+      <h1 class="inRed" id="mangaTitle">Titolo del Manga</h1>
 
-    <!-- Footer della pagina-->
-    <footer class="site-footer">
-        &copy; 2025 Manga Soul. Tutti i diritti riservati.
-        <a href="https://github.com/FabioFrdls/MangaSoul" target="_blank" class="git-link">
-            <i class="fab fa-github"></i>
-        </a>
-    </footer>
+      <div class="info-row trama">
+        <span class="info-label">Trama:</span>
+        <p class="info-content" id="mangaSummaryBody">
+          Una storia avvincente che segue le avventure di un giovane protagonista in un mondo
+          fantastico pieno di magia, mistero e pericoli. Attraverso battaglie epiche e amicizie
+          profonde, il nostro eroe crescerà e diventerà più forte, scoprendo segreti sul suo passato e
+          il suo destino.
+        </p>
+      </div>
+
+      <div class="info-row">
+        <span class="info-label">Genere:</span>
+        <p class="info-content" id="mangaGenresBody">Azione, Avventura, Fantasy</p>
+      </div>
+
+      <div class="info-row">
+        <span class="info-label">Anno d'uscita:</span>
+        <p class="info-content" id="mangaYearBody">2020</p>
+      </div>
+
+      <div class="info-row">
+        <span class="info-label">Autore:</span>
+        <p class="info-content" id="mangaAuthorBody">Autore Esempio</p>
+      </div>
+
+      <div class="info-row">
+        <span class="info-label">Editore:</span>
+        <p class="info-content" id="mangaEditorBody">Editore Esempio</p>
+      </div>
+
+      <div class="info-row">
+        <span class="info-label">N° volumi:</span>
+        <p class="info-content" id="mangaVolumesBody">15</p>
+      </div>
+
+      <div class="info-row">
+        <span class="info-label">Stato:</span>
+        <p class="info-content" id="mangaStatusBody">In corso</p>
+      </div>
+
+      <div class="score-row">
+        <span class="score-label">Valutazione:</span>
+        <p class="score-content" id="mangaScoreBody">4.5/5</p>
+      </div>
+
+      <!-- REVIEW FORM, post comment/score, lo stile è tipo quello di youtube -->
+      <form id="reviewForm" style="max-width: 400px; display: flex; flex-direction: column; gap: 10px;">
+        <label for="comment">Commento:</label>
+        <textarea id="comment" name="comment" required rows="3"
+          style="resize: vertical; padding: 8px; font-size: 1rem;"></textarea>
+
+        <label for="score">Punteggio:</label>
+        <input type="number" id="score" name="score" min="0" max="5" step="0.1" required
+          style="width: 80px; padding: 5px; font-size: 1rem;">
+
+        <button type="button" class="post-rvw" onclick="postReview()"
+          style="align-self: flex-start; padding: 8px 16px; font-size: 1rem;">Aggiungi
+          commento</button>
+      </form>
+      <label for="reviewOrder">Ordina per</label>
+      <select id="reviewOrder" onchange="ShowReviews(currentMangaId)">
+        <option value="desc">Dal più recente</option>
+        <option value="asc">Dal più vecchio</option>
+      </select>
+      <div id="mangaReview"></div>
+
+    </div>
+  </div>
 
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    <script src="scripts/LoadMangaDetails.js"> </script>
-    <script src="scripts/navbar.js"></script>
-    <script src="scripts/authentication.js"></script>
-    <script src="scripts/Switch_Theme.js"></script>
+  <!-- Footer della pagina-->
+  <footer class="site-footer">
+    &copy; 2025 Manga Soul. Tutti i diritti riservati.
+    <a href="https://github.com/FabioFrdls/MangaSoul" target="_blank" class="git-link">
+      <i class="fab fa-github"></i>
+    </a>
+  </footer>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+  <script src="scripts/LoadMangaDetails.js"> </script>
+  <script src="scripts/navbar.js"></script>
+  <script src="scripts/authentication.js"></script>
+  <script src="scripts/Switch_Theme.js"></script>
 </body>
 
 </html>
