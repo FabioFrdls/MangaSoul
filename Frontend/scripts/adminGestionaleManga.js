@@ -392,7 +392,8 @@ async function deleteManga() {
   const btnChiudi = document.getElementById("deleteCloseBtn");
 
   try {
-    const response = await fetch(URL_ADMIN_API2 + "/manga/delete/" + id, {
+    const response = await fetch(URL_ADMIN_API
+     + "/manga/delete/" + id, {
       method: "DELETE",
       headers: {
         "access-token": token,
