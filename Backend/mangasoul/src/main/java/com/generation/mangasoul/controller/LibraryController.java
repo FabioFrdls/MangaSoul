@@ -1,6 +1,7 @@
 package com.generation.mangasoul.controller;
 
 
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.generation.mangasoul.model.Library;
 import com.generation.mangasoul.model.Manga;
 import com.generation.mangasoul.service.LibraryService;
-import com.generation.mangasoul.utility.MangaDto;
+import com.generation.mangasoul.utility.LibraryDto;
 
 @RestController
 @RequestMapping("/api/library")
@@ -40,9 +41,6 @@ public class LibraryController {
 	automatically, not from the user, while status and favourite are always optional parameters
 	*/
 	
-	// this class is still work in progress, the methods filter, update and delete are not tested yet, since the frontedn is not complete 
-	// also for now, you need to manually insert the items in the library table. Run the file lib_insert in database folder
-	
 	@PostMapping
 	public ResponseEntity<String> insert(@RequestHeader("Authorization") String token, @RequestBody Manga manga){
 		Long userId = libraryService.getUserIdFromToken(token);
@@ -50,10 +48,16 @@ public class LibraryController {
 		return ResponseEntity.ok("Manga added to your library");
 	}
 	
-	@GetMapping
+	/*@GetMapping
 	public ResponseEntity<List<MangaDto>> findAll(@RequestHeader("Authorization") String token){
 		Long userId = libraryService.getUserIdFromToken(token);
 		return ResponseEntity.ok(libraryService.findAll(userId));
+	}*/
+	
+	@GetMapping
+	public ResponseEntity<List<LibraryDto>> findAllLib(@RequestHeader("Authorization") String token){
+		Long userId = libraryService.getUserIdFromToken(token);
+		return ResponseEntity.ok(libraryService.findLib(userId));
 	}
 	
 	@GetMapping("/id/{mangaId}")
@@ -63,14 +67,14 @@ public class LibraryController {
 	}
 	
 	@GetMapping("/key/{keyWord}")
-	public ResponseEntity<List<MangaDto>> findByKeyWord(@RequestHeader("Authorization") String token, @PathVariable String keyWord){
+	public ResponseEntity<List<LibraryDto>> findByKeyWord(@RequestHeader("Authorization") String token, @PathVariable String keyWord){
 		Long userId = libraryService.getUserIdFromToken(token);
 		return ResponseEntity.ok(libraryService.findByKeyWord(userId, keyWord));
 	}
 	
 	
 	@GetMapping("/filter")
-		public ResponseEntity<List<MangaDto>> findByStatOrFav(@RequestHeader("Authorization") String token, 
+		public ResponseEntity<List<LibraryDto>> findByStatOrFav(@RequestHeader("Authorization") String token, 
 				 @RequestParam(defaultValue = "") String status, @RequestParam(defaultValue = "") String fav) {
 		Long userId = libraryService.getUserIdFromToken(token);
 		if(!"".equals(status) && !"".equals(fav))
@@ -79,7 +83,7 @@ public class LibraryController {
 			return ResponseEntity.ok(libraryService.findByStatus(userId, status));
 		else if(!"".equals(fav))
 			return ResponseEntity.ok(libraryService.findByFav(userId, fav));
-		return ResponseEntity.ok(libraryService.findAll(userId));
+		return ResponseEntity.ok(libraryService.findLib(userId));
 	}
 	
 	
@@ -96,22 +100,6 @@ public class LibraryController {
 		Long userId = libraryService.getUserIdFromToken(token);
 		libraryService.delete(userId, mangaId);
 		return ResponseEntity.ok("Manga deleted");
-	}
-	
-	
-	
-	
-	
-	/*
-	 * For fabio i need a new endpoint to get the libraries
-	 * using the user id without authorization 
-	 * 
-	 * Pio
-	 * 
-	 * */
-	@GetMapping("/getByUserId/{id}")
-	public ResponseEntity<List<MangaDto>> getByUserId(@PathVariable long id){
-		return ResponseEntity.ok(libraryService.findAll(id));
 	}
 	
 }

@@ -2,71 +2,10 @@
 
 //---------------library methods---------------------------//
     // update
-async function update(query){
-  try {
-    const response = await fetch(API_LIB_URL + `/id/${query}`, {
-      method: "GET",
-      headers: {
-        Authorization: localStorage.getItem("access-token"),
-      },
-    });
-    if (!response.ok) {
-      throw new Error("Errore nella richiesta: " + response.status);
-    }
 
-    const library = await response.json();
-    let status = library.status;
-    let fav = library.fav;
-
-    // div creation
+function update(lib){
     
-    // if a window exists yet, we first delete it
-let oldOptions = document.getElementById("options" + query);
-if (oldOptions) oldOptions.remove();
-
-let options = document.createElement("div");
-options.id = "options" + query;
-options.classList.add("update-options");
-
-// ---- STATUS ----
-let statusLabel = document.createElement("label");
-statusLabel.setAttribute("for", "status" + query);
-statusLabel.textContent = "Stato di lettura";
-
-let statusSelect = document.createElement("select");
-statusSelect.id = "status" + query;
-statusSelect.name = "status";
-statusSelect.classList.add("form-control", "filter-inline");
-
-["nessuno", "da leggere", "in lettura", "completato", "abbandonato"].forEach((val) => {
-  let opt = document.createElement("option");
-  opt.value = val;
-  opt.textContent = val === "" ? status : val.charAt(0).toUpperCase() + val.slice(1);
-  statusSelect.appendChild(opt);
-});
-
-// ---- FAV ----
-let favLabel = document.createElement("label");
-favLabel.setAttribute("for", "fav" + query);
-favLabel.textContent = "Preferiti";
-
-let favSelect = document.createElement("select");
-favSelect.id = "fav" + query;
-favSelect.name = "fav";
-favSelect.classList.add("form-control", "filter-inline");
-
-["no", "si"].forEach((val) => {
-  let opt = document.createElement("option");
-  opt.value = val;
-  opt.textContent = val === "" ? fav : val.charAt(0).toUpperCase() + val.slice(1);
-  favSelect.appendChild(opt);
-});
-
-    // create the update button
-let updateBtn = document.createElement("button");
-updateBtn.innerHTML = "Applica modifiche";
-updateBtn.onclick = () => {
-    fetch(API_LIB_URL + `/id/${query}?status=${encodeURIComponent(statusSelect.value)}&fav=${encodeURIComponent(favSelect.value)}`,{
+    fetch(API_LIB_URL + `/id/${lib.manga.id}?status=${encodeURIComponent(lib.status)}&fav=${encodeURIComponent(lib.fav)}`,{
     method: "PUT",
     headers: {
       Authorization: localStorage.getItem("access-token"),
@@ -76,35 +15,12 @@ updateBtn.onclick = () => {
       if (!response.ok) {
         throw new Error("Errore nella richiesta: " + response.status);
       }
-      options.remove();
       return response.text();
     })
     .then((message) => {
       console.log(message);
     })
-    .catch((err) => console.error("Errore nella ricerca:", err));  
-};
-
-    // create the cancel button
-    let cancelBtn = document.createElement("button");
-    cancelBtn.innerHTML = "Annulla";
-    cancelBtn.onclick = () => {
-    options.remove();
-  };
-// ---- Append elements ----
-options.appendChild(statusLabel);
-options.appendChild(statusSelect);
-options.appendChild(favLabel);
-options.appendChild(favSelect);
-options.appendChild(updateBtn);
-options.appendChild(cancelBtn);
-
-// append to card
-document.body.appendChild(options);
-  } catch (err) {
-    console.error("Errore nella ricerca:", err);
-  }
-  
+    .catch((err) => console.error("Errore nella ricerca:", err));    
 }
 
     // remove
@@ -126,8 +42,6 @@ function remove(query){
       <button id="confirmNo" class="btn btn-secondary">Annulla</button>
     </div>
   `;
-
-
   document.body.appendChild(banner);
     // if yes
   document.getElementById("confirmYes").onclick = () => {
@@ -161,7 +75,8 @@ function remove(query){
 let currentMangaId = null;
 //for the opening of the dynamic page
 function openMangaDetails(manga) {
-
+  currentMangaId = manga.id;
+  localStorage.setItem("currentMangaId", currentMangaId);
   const params = new URLSearchParams({
     title: manga.title,
     summary: manga.summary,
@@ -179,12 +94,93 @@ function openMangaDetails(manga) {
 
 //---------------------------------------------------------//
 
+function getStatusIcon(s) {
+  switch (s) {
+    case "da leggere": return "📒";
+    case "in lettura": return "📗";
+    case "completato": return "📘";
+    case "abbandonato": return "📕";
+    default: return "📙";
+  }
+}
+
 let cardContainer = document.getElementById("cardContainer"); // html made div
 
-function createCard(manga) {
+function createCard(lib) {
+    let manga = lib.manga;
     let card = document.createElement("div");
     card.classList.add("card");
     card.setAttribute("id", "card" + manga.id);
+
+    let buttons = document.createElement("div");
+    buttons.classList.add("buttons-container"); 
+    
+    // status buttons
+    let statusWrapper = document.createElement("div");
+    statusWrapper.classList.add("dropdown");
+
+    let status = document.createElement("button");
+    status.title = "cambia stato";
+    status.textContent = getStatusIcon(lib.status);
+
+    status.classList.add("btn", "btn-light", "dropdown-toggle", "status");
+    status.setAttribute("type", "button");
+    status.setAttribute("data-bs-toggle", "dropdown");
+    status.setAttribute("aria-expanded", "false");
+
+    let statusMenu = document.createElement("ul");
+    statusMenu.classList.add("dropdown-menu");
+
+    let stats = ["", "da leggere", "in lettura", "completato", "abbandonato"];
+    stats.forEach((stat) => {
+      let updateItem = document.createElement("li");
+      let updateLink = document.createElement("a");
+      updateLink.classList.add("dropdown-item", "text-danger");
+      updateLink.href = "#";
+      updateLink.textContent = stat;
+      updateLink.onclick = () => {
+      lib.status = updateLink.textContent;
+      status.textContent = getStatusIcon(lib.status);
+      update(lib);
+      };
+      updateItem.appendChild(updateLink);
+      statusMenu.appendChild(updateItem);
+      updateItem.appendChild(updateLink);
+    })
+    statusWrapper.append(status, statusMenu);
+
+    // fav button
+    let fav = document.createElement("button");
+    fav.title = "";
+    if(lib.fav === "si"){
+      fav.title = "rimuovi dai preferiti";
+      fav.textContent = "❤️";
+    }
+    else{
+      fav.title = "aggiungi ai preferiti";
+      fav.textContent = "🤍";
+    }
+    fav.classList.add("favorite");
+    fav.onclick = () => {
+      let newFav = lib.fav === "si" ? "no" : "si";
+      lib.fav = newFav;
+      fav.textContent = lib.fav === "si" ? "❤️" : "🤍";
+      fav.title = lib.fav === "si" ? "Rimuovi dai preferiti" : "Aggiungi ai preferiti";
+      update(lib);
+    };
+
+
+    // remove button
+    let removeBtn = document.createElement("button");
+    removeBtn.title = "rimuovi dalla libreria";
+    removeBtn.textContent = "❌";
+    removeBtn.classList.add("remove");
+    removeBtn.onclick = () => {
+    remove(manga.id);
+    };
+
+    buttons.append(statusWrapper, fav, removeBtn);
+    
     let img = document.createElement("img");
     img.src = manga.image;
     img.alt = manga.title;
@@ -192,62 +188,13 @@ function createCard(manga) {
     let title = document.createElement("h3");
     title.textContent = manga.title;
 
-    let dropdownWrapper = document.createElement("div");
-dropdownWrapper.classList.add("dropdown");
-
-// menu button
-let dropdownToggle = document.createElement("button");
-dropdownToggle.classList.add("btn", "btn-light", "dropdown-toggle");
-dropdownToggle.setAttribute("type", "button");
-dropdownToggle.setAttribute("data-bs-toggle", "dropdown");
-dropdownToggle.setAttribute("aria-expanded", "false");
-dropdownToggle.innerHTML = "⋮"; // tre puntini verticali
-
-// dropdown menu
-let dropdownMenu = document.createElement("ul");
-dropdownMenu.classList.add("dropdown-menu");
-
-// delete item
-let deleteItem = document.createElement("li");
-let deleteLink = document.createElement("a");
-deleteLink.classList.add("dropdown-item", "text-danger");
-deleteLink.href = "#";
-deleteLink.textContent = "Elimina";
-deleteLink.onclick = () => {
-    remove(manga.id);
-    };
-deleteItem.appendChild(deleteLink);
-
-// update item
-let updateItem = document.createElement("li");
-let updateLink = document.createElement("a");
-updateLink.classList.add("dropdown-item", "text-danger");
-updateLink.href = "#";
-updateLink.textContent = "Aggiorna";
-updateLink.onclick = () => {
-    update(manga.id);
-    };
-updateItem.appendChild(updateLink);
-
-// info item
-let infoItem = document.createElement("li");
-let infoLink = document.createElement("a");
-infoLink.classList.add("dropdown-item", "text-danger");
-infoLink.href = "#";
-infoLink.textContent = "Vai alla pagina del manga";
-infoItem.appendChild(infoLink);
-infoLink.onclick = () => {
-    openMangaDetails(manga)
-  };
-
-// addm itmes to menu
-dropdownMenu.appendChild(deleteItem);
-dropdownMenu.appendChild(updateItem);
-dropdownMenu.appendChild(infoItem);
-
-// add button menu to the wrapper
-dropdownWrapper.append(dropdownToggle, dropdownMenu);
-
-    card.append(dropdownWrapper, img, title);
+    card.append(buttons, img, title);
+    card.onclick = (e) => {
+      if (e.target.matches(".status") || e.target.matches(".favorite") || e.target.matches(".remove")) {
+      return;
+    }
+      openMangaDetails(manga);
+    }
+    
     return card; 
 }

@@ -89,76 +89,123 @@
   background-color: #d62839;
 }
 /*--------------------------------------------------------------*/
-
 /* Card */
 .card {
-  position: relative; /* necessario per far funzionare la posizione assoluta dei child */
+  position: relative;
   background: #1a1a1a;
-  border-radius: 8px;
+  border-radius: 12px;
   padding: 1rem;
   text-align: center;
   box-shadow: 0 4px 8px rgba(0,0,0,0.5);
   transition: transform 0.2s;
   max-width: 250px;
   justify-self: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
-
-.card:hover { transform: translateY(-5px); }
+.card:hover {
+  transform: translateY(-5px);
+}
 
 .card img {
   width: 100%;
   height: 280px;
   object-fit: contain;
-  border-radius: 6px;
-  margin-bottom: 1rem;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
   background: #222;
 }
 
 .card h3 {
   color: #fff;
   font-size: 1.1rem;
-  margin-bottom: 0.5rem;
+  margin: 0.5rem 0;
 }
 
-.card p {
-  color: #bbb;
-  font-size: 0.9rem;
-  margin-bottom: 1rem;
-  display: -webkit-box;
-  overflow: hidden;
-  flex-grow: 1;
+/* Bottoni container */
+.card > div {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
 }
 
+/* Bottoni generici */
 .card button {
   background: #222;
   color: #fff;
   border: none;
-  padding: 0.6rem 1rem;
+  padding: 0.4rem 0.6rem;
   border-radius: 6px;
-  width: 20%;
   cursor: pointer;
-  transition: background 0.2s;
-  margin-top: auto;
+  transition: background 0.2s, transform 0.2s;
+  font-size: 1.2rem; /* più grande perché sono icone */
+  line-height: 1;
 }
-.library {
-  position: absolute; 
-  top: 10px;          
-  right: 10px;        
-  font-size: 24px;    
-  cursor: pointer;    
-  color: red;        
-  z-index: 10;        
-}
-.library:hover {
-  color: #ff4d5a; 
-  transform: scale(1.2); 
-}
-.card button:hover { background: #ff4d5a; }
-/*--------------------------------------------------------------*/
 
-/*delete banner*/
+.card button:hover {
+  background: #ff4d5a;
+  transform: scale(1.1);
+}
 
+/* Dropdown (status) */
+
+/* Container dei bottoni sopra l'immagine */
+.card .dropdown,
+.card button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Forza visibilità del bottone status */
+.dropdown .btn {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  background: #222;
+  color: #fff;
+  border-radius: 6px;
+  padding: 0.4rem 0.6rem;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.dropdown .btn:hover {
+  background: #ff4d5a;
+  transform: scale(1.1);
+}
+
+
+.dropdown .btn {
+  background: #222;
+  color: #fff;
+  border-radius: 6px;
+  padding: 0.4rem 0.6rem;
+  font-size: 1.2rem;
+}
+
+.dropdown-menu {
+  background: #1a1a1a;
+  border: none;
+  border-radius: 8px;
+  padding: 0.3rem 0;
+  min-width: 120px;
+}
+
+.dropdown-menu .dropdown-item {
+  color: #fff;
+  font-size: 0.9rem;
+  padding: 0.4rem 0.8rem;
+}
+
+.dropdown-menu .dropdown-item:hover {
+  background: #ff4d5a;
+  color: #fff;
+}
+
+/* Delete banner */
 .confirm-banner {
   position: fixed;
   top: 30%;
@@ -195,48 +242,11 @@
   border-radius: 10px;
   cursor: pointer;
 }
-/*--------------------------------------------------------------*/
 
-/*update window*/
-
-.update-options {
-  position: fixed;
-  top: 30%;
-  left: 50%;
-  transform: translate(-50%, -30%);
-  background: #222;
-  color: #fff;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-  z-index: 2000;
-  width: 300px;
-  text-align: center;
-}
-
-.update-options label {
-  display: block;
-  margin-top: 10px;
-  font-weight: bold;
-  color: #f0f0f0;
-}
-
-.update-options select {
-  width: 100%;
-  margin-top: 5px;
-  padding: 8px;
-  border-radius: 8px;
-  border: none;
-  outline: none;
-  background: #333;
-  color: #fff;
-}
-
-.update-options select option {
-  background: #222;
-  color: #fff;
-}
-
-.update-options select option:hover {
-  background: #e63946;
+/* solo il container dei bottoni */
+.buttons-container {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
 }

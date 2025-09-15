@@ -4,12 +4,13 @@ import java.util.List;
 
 import com.generation.mangasoul.model.Author;
 import com.generation.mangasoul.model.Genre;
+import com.generation.mangasoul.model.Manga;
 
 public class MangaDto {
 	private long id;
 	private String image;
 	private String title;
-	private String summery;
+	private String summary;
 	private List<Genre> genres;
 	private int year;
 	private Author author;
@@ -18,20 +19,19 @@ public class MangaDto {
 	private String status;
 	private double score;
 	
-	public MangaDto(long id, String image, String title, String summery, List<Genre> genres, int year, Author author, String editor, int volumes,
-			String status, double score) {
+	public MangaDto(Manga manga) {
 		super();
-		this.id = id;
-		this.image = image;
-		this.title = title;
-		this.summery = summery;
-		this.genres = genres;
-		this.year = year;
-		this.author = author;
-		this.editor = editor;
-		this.volumes = volumes;
-		this.status = status;
-		this.score = score;
+		this.id = manga.getId();
+		this.image = manga.getImage();
+		this.title = manga.getTitle();
+		this.summary = manga.getSummary();
+		this.genres = manga.getGenres();
+		this.year = manga.getYear();
+		this.author = manga.getAuthor();
+		this.editor = manga.getEditor_name();
+		this.volumes = manga.getVolumes();
+		this.status = manga.getStatus();
+		this.score = manga.getScore();
 	}
 	
 	public MangaDto() {}
@@ -62,12 +62,12 @@ public class MangaDto {
 		this.title = title;
 	}
 
-	public String getSummery() {
-		return summery;
+	public String getSummary() {
+		return summary;
 	}
 
-	public void setSummery(String summery) {
-		this.summery = summery;
+	public void setSummary(String summary) {
+		this.summary = summary;
 	}
 
 	public List<Genre> getGenre() {

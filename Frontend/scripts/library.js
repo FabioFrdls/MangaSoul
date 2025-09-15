@@ -45,14 +45,14 @@ function find(url){
       return response.json();
     })
     .then((data) => {
-      let mangas = Array.isArray(data) ? data : data.content;
+      let library = Array.isArray(data) ? data : data.content;
 
-      if (!mangas || mangas.length === 0) {
+      if (!library || library.length === 0) {
         cardContainer.innerHTML = "<p class='center'>Nessun manga trovato.</p>";
         return;
       }
-      mangas.forEach((manga) => {
-        cardContainer.appendChild(createCard(manga));    
+      library.forEach((lib) => {
+        cardContainer.appendChild(createCard(lib));    
     })
   })
   .catch((err) => console.error("Errore nella ricerca:", err));
@@ -65,7 +65,7 @@ function showCard() {
 }
 
 
-      // search
+      // search by name
 function search() {
   let input = document.getElementById("search");
   let query = input.value.trim();
@@ -82,7 +82,6 @@ function filter() {
   const fav = document.getElementById('fav').value;
   find(`${API_LIB_URL}/filter?status=${encodeURIComponent(status)}&fav=${encodeURIComponent(fav)}`);
 };
-
 
 
     // starting method
