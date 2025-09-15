@@ -303,6 +303,7 @@ async function addManga() {
   const status = document.getElementById("mangaStatus").value;
   const image = document.getElementById("mangaImage").value;
   const editor_name = document.getElementById("editorName").value;
+  const score = document.getElementById("mangaScore").value;
 
   const genreContainer = document.getElementById("addMangaGenreContainer");
   const checkboxes = genreContainer.getElementsByTagName("input");
@@ -337,6 +338,7 @@ async function addManga() {
     genres,
     author,
     editor_name,
+    score
   };
 
   console.log(manga);
@@ -434,6 +436,7 @@ async function editManga() {
   const status = document.getElementById("editMangaStatus").value;
   const image = document.getElementById("editMangaImage").value;
   const editor_name = document.getElementById("editEditorName").value;
+  const score = document.getElementById("editMangaScore").value;
 
   const genreContainer = document.getElementById("editMangaGenreContainer");
   const checkboxes = genreContainer.getElementsByTagName("input");
@@ -468,6 +471,7 @@ async function editManga() {
     genres,
     author,
     editor_name,
+    score
   };
 
   try {
