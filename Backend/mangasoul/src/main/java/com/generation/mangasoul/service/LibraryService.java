@@ -68,8 +68,6 @@ public class LibraryService {
 	
 	public void insert(long userId, Manga manga) {
 		User user = userRepository.findById(userId).get();
-		//if(libraryRepository.findByUser_IdAndManga_Id(userId, manga.getId()) == null)
-			//return;
 		Library lib = new Library(user, manga, "", "no");
 		libraryRepository.save(lib);
 	}

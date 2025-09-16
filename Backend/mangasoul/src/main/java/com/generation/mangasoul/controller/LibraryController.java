@@ -45,8 +45,11 @@ public class LibraryController {
 	@PostMapping
 	public ResponseEntity<String> insert(@RequestHeader("Authorization") String token, @RequestBody Manga manga){
 		Long userId = libraryService.getUserIdFromToken(token);
-		libraryService.insert(userId, manga);
-		return ResponseEntity.ok("Manga added to your library");
+		if(libraryService.findById(userId, manga.getId()) == null) {
+			libraryService.insert(userId, manga);
+			return ResponseEntity.ok("Manga added to your library");
+		}
+		return ResponseEntity.ok("Manga already in your library");
 	}
 	
 	/*@GetMapping
@@ -65,6 +68,11 @@ public class LibraryController {
 	public Library findById(@RequestHeader("Authorization") String token, @PathVariable long mangaId){
 		Long userId = libraryService.getUserIdFromToken(token);
 		return libraryService.findById(userId, mangaId);
+	}
+	
+	@GetMapping("/getByUserId/{id}")
+	public ResponseEntity<List<MangaDto>> getByUserId(@PathVariable long id){
+		return ResponseEntity.ok(libraryService.findAllM(id));
 	}
 	
 	@GetMapping("/key/{keyWord}")
@@ -93,19 +101,16 @@ public class LibraryController {
 			@RequestParam(defaultValue = "") String status, @RequestParam(defaultValue = "no") String fav){
 		Long userId = libraryService.getUserIdFromToken(token);	
 		libraryService.update(userId, mangaId, status, fav);
-		return ResponseEntity.ok("Manga updated");
+		return ResponseEntity.ok("Manga updated in your library- status: " + status + ", fav: " + fav);
 	}
 	
 	@DeleteMapping("/id/{mangaId}")
 	public ResponseEntity<String> delete(@RequestHeader("Authorization") String token, @PathVariable long mangaId){
 		Long userId = libraryService.getUserIdFromToken(token);
 		libraryService.delete(userId, mangaId);
-		return ResponseEntity.ok("Manga deleted");
+		return ResponseEntity.ok("Manga deleted from your library");
 	}
 	
-	@GetMapping("/getByUserId/{id}")
-	public ResponseEntity<List<MangaDto>> getByUserId(@PathVariable long id){
-		return ResponseEntity.ok(libraryService.findAllM(id));
-	}
+	
 	
 }

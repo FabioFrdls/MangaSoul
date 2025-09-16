@@ -55,22 +55,125 @@
   border: none;
   padding: 0.6rem 1rem;
   border-radius: 6px;
-  width: 100%;
+  /*width: 100%;*/
   cursor: pointer;
   transition: background 0.2s;
   margin-top: auto;
 }
-.favorite {
-  position: absolute; 
-  top: 10px;          
-  right: 10px;        
+
+.card button:hover { background: #ff4d5a; }
+
+/* Container opzionale se vuoi tenerli insieme */
+.button-container {
+  display: flex;
+  background: #222;
+  color: #fff;
+  border: none;
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+  font-size: 1.2rem;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Bottoni singoli */
+.favorite, .library {
   font-size: 24px;    
   cursor: pointer;    
-  color: red;        
   z-index: 10;        
+  transition: transform 0.2s, color 0.2s;
 }
-.favorite:hover {
+
+/* Colori */
+.favorite { color: red; }
+.library { color: rgb(0, 68, 255); }
+
+.favorite:hover, .library:hover {
   color: #ff4d5a; 
   transform: scale(1.2); 
 }
-.card button:hover { background: #ff4d5a; }
+
+
+
+
+
+/* Delete banner */
+.confirm-banner {
+  position: fixed;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -30%);
+  background: #222;
+  color: #fff;
+  padding: 1.5rem 2rem;
+  border-radius: 20px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.6);
+  text-align: center;
+  z-index: 1000;
+}
+
+.confirm-banner .btn-group {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.confirm-banner .btn-danger {
+  background-color: #e63946;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.confirm-banner .btn-secondary {
+  background-color: #555;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+/* log banner*/
+
+.log-banner {
+  position: fixed;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -30%);
+  background: #222;
+  color: #fff;
+  padding: 1.5rem 2rem;
+  border-radius: 20px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.6);
+  text-align: center;
+  z-index: 1000;
+}
+
+.log-banner .btn-group {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.log-banner .btn-primary {
+  background-color: #e63946;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.log-banner .btn-secondary {
+  background-color: #555;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  cursor: pointer;
+}
