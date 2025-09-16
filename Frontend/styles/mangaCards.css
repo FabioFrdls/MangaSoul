@@ -1,42 +1,58 @@
 /* Cards container */
 .cards-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 1.5rem;
   padding: 2rem;
   max-width: 1200px;
   margin: 0 auto 2rem;
 }
 
-/* Card */
+/* Griglia a 5 colonne per schermi grandi */
+@media (min-width: 1200px) {
+  .cards-container {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+/* Card base */
 .card {
-  position: relative; /* necessario per far funzionare la posizione assoluta dei child */
+  position: relative;
   background: #1a1a1a;
-  border-radius: 8px;
+  border-radius: 12px;
   padding: 1rem;
   text-align: center;
   box-shadow: 0 4px 8px rgba(0,0,0,0.5);
-  transition: transform 0.2s;
+  transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
   max-width: 250px;
   justify-self: center;
+  display: flex;
+  flex-direction: column;
+  min-height: 400px; /* Altezza minima per uniformità */
 }
 
-
-.card:hover { transform: translateY(-5px); }
+.card:hover {
+  transform: translateY(-5px);
+  background-color: #b52d36;
+  cursor: pointer;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.7);
+}
 
 .card img {
   width: 100%;
   height: 280px;
   object-fit: contain;
-  border-radius: 6px;
-  margin-bottom: 1rem;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
   background: #222;
+  flex-shrink: 0; /* Impedisce alla immagine di restringersi */
 }
 
 .card h3 {
   color: #fff;
   font-size: 1.1rem;
-  margin-bottom: 0.5rem;
+  margin: 0.5rem 0;
+  flex-shrink: 0;
 }
 
 .card p {
@@ -44,117 +60,195 @@
   font-size: 0.9rem;
   margin-bottom: 1rem;
   display: -webkit-box;
+  -webkit-line-clamp: 3; /* Limita a 3 righe */
+  -webkit-box-orient: vertical;
   overflow: hidden;
-  flex-grow: 1;
-    text-align: center;
+  text-align: center;
+  flex-grow: 1; /* Occupa lo spazio rimanente */
+  line-height: 1.4;
 }
 
-.card button {
-  background: #e63946;
-  color: #fff;
-  border: none;
-  padding: 0.6rem 1rem;
-  border-radius: 6px;
-  /*width: 100%;*/
-  cursor: pointer;
-  transition: background 0.2s;
-  margin-top: auto;
-}
-
-.card button:hover { background: #ff4d5a; }
-
-/* Container opzionale se vuoi tenerli insieme */
+/* Container per i bottoni - IN ALTO SULLA CARD */
+.buttons-container,
 .button-container {
-  display: flex;
-  background: #222;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.3rem;
+  z-index: 10;
+  /* Rimuovi tutti gli stili che non c'entrano con il layout */
+  background: none !important;
+  border: none !important;
+  cursor: auto !important;
+  font-size: inherit !important;
+  line-height: inherit !important;
+  border-radius: 0 !important;
+  transition: none !important;
+  color: inherit !important;
+  margin-top: 0 !important;
+  padding: 0 !important;
+}
+
+/* Stile unificato per tutti i bottoni - CON SFONDO SEMI-TRASPARENTE */
+.buttons-container .btn,
+.buttons-container button,
+.button-container .btn,
+.button-container button {
+  background: rgba(34, 34, 34, 0.9);
   color: #fff;
   border: none;
   padding: 0.4rem 0.6rem;
-  border-radius: 6px;
+  border-radius: 50%;
   cursor: pointer;
-  transition: background 0.2s, transform 0.2s;
-  font-size: 1.2rem;
+  transition: all 0.2s ease;
+  font-size: 1rem;
   line-height: 1;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  min-width: 35px;
+  min-height: 35px;
+  backdrop-filter: blur(5px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
-/* Bottoni singoli */
-.favorite, .library {
-  font-size: 24px;    
-  cursor: pointer;    
-  z-index: 10;        
-  transition: transform 0.2s, color 0.2s;
+.buttons-container .btn:hover,
+.buttons-container button:hover,
+.button-container .btn:hover,
+.button-container button:hover {
+  background: rgba(230, 57, 70, 0.9);
+  transform: scale(1.15);
+  box-shadow: 0 4px 12px rgba(230, 57, 70, 0.4);
 }
 
-/* Colori */
-.favorite { color: red; }
-.library { color: rgb(0, 68, 255); }
-
-.favorite:hover, .library:hover {
-  color: #ff4d5a; 
-  transform: scale(1.2); 
+/* Bottone principale (se presente) */
+.buttons-container .btn-primary,
+.button-container .btn-primary {
+  background: #e63946;
+  flex: 1;
+  max-width: 120px;
+  padding: 0.6rem 1rem;
+  font-size: 0.9rem;
 }
 
+.buttons-container .btn-primary:hover,
+.button-container .btn-primary:hover {
+  background: #d62839;
+  transform: translateY(-2px);
+}
 
-
-
-
-/* Delete banner */
-.confirm-banner {
-  position: fixed;
-  top: 30%;
-  left: 50%;
-  transform: translate(-50%, -30%);
-  background: #222;
+/* Stili specifici per icone favorite/library */
+.buttons-container .favorite,
+.button-container .favorite {
   color: #fff;
-  padding: 1.5rem 2rem;
-  border-radius: 20px;
-  box-shadow: 0 0 20px rgba(0,0,0,0.6);
-  text-align: center;
-  z-index: 1000;
+  opacity: 0.8;
 }
 
-.confirm-banner .btn-group {
-  margin-top: 1rem;
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
+.buttons-container .favorite.favorited,
+.button-container .favorite.favorited,
+.buttons-container .favorite[title*="Rimuovi"],
+.button-container .favorite[title*="Rimuovi"] {
+  color: #e63946;
+  opacity: 1;
+  filter: drop-shadow(0 0 3px rgba(230, 57, 70, 0.8));
 }
 
-.confirm-banner .btn-danger {
-  background-color: #e63946;
+.buttons-container .library,
+.button-container .library {
+  color: #4dabf7;
+  opacity: 0.8;
+}
+
+.buttons-container .library.in-library,
+.button-container .library.in-library,
+.buttons-container .library[title*="Rimuovi"],
+.button-container .library[title*="Rimuovi"] {
+  opacity: 1;
+  filter: drop-shadow(0 0 3px rgba(77, 171, 247, 0.8));
+}
+
+/* Dropdown nel container bottoni */
+.buttons-container .dropdown .dropdown-toggle {
+  background: #222;
   border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 10px;
-  cursor: pointer;
+  color: #fff;
+  padding: 0.5rem;
+  min-width: 40px;
 }
 
-.confirm-banner .btn-secondary {
-  background-color: #555;
+.buttons-container .dropdown .dropdown-menu {
+  background: #1a1a1a;
+  border: 1px solid #444;
+  border-radius: 8px;
+  padding: 0.2rem 0;
+  min-width: 120px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+}
+
+.buttons-container .dropdown .dropdown-item {
+  color: #fff;
+  font-size: 0.85rem;
+  padding: 0.4rem 0.8rem;
+  transition: all 0.2s;
+}
+
+.buttons-container .dropdown .dropdown-item:hover {
+  background: #e63946;
+  color: #fff;
+}
+
+/* Icona favoriti ASSOLUTA (se serve ancora) */
+.card > .favorite-absolute {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: rgba(34, 34, 34, 0.8);
   border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 10px;
+  color: #fff;
+  opacity: 0.7;
+  font-size: 1.3rem;
   cursor: pointer;
+  z-index: 10;
+  padding: 0.3rem;
+  border-radius: 50%;
+  transition: all 0.2s;
 }
 
-/* log banner*/
+.card > .favorite-absolute:hover {
+  opacity: 1;
+  transform: scale(1.1);
+  background: rgba(230, 57, 70, 0.9);
+}
 
+.card > .favorite-absolute.favorited {
+  color: #e63946;
+  opacity: 1;
+  background: rgba(230, 57, 70, 0.2);
+}
+
+/* Banner di conferma e log */
+.confirm-banner,
 .log-banner {
   position: fixed;
-  top: 30%;
+  top: 50%;
   left: 50%;
-  transform: translate(-50%, -30%);
+  transform: translate(-50%, -50%);
   background: #222;
   color: #fff;
   padding: 1.5rem 2rem;
-  border-radius: 20px;
-  box-shadow: 0 0 20px rgba(0,0,0,0.6);
+  border-radius: 15px;
+  box-shadow: 0 0 30px rgba(0,0,0,0.8);
   text-align: center;
   z-index: 1000;
+  min-width: 300px;
+  border: 1px solid #444;
 }
 
+.confirm-banner .btn-group,
 .log-banner .btn-group {
   margin-top: 1rem;
   display: flex;
@@ -162,18 +256,66 @@
   gap: 1rem;
 }
 
+.confirm-banner .btn-danger,
 .log-banner .btn-primary {
   background-color: #e63946;
   border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 10px;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
   cursor: pointer;
+  color: #fff;
+  font-weight: 500;
+  transition: all 0.2s;
 }
 
+.confirm-banner .btn-danger:hover,
+.log-banner .btn-primary:hover {
+  background-color: #d62839;
+  transform: translateY(-1px);
+}
+
+.confirm-banner .btn-secondary,
 .log-banner .btn-secondary {
   background-color: #555;
   border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 10px;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
   cursor: pointer;
+  color: #fff;
+  transition: all 0.2s;
+}
+
+.confirm-banner .btn-secondary:hover,
+.log-banner .btn-secondary:hover {
+  background-color: #666;
+  transform: translateY(-1px);
+}
+
+/* Responsive per card più piccole su mobile */
+@media (max-width: 768px) {
+  .cards-container {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    padding: 1rem;
+  }
+  
+  .card {
+    max-width: none;
+    min-height: 350px;
+  }
+  
+  .card img {
+    height: 200px;
+  }
+  
+  .buttons-container {
+    gap: 0.3rem;
+  }
+  
+  .buttons-container .btn,
+  .buttons-container button {
+    min-width: 35px;
+    min-height: 35px;
+    font-size: 1rem;
+  }
 }
