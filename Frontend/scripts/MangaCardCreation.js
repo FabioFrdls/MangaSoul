@@ -96,7 +96,8 @@ async function update(manga, status, fav){
 }
 
     // remove
-function remove(query){
+async function remove(query){
+  return new Promise((resolve, reject) => {
     // if a banner exists yet, we first delete it
   let oldBanner = document.getElementById("confirmBanner" + query);
   if (oldBanner) oldBanner.remove();
@@ -116,29 +117,34 @@ function remove(query){
   `;
   document.body.appendChild(remBanner);
     // if yes
-  document.getElementById("confirmYes").onclick = () => {
-  fetch(API_LIB_URL + `/id/${query}`,{
-    method: "DELETE",
-    headers: {
-      Authorization: localStorage.getItem("access-token"),
-    },
-  })
-  .then((response) => {
-      if (!response.ok) {
-        throw new Error("Errore nella richiesta: " + response.status);
-      }
-      return response.text();
-    })
-    .then((message) => {
-      console.log(message);
-    })
-    .catch((err) => console.error("Errore nella ricerca:", err))
-    .finally(() => remBanner.remove()); // hide the banner
+  document.getElementById("confirmYes").onclick = async () => {
+    try{
+        const response = await fetch(API_LIB_URL + `/id/${query}`,{
+        method: "DELETE",
+        headers: {
+        Authorization: localStorage.getItem("access-token"),
+          },
+        })
+        if (!response.ok) {
+          throw new Error("Errore nella richiesta: " + response.status);
+        }
+        const msg = await response.text();
+        console.log(msg);
+        resolve(true);
+        }  
+    catch (err) {
+      console.error("Errore nella ricerca:", err)
+      reject(err);
     }
-    // if no
+    finally{remBanner.remove()} // hide the banner
+
+  };
+  // if no
     document.getElementById("confirmNo").onclick = () => {
     remBanner.remove();
-  };
+      resolve(false);
+    };
+  });
 }
 //---------------------------------------------------------//
 
@@ -203,10 +209,12 @@ function btnUpdate(manga, libSet, favSet, library, favorite){
   if(libSet.find(id => id == manga.id)){                            // in this case the user cannot add again the manga
         library.textContent = "📘";                   
         libMessage = "Rimuovi dalla libreria";
-        library.onclick = () => {
-        remove(manga.id);                  
-        libSet.pop(manga.id); 
-        btnUpdate(manga, libSet, favSet, library, favorite);
+        library.onclick = async () => {
+        let res = await remove(manga.id);
+        if(res){
+          libSet.pop(manga.id); 
+          btnUpdate(manga, libSet, favSet, library, favorite);
+        }                  
       };
         if(!favSet.find(id => id == manga.id)){
           favorite.textContent = "🤍";                             
